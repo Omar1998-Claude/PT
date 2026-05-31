@@ -9,175 +9,253 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#f8faff;--surf:#ffffff;--surf2:#f1f5ff;--surf3:#e8eeff;
+  --bg:#f8faff;--surf:#fff;--surf2:#f1f5ff;--surf3:#e8eeff;
   --text:#0a0f1e;--text2:#475569;--text3:#94a3b8;
   --border:#e2e8f8;--border2:#c7d2f0;
   --accent:#4f46e5;--accent2:#6366f1;
+  --theme-from:#f8faff;--theme-to:#f0f4ff;--theme-mesh1:rgba(99,102,241,0.06);--theme-mesh2:rgba(139,92,246,0.04);
 }
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:80px;}
-a{text-decoration:none;color:inherit;}
+body{
+  background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;
+  min-height:100vh;padding-bottom:100px;overflow-x:hidden;
+  transition:background 0.6s ease, color 0.4s ease;
+}
+.page-bg{
+  position:fixed;inset:0;z-index:-1;
+  background:linear-gradient(160deg,var(--theme-from) 0%,var(--theme-to) 100%);
+  transition:background 0.6s ease;
+}
+.page-bg::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 20% 20%, var(--theme-mesh1) 0%, transparent 60%),
+             radial-gradient(ellipse 60% 40% at 80% 80%, var(--theme-mesh2) 0%, transparent 60%);
+  transition:background 0.6s ease;
+}
+.page-bg::after{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle, var(--theme-dots, rgba(0,0,0,0.03)) 1px, transparent 1px);
+  background-size:28px 28px;
+  opacity:0.6;
+}
+/* Noise texture overlay */
+.noise{position:fixed;inset:0;z-index:-1;opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
 
-nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;}
-.nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;padding:6px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surf);transition:all 0.2s;}
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.96);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;}
+.nav-back{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);cursor:pointer;padding:6px 11px;border-radius:10px;border:1px solid var(--border);background:var(--surf);transition:all 0.2s;white-space:nowrap;}
 .nav-back:hover{border-color:var(--accent);color:var(--accent);}
-.nav-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;flex:1;text-align:center;}
-.nav-pill{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:10px;letter-spacing:1px;}
+.nav-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;flex:1;text-align:center;}
+.nav-pill{font-family:'DM Mono',monospace;font-size:9px;padding:3px 9px;border-radius:10px;white-space:nowrap;}
 
-.stock-hero{padding:24px 20px 0;max-width:800px;margin:0 auto;}
-.stock-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;}
-.stock-logo{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:13px;font-weight:900;color:#fff;flex-shrink:0;}
-.stock-ticker{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;line-height:1;}
-.stock-fullname{font-size:13px;color:var(--text2);margin-top:3px;}
-.stock-badges{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
-.badge{font-size:9px;padding:2px 8px;border-radius:10px;font-family:'DM Mono',monospace;}
-.stock-price{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;}
-.stock-change{font-size:13px;font-weight:500;margin-top:3px;}
+/* ── STOCK SWITCHER ── */
+.switcher-wrap{padding:12px 16px 0;max-width:820px;margin:0 auto;}
+.switcher{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;}
+.switcher::-webkit-scrollbar{display:none;}
+.sw-btn{flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--surf);cursor:pointer;transition:all 0.25s;min-width:54px;}
+.sw-btn.active{border-color:var(--sw-color);background:var(--sw-color);box-shadow:0 4px 16px var(--sw-color)44;}
+.sw-logo{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;font-family:'Playfair Display',serif;overflow:hidden;position:relative;}
+.sw-logo img{width:100%;height:100%;object-fit:contain;border-radius:8px;}
+.sw-ticker{font-size:8px;font-weight:700;font-family:'DM Mono',monospace;transition:color 0.2s;}
+.sw-btn.active .sw-ticker{color:#fff;}
+.sw-btn:not(.active) .sw-ticker{color:var(--text3);}
 
-.chart-section{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:18px;margin:0 20px 14px;max-width:800px;margin-left:auto;margin-right:auto;}
-.chart-tabs{display:flex;gap:4px;}
-.chart-tab{font-family:'DM Mono',monospace;font-size:10px;padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all 0.2s;}
-.chart-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-.chart-loading{height:160px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;font-family:'DM Mono',monospace;}
-.chart-canvas{height:160px;position:relative;}
-.chart-svg{width:100%;height:100%;}
-.chart-error{height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--text3);font-size:11px;text-align:center;}
+/* ── STOCK HERO ── */
+.stock-hero{padding:20px 16px 0;max-width:820px;margin:0 auto;}
+.hero-card{background:var(--surf);border:1px solid var(--border);border-radius:24px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
+.hero-bg-orb{position:absolute;width:200px;height:200px;border-radius:50%;filter:blur(60px);opacity:0.08;top:-40px;right:-40px;pointer-events:none;}
+.stock-top{display:flex;align-items:flex-start;gap:14px;}
+.big-logo{width:64px;height:64px;border-radius:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.12);}
+.big-logo img{width:100%;height:100%;object-fit:contain;padding:6px;}
+.big-logo-fallback{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:#fff;}
+.stock-info{flex:1;min-width:0;}
+.stock-ticker{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;line-height:1;}
+.stock-name{font-size:12px;color:var(--text2);margin-top:2px;}
+.stock-badges{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;}
+.badge{font-size:8px;padding:2px 8px;border-radius:10px;font-family:'DM Mono',monospace;font-weight:500;}
+.price-block{text-align:right;flex-shrink:0;}
+.stock-price{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;line-height:1;}
+.stock-change{font-size:12px;font-weight:600;margin-top:4px;display:flex;align-items:center;justify-content:flex-end;gap:4px;}
+.change-pill{padding:2px 8px;border-radius:8px;font-family:'DM Mono',monospace;font-size:11px;}
+.live-badge{display:inline-flex;align-items:center;gap:3px;font-size:8px;font-family:'DM Mono',monospace;padding:2px 6px;border-radius:6px;margin-top:4px;}
+.live-dot{width:5px;height:5px;border-radius:50%;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
 
-.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px;max-width:800px;margin:0 auto 14px;}
-.card{background:var(--surf);border:1px solid var(--border);border-radius:16px;padding:16px;}
+/* ── CHART ── */
+.chart-section{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:16px;margin:0 16px 14px;max-width:820px;margin-left:auto;margin-right:auto;}
+.chart-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.chart-tabs{display:flex;gap:3px;}
+.chart-tab{font-family:'DM Mono',monospace;font-size:9px;padding:4px 11px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all 0.2s;}
+.chart-tab.active{color:#fff;border:none;}
+.chart-area{height:160px;position:relative;}
+.chart-loading{height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text3);}
+.loading-bar{width:120px;height:3px;background:var(--surf2);border-radius:2px;overflow:hidden;}
+.loading-fill{height:100%;border-radius:2px;animation:load 1.5s ease-in-out infinite;}
+@keyframes load{0%{width:0%;margin-left:0;}50%{width:60%;}100%{width:0%;margin-left:100%;}}
+
+/* ── GRID ── */
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px;max-width:820px;margin:0 auto 14px;}
+.card{background:var(--surf);border:1px solid var(--border);border-radius:18px;padding:15px;transition:all 0.2s;}
 .card-full{grid-column:1/-1;}
-.card-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px;}
-
-.position-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);}
+.card-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px;}
+.position-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);}
 .position-row:last-child{border-bottom:none;}
-.pos-label{font-size:12px;color:var(--text2);}
-.pos-val{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;}
-
-.analyst-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px;}
+.pos-label{font-size:11px;color:var(--text2);}
+.pos-val{font-size:12px;font-weight:600;font-family:'DM Mono',monospace;}
+.analyst-bar{display:flex;height:8px;border-radius:5px;overflow:hidden;margin:8px 0 5px;gap:2px;}
 .analyst-seg{height:100%;border-radius:4px;}
-.analyst-labels{display:flex;justify-content:space-between;font-size:9px;font-family:'DM Mono',monospace;}
-
-.earnings-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.earnings-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
 .earnings-row:last-child{border-bottom:none;}
-.earnings-q{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);width:40px;}
-.earnings-bars{flex:1;display:flex;gap:4px;align-items:flex-end;height:32px;}
-.earnings-bar{border-radius:3px 3px 0 0;width:14px;}
-
-.news-item{padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.earnings-q{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);width:36px;}
+.earnings-bars{flex:1;display:flex;gap:3px;align-items:flex-end;height:30px;}
+.earnings-bar{border-radius:3px 3px 0 0;width:13px;}
+.news-item{padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
 .news-item:last-child{border-bottom:none;}
-.news-source{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1px;margin-bottom:4px;}
-.news-title{font-size:13px;font-weight:500;line-height:1.5;color:var(--text);}
-.news-time{font-size:10px;color:var(--text3);margin-top:3px;}
-.news-sentiment{font-size:8px;padding:2px 6px;border-radius:6px;font-family:'DM Mono',monospace;margin-left:6px;}
+.news-item:hover .news-title{color:var(--accent);}
+.news-source{font-family:'DM Mono',monospace;font-size:8px;color:var(--text3);letter-spacing:1px;margin-bottom:4px;}
+.news-title{font-size:12px;font-weight:500;line-height:1.5;transition:color 0.2s;}
+.news-time{font-size:9px;color:var(--text3);margin-top:2px;}
+.sentiment-pill{font-size:7px;padding:1px 5px;border-radius:5px;font-family:'DM Mono',monospace;margin-left:5px;}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.metric-item{padding:8px;background:var(--surf2);border-radius:9px;}
+.metric-label{font-size:8px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:2px;}
+.metric-val{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;}
+.rating-circle{width:72px;height:72px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 8px;transition:all 0.3s;}
+.rating-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;}
+.rating-lbl{font-size:7px;font-family:'DM Mono',monospace;letter-spacing:0.5px;}
+.target-track{height:7px;border-radius:4px;background:var(--surf2);position:relative;margin:8px 0;}
+.target-dot{width:11px;height:11px;border-radius:50%;border:2px solid #fff;position:absolute;top:-2px;transform:translateX(-50%);}
 
-.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.metric-item{padding:9px;background:var(--surf2);border-radius:10px;}
-.metric-label{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:3px;}
-.metric-val{font-size:14px;font-weight:600;font-family:'DM Mono',monospace;}
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;padding:10px 16px;background:rgba(248,250,255,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;}
+.bottom-btn{flex:1;padding:12px;border-radius:14px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all 0.25s;text-align:center;}
+.prev-btn,.next-btn{flex:0;padding:12px 14px;border-radius:14px;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;border:1px solid var(--border);background:var(--surf);transition:all 0.2s;color:var(--text2);}
+.prev-btn:hover,.next-btn:hover{border-color:var(--accent);color:var(--accent);}
 
-.target-track{height:8px;border-radius:4px;background:var(--surf2);position:relative;margin:10px 0;}
-.target-dot{width:12px;height:12px;border-radius:50%;border:2px solid #fff;position:absolute;top:-2px;transform:translateX(-50%);}
+/* ── SKELETON ── */
+.skeleton{background:linear-gradient(90deg,var(--surf2) 25%,var(--surf3) 50%,var(--surf2) 75%);background-size:200% 100%;animation:sk 1.5s infinite;border-radius:8px;}
+@keyframes sk{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
-.rating-circle{width:76px;height:76px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 8px;}
-.rating-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;}
-.rating-lbl{font-size:7px;font-family:'DM Mono',monospace;letter-spacing:1px;}
+/* ── ANIMATIONS ── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.fade{animation:fadeIn 0.35s ease forwards;}
+@keyframes slideLeft{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-40px);}to{opacity:1;transform:translateX(0);}}
+.slide-left{animation:slideLeft 0.3s ease forwards;}
+.slide-right{animation:slideRight 0.3s ease forwards;}
 
-.back-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:rgba(248,250,255,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;gap:10px;}
-.back-bar-btn{flex:1;padding:13px;border-radius:14px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all 0.2s;}
-
-/* Loading skeleton */
-.skeleton{background:linear-gradient(90deg,var(--surf2) 25%,var(--surf3) 50%,var(--surf2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;}
-@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
-.skel-line{height:12px;border-radius:6px;margin-bottom:8px;}
-
-@keyframes slideUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
-.slide{animation:slideUp 0.35s ease forwards;}
-.d1{animation-delay:0.05s;opacity:0;}
-.d2{animation-delay:0.1s;opacity:0;}
-.d3{animation-delay:0.15s;opacity:0;}
-.d4{animation-delay:0.2s;opacity:0;}
-.d5{animation-delay:0.25s;opacity:0;}
-
-/* Live price badge */
-.live-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-family:'DM Mono',monospace;color:#16a34a;background:#dcfce7;padding:2px 7px;border-radius:8px;margin-left:6px;}
-.live-dot{width:5px;height:5px;border-radius:50%;background:#16a34a;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+/* ── CHART ERROR ── */
+.chart-error{height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
 </style>
 </head>
 <body>
 
+<div class="page-bg"></div>
+<div class="noise"></div>
 <nav>
   <div class="nav-back" onclick="window.location.href='index.html'">← Back</div>
-  <div class="nav-title" id="navTitle">Loading...</div>
-  <div class="nav-pill" id="navPill" style="background:#e0e7ff;color:#4f46e5;">—</div>
+  <div class="nav-title" id="navTitle">—</div>
+  <div class="nav-pill" id="navPill">—</div>
 </nav>
 
-<div class="stock-hero slide">
-  <div class="stock-top">
-    <div class="stock-logo" id="stockLogo">—</div>
-    <div style="flex:1;">
-      <div class="stock-ticker" id="stockTicker">—</div>
-      <div class="stock-fullname" id="stockFullname">—</div>
-      <div class="stock-badges" id="stockBadges"></div>
-    </div>
-    <div style="text-align:right;">
-      <div class="stock-price" id="stockPrice">
-        <div class="skeleton skel-line" style="width:100px;height:28px;"></div>
+<!-- STOCK SWITCHER -->
+<div class="switcher-wrap">
+  <div class="switcher" id="switcher"></div>
+</div>
+
+<!-- HERO -->
+<div class="stock-hero">
+  <div class="hero-card fade" id="heroCard">
+    <div class="hero-bg-orb" id="heroBgOrb"></div>
+    <div class="stock-top">
+      <div class="big-logo" id="bigLogo">
+        <div class="big-logo-fallback" id="logoFallback">—</div>
       </div>
-      <div class="stock-change" id="stockChange"></div>
-      <div id="liveBadge"></div>
+      <div class="stock-info">
+        <div class="stock-ticker" id="stockTicker">—</div>
+        <div class="stock-name" id="stockName">—</div>
+        <div class="stock-badges" id="stockBadges"></div>
+      </div>
+      <div class="price-block">
+        <div class="stock-price" id="stockPrice"><div class="skeleton" style="width:90px;height:28px;"></div></div>
+        <div class="stock-change" id="stockChange"></div>
+        <div id="liveBadge"></div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- CHART -->
-<div class="chart-section slide d1">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+<div class="chart-section fade" id="chartSection">
+  <div class="chart-header">
     <div>
-      <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">PRICE CHART</div>
-      <div id="chartRange" style="font-size:11px;color:var(--text2);margin-top:2px;">Loading live data...</div>
+      <div style="font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:1px;">PRICE CHART</div>
+      <div id="chartInfo" style="font-size:11px;color:var(--text2);margin-top:2px;">Loading live data...</div>
     </div>
-    <div style="display:flex;gap:4px;" id="chartTabs">
+    <div class="chart-tabs" id="chartTabs">
       <button class="chart-tab active" data-range="1mo">1M</button>
       <button class="chart-tab" data-range="3mo">3M</button>
       <button class="chart-tab" data-range="6mo">6M</button>
       <button class="chart-tab" data-range="1y">1Y</button>
     </div>
   </div>
-  <div id="chartArea">
-    <div class="chart-loading">📡 Fetching live prices...</div>
+  <div id="chartArea" class="chart-loading">
+    <div style="font-size:20px;">📡</div>
+    <div style="font-size:11px;font-family:'DM Mono',monospace;">Fetching live prices...</div>
+    <div class="loading-bar"><div class="loading-fill" id="loadingFill" style="background:#6366f1;"></div></div>
   </div>
 </div>
 
 <!-- CARDS -->
 <div class="cards-grid">
-  <div class="card slide d2"><div class="card-label">My Position</div><div id="positionRows"><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div></div></div>
-  <div class="card slide d2" style="text-align:center;"><div class="card-label">Analyst Consensus</div><div id="analystContent"><div class="skeleton skel-line" style="height:76px;border-radius:50%;width:76px;margin:0 auto 10px;"></div></div></div>
-  <div class="card slide d3"><div class="card-label">Key Metrics</div><div class="metrics-grid" id="keyMetrics"><div class="skeleton skel-line" style="height:50px;border-radius:10px;"></div><div class="skeleton skel-line" style="height:50px;border-radius:10px;"></div><div class="skeleton skel-line" style="height:50px;border-radius:10px;"></div><div class="skeleton skel-line" style="height:50px;border-radius:10px;"></div></div></div>
-  <div class="card slide d3"><div class="card-label">Dividend</div><div id="divContent"><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div></div></div>
-  <div class="card card-full slide d4"><div class="card-label">Quarterly Earnings — EPS (Est. vs Actual)</div><div id="earningsRows"></div><div style="display:flex;gap:10px;margin-top:10px;"><div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#c7d2f0;margin-right:4px;"></span><span style="font-size:10px;color:var(--text3);">Estimated</span></div><div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:4px;"></span><span style="font-size:10px;color:var(--text3);">Actual</span></div></div></div>
-  <div class="card card-full slide d5"><div class="card-label">Latest News</div><div id="newsItems"><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div></div></div>
+  <div class="card fade" id="posCard"><div class="card-label">My Position</div><div id="positionRows"><div class="skeleton" style="height:12px;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;"></div></div></div>
+  <div class="card fade" id="analystCard" style="text-align:center;"><div class="card-label">Analyst Consensus</div><div id="analystContent"><div class="skeleton" style="width:72px;height:72px;border-radius:50%;margin:0 auto 10px;"></div><div class="skeleton" style="height:10px;margin-bottom:6px;"></div><div class="skeleton" style="height:8px;"></div></div></div>
+  <div class="card fade"><div class="card-label">Key Metrics</div><div class="metrics-grid" id="keyMetrics"><div class="skeleton" style="height:48px;border-radius:9px;"></div><div class="skeleton" style="height:48px;border-radius:9px;"></div><div class="skeleton" style="height:48px;border-radius:9px;"></div><div class="skeleton" style="height:48px;border-radius:9px;"></div></div></div>
+  <div class="card fade"><div class="card-label">Dividend</div><div id="divContent"><div class="skeleton" style="height:12px;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;"></div></div></div>
+  <div class="card card-full fade"><div class="card-label">Quarterly Earnings — EPS Est. vs Actual</div><div id="earningsRows"></div><div style="display:flex;gap:10px;margin-top:10px;"><span><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c7d2f0;margin-right:3px;"></span><span style="font-size:9px;color:var(--text3);">Estimated</span></span><span><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:3px;"></span><span style="font-size:9px;color:var(--text3);">Actual</span></span></div></div>
+  <div class="card card-full fade"><div class="card-label">Latest News</div><div id="newsItems"><div class="skeleton" style="height:12px;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;margin-bottom:8px;"></div><div class="skeleton" style="height:12px;"></div></div></div>
 </div>
 
-<div class="back-bar">
-  <button class="back-bar-btn" style="background:var(--surf2);color:var(--text2);border:1px solid var(--border);" onclick="window.location.href='index.html'">← Back</button>
-  <button class="back-bar-btn" style="background:var(--accent);color:#fff;" onclick="window.location.href='app.html'">💉 Go to Inject</button>
+<div class="bottom-nav">
+  <button class="prev-btn" id="prevBtn" onclick="navigate(-1)">←</button>
+  <button class="bottom-btn" style="background:var(--surf2);color:var(--text2);border:1px solid var(--border);" onclick="window.location.href='index.html'">All Stocks</button>
+  <button class="bottom-btn" id="injectBtn" style="color:#fff;">💉 Inject</button>
+  <button class="next-btn" id="nextBtn" onclick="navigate(1)">→</button>
 </div>
 
 <script>
-// ── STATIC DATA (position, analyst, earnings, news) ───────
+// ── STOCK ORDER & LOGOS ───────────────────────────────────
+const TICKER_ORDER = ["NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","JPM","NFLX","LCID"];
+
+// Logo URLs using Clearbit + fallbacks
+const LOGOS = {
+  NVDA: "https://logo.clearbit.com/nvidia.com",
+  TSLA: "https://logo.clearbit.com/tesla.com",
+  DELL: "https://logo.clearbit.com/dell.com",
+  IBM:  "https://logo.clearbit.com/ibm.com",
+  SNDK: "https://logo.clearbit.com/sandisk.com",
+  ABBV: "https://logo.clearbit.com/abbvie.com",
+  XOM:  "https://logo.clearbit.com/exxonmobil.com",
+  JPM:  "https://logo.clearbit.com/jpmorganchase.com",
+  NFLX: "https://logo.clearbit.com/netflix.com",
+  LCID: "https://logo.clearbit.com/lucidmotors.com",
+};
+
 const STOCKS = {
   NVDA:{name:"Nvidia Corporation",color:"#a3e635",sector:"Tech",anchor:false,
     position:{shares:"1.06",value:"$224.14",costBasis:"$111.28",gainLoss:"+$112.86",gainPct:"+101.4%",monthly:"$100",target:"25%"},
     analyst:{rating:"STRONG BUY",score:9.2,buy:28,hold:5,sell:1,target:"$165",targetLow:"$120",targetHigh:"$200",current:131},
-    metrics:{"P/E Ratio":"35.2x","Mkt Cap":"$3.2T","52W High":"$153.13","52W Low":"$78.40","Revenue Gr.":"+78%","Net Margin":"55.4%"},
+    metrics:{"P/E Ratio":"35.2x","Mkt Cap":"$3.2T","52W High":"$153.13","52W Low":"$78.40","Rev Growth":"+78%","Net Margin":"55.4%"},
     dividend:{yield:"0.03%",annual:"$0.04",frequency:"Quarterly",nextDate:"Jun 2026"},
     earnings:[{q:"Q1'26",est:0.88,act:0.96,beat:true},{q:"Q4'25",est:0.75,act:0.81,beat:true},{q:"Q3'25",est:0.64,act:0.74,beat:true},{q:"Q2'25",est:0.53,act:0.60,beat:true}],
-    news:[{source:"REUTERS",title:"Nvidia reports record Q1 revenue of $44.1B driven by Blackwell GPU demand",time:"2h ago",sentiment:"positive"},{source:"BLOOMBERG",title:"Analyst raises NVDA price target to $200 citing AI infrastructure supercycle",time:"5h ago",sentiment:"positive"},{source:"CNBC",title:"Nvidia data center segment surpasses $39B for first time in a single quarter",time:"1d ago",sentiment:"positive"}],
+    news:[{source:"REUTERS",title:"Nvidia reports record Q1 revenue of $44.1B driven by Blackwell GPU demand",time:"2h ago",sentiment:"positive"},{source:"BLOOMBERG",title:"Analyst raises NVDA price target to $200 citing AI infrastructure supercycle",time:"5h ago",sentiment:"positive"},{source:"CNBC",title:"Nvidia data center segment surpasses $39B for the first time in a single quarter",time:"1d ago",sentiment:"positive"}],
     tip:"Your single biggest winner. AI infrastructure demand shows no signs of slowing. Hold and keep adding."},
   TSLA:{name:"Tesla, Inc.",color:"#f87171",sector:"EV",anchor:false,
     position:{shares:"0.45",value:"$194.97",costBasis:"$83.33",gainLoss:"+$111.64",gainPct:"+134.0%",monthly:"$65",target:"13%"},
     analyst:{rating:"HOLD",score:6.1,buy:14,hold:16,sell:8,target:"$310",targetLow:"$180",targetHigh:"$500",current:315},
-    metrics:{"P/E Ratio":"89.4x","Mkt Cap":"$1.0T","52W High":"$479.87","52W Low":"$138.80","Revenue Gr.":"+8.1%","Net Margin":"7.3%"},
+    metrics:{"P/E Ratio":"89.4x","Mkt Cap":"$1.0T","52W High":"$479.87","52W Low":"$138.80","Rev Growth":"+8.1%","Net Margin":"7.3%"},
     dividend:{yield:"0%",annual:"N/A",frequency:"None",nextDate:"N/A"},
     earnings:[{q:"Q1'26",est:0.42,act:0.27,beat:false},{q:"Q4'25",est:0.76,act:0.73,beat:false},{q:"Q3'25",est:0.58,act:0.72,beat:true},{q:"Q2'25",est:0.43,act:0.52,beat:true}],
     news:[{source:"WSJ",title:"Tesla Q1 deliveries miss estimates as EV competition intensifies globally",time:"3h ago",sentiment:"negative"},{source:"TECHCRUNCH",title:"Tesla Full Self-Driving V13 shows major improvement in urban navigation tests",time:"1d ago",sentiment:"positive"},{source:"FT",title:"Elon Musk commits to return as Tesla CEO focus after DOGE role wind-down",time:"2d ago",sentiment:"positive"}],
@@ -185,7 +263,7 @@ const STOCKS = {
   DELL:{name:"Dell Technologies",color:"#60a5fa",sector:"Tech",anchor:false,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$120",target:"20%"},
     analyst:{rating:"BUY",score:8.1,buy:18,hold:6,sell:2,target:"$180",targetLow:"$130",targetHigh:"$220",current:145},
-    metrics:{"P/E Ratio":"18.6x","Mkt Cap":"$100B","52W High":"$179.70","52W Low":"$79.80","Revenue Gr.":"+87.7%","Net Margin":"3.1%"},
+    metrics:{"P/E Ratio":"18.6x","Mkt Cap":"$100B","52W High":"$179.70","52W Low":"$79.80","Rev Growth":"+87.7%","Net Margin":"3.1%"},
     dividend:{yield:"1.8%",annual:"$2.08",frequency:"Quarterly",nextDate:"Jul 2026"},
     earnings:[{q:"Q1'26",est:1.64,act:2.20,beat:true},{q:"Q4'25",est:2.14,act:2.68,beat:true},{q:"Q3'25",est:1.80,act:2.15,beat:true},{q:"Q2'25",est:1.54,act:1.89,beat:true}],
     news:[{source:"BLOOMBERG",title:"Dell AI server revenue surges 757% to $16.1B as data center boom accelerates",time:"1h ago",sentiment:"positive"},{source:"REUTERS",title:"Dell raises full year guidance after blockbuster AI infrastructure quarter",time:"4h ago",sentiment:"positive"},{source:"CNBC",title:"Dell stock hits all-time high on record AI order backlog of $14B",time:"1d ago",sentiment:"positive"}],
@@ -193,7 +271,7 @@ const STOCKS = {
   IBM:{name:"IBM Corporation",color:"#818cf8",sector:"Tech",anchor:false,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$90",target:"17%"},
     analyst:{rating:"HOLD",score:6.8,buy:8,hold:14,sell:3,target:"$245",targetLow:"$190",targetHigh:"$300",current:271},
-    metrics:{"P/E Ratio":"22.1x","Mkt Cap":"$246B","52W High":"$284.89","52W Low":"$168.20","Revenue Gr.":"+9.0%","Net Margin":"14.2%"},
+    metrics:{"P/E Ratio":"22.1x","Mkt Cap":"$246B","52W High":"$284.89","52W Low":"$168.20","Rev Growth":"+9.0%","Net Margin":"14.2%"},
     dividend:{yield:"2.5%",annual:"$6.76",frequency:"Quarterly",nextDate:"Jun 2026"},
     earnings:[{q:"Q1'26",est:1.40,act:1.60,beat:true},{q:"Q4'25",est:3.72,act:3.92,beat:true},{q:"Q3'25",est:2.23,act:2.30,beat:true},{q:"Q2'25",est:2.19,act:2.43,beat:true}],
     news:[{source:"WSJ",title:"IBM Q1 revenue beats estimates as software and consulting units accelerate",time:"6h ago",sentiment:"positive"},{source:"BLOOMBERG",title:"IBM raises quarterly dividend to $1.69 per share, 29th consecutive increase",time:"2d ago",sentiment:"positive"},{source:"FT",title:"IBM AI consulting business wins $4B in new enterprise contracts in Q1",time:"3d ago",sentiment:"positive"}],
@@ -201,15 +279,15 @@ const STOCKS = {
   SNDK:{name:"SanDisk Corporation",color:"#fb923c",sector:"Memory",anchor:false,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$50",target:"10%"},
     analyst:{rating:"BUY",score:8.4,buy:16,hold:4,sell:1,target:"$2,100",targetLow:"$1,200",targetHigh:"$3,250",current:1684},
-    metrics:{"P/E Ratio":"42.8x","Mkt Cap":"$68B","52W High":"$1,842","52W Low":"$36.20","Revenue Gr.":"+320%","Net Margin":"22.1%"},
+    metrics:{"P/E Ratio":"42.8x","Mkt Cap":"$68B","52W High":"$1,842","52W Low":"$36.20","Rev Growth":"+320%","Net Margin":"22.1%"},
     dividend:{yield:"0%",annual:"N/A",frequency:"None",nextDate:"N/A"},
     earnings:[{q:"Q1'26",est:8.20,act:10.40,beat:true},{q:"Q4'25",est:4.80,act:6.20,beat:true},{q:"Q3'25",est:2.10,act:3.40,beat:true},{q:"Q2'25",est:0.40,act:1.20,beat:true}],
-    news:[{source:"BLOOMBERG",title:"SanDisk NAND demand surges as AI data centers require unprecedented storage",time:"2h ago",sentiment:"positive"},{source:"REUTERS",title:"Susquehanna raises SNDK price target to $3,250 on AI memory supercycle thesis",time:"1d ago",sentiment:"positive"},{source:"BARRON'S",title:"Morningstar flags SNDK trading at 900% premium to fair value — high uncertainty",time:"2d ago",sentiment:"negative"}],
+    news:[{source:"BLOOMBERG",title:"SanDisk NAND demand surges as AI data centers require unprecedented storage capacity",time:"2h ago",sentiment:"positive"},{source:"REUTERS",title:"Susquehanna raises SNDK price target to $3,250 on AI memory supercycle thesis",time:"1d ago",sentiment:"positive"},{source:"BARRON'S",title:"Morningstar flags SNDK trading at 900% premium to fair value — high uncertainty",time:"2d ago",sentiment:"negative"}],
     tip:"Extraordinary run — up 3,700%+ in a year. High risk but AI memory demand is real. Small position is wise."},
   ABBV:{name:"AbbVie Inc.",color:"#34d399",sector:"Pharma",anchor:true,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$75",target:"8%"},
     analyst:{rating:"BUY",score:8.0,buy:16,hold:8,sell:1,target:"$215",targetLow:"$170",targetHigh:"$250",current:198},
-    metrics:{"P/E Ratio":"16.2x","Mkt Cap":"$350B","52W High":"$214.10","52W Low":"$152.40","Revenue Gr.":"+12.2%","Net Margin":"18.4%"},
+    metrics:{"P/E Ratio":"16.2x","Mkt Cap":"$350B","52W High":"$214.10","52W Low":"$152.40","Rev Growth":"+12.2%","Net Margin":"18.4%"},
     dividend:{yield:"3.4%",annual:"$6.56",frequency:"Quarterly",nextDate:"May 2026"},
     earnings:[{q:"Q1'26",est:2.97,act:3.22,beat:true},{q:"Q4'25",est:5.62,act:5.93,beat:true},{q:"Q3'25",est:2.89,act:2.95,beat:true},{q:"Q2'25",est:2.65,act:2.77,beat:true}],
     news:[{source:"REUTERS",title:"AbbVie Q1 revenue beats on Skyrizi and Rinvoq growth offsetting Humira decline",time:"4h ago",sentiment:"positive"},{source:"WSJ",title:"AbbVie raises dividend 5.8% — 13th consecutive annual increase",time:"2d ago",sentiment:"positive"},{source:"FT",title:"AbbVie oncology pipeline shows promise with three Phase 3 trial readouts due",time:"3d ago",sentiment:"positive"}],
@@ -217,7 +295,7 @@ const STOCKS = {
   XOM:{name:"ExxonMobil Corporation",color:"#fbbf24",sector:"Energy",anchor:true,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$50",target:"5%"},
     analyst:{rating:"BUY",score:7.8,buy:14,hold:10,sell:2,target:"$125",targetLow:"$95",targetHigh:"$148",current:112},
-    metrics:{"P/E Ratio":"13.8x","Mkt Cap":"$480B","52W High":"$126.34","52W Low":"$98.40","Revenue Gr.":"+2.1%","Net Margin":"8.9%"},
+    metrics:{"P/E Ratio":"13.8x","Mkt Cap":"$480B","52W High":"$126.34","52W Low":"$98.40","Rev Growth":"+2.1%","Net Margin":"8.9%"},
     dividend:{yield:"3.5%",annual:"$3.96",frequency:"Quarterly",nextDate:"Jun 2026"},
     earnings:[{q:"Q1'26",est:1.70,act:1.76,beat:true},{q:"Q4'25",est:1.78,act:1.67,beat:false},{q:"Q3'25",est:1.89,act:1.92,beat:true},{q:"Q2'25",est:2.02,act:2.14,beat:true}],
     news:[{source:"BLOOMBERG",title:"ExxonMobil raises dividend for 42nd consecutive year signaling cash flow confidence",time:"1d ago",sentiment:"positive"},{source:"REUTERS",title:"XOM Q1 earnings beat as Permian Basin production hits record high",time:"2d ago",sentiment:"positive"},{source:"FT",title:"ExxonMobil accelerates LNG expansion amid surging global energy demand",time:"3d ago",sentiment:"positive"}],
@@ -225,7 +303,7 @@ const STOCKS = {
   JPM:{name:"JPMorgan Chase & Co.",color:"#38bdf8",sector:"Financial",anchor:true,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$50",target:"2%"},
     analyst:{rating:"BUY",score:8.2,buy:18,hold:8,sell:1,target:"$290",targetLow:"$230",targetHigh:"$320",current:262},
-    metrics:{"P/E Ratio":"12.4x","Mkt Cap":"$740B","52W High":"$280.24","52W Low":"$185.90","Revenue Gr.":"+11.2%","Net Margin":"28.6%"},
+    metrics:{"P/E Ratio":"12.4x","Mkt Cap":"$740B","52W High":"$280.24","52W Low":"$185.90","Rev Growth":"+11.2%","Net Margin":"28.6%"},
     dividend:{yield:"2.2%",annual:"$5.60",frequency:"Quarterly",nextDate:"Jul 2026"},
     earnings:[{q:"Q1'26",est:4.61,act:5.07,beat:true},{q:"Q4'25",est:4.09,act:4.81,beat:true},{q:"Q3'25",est:4.00,act:4.37,beat:true},{q:"Q2'25",est:4.19,act:4.26,beat:true}],
     news:[{source:"WSJ",title:"JPMorgan Q1 profit surges 9% as investment banking fees hit record levels",time:"3h ago",sentiment:"positive"},{source:"BLOOMBERG",title:"Jamie Dimon warns of geopolitical risks while touting JPM fortress balance sheet",time:"1d ago",sentiment:"neutral"},{source:"FT",title:"JPMorgan raises dividend 9% to $1.40 per quarter as capital ratios remain strong",time:"2d ago",sentiment:"positive"}],
@@ -233,7 +311,7 @@ const STOCKS = {
   NFLX:{name:"Netflix, Inc.",color:"#ef4444",sector:"Streaming",anchor:false,
     position:{shares:"0.08",value:"$6.80",costBasis:"$61.35",gainLoss:"+$5.12",gainPct:"+38.3%",monthly:"$0",target:"0%"},
     analyst:{rating:"BUY",score:7.9,buy:20,hold:10,sell:3,target:"$1,250",targetLow:"$950",targetHigh:"$1,600",current:1185},
-    metrics:{"P/E Ratio":"52.4x","Mkt Cap":"$502B","52W High":"$1,310","52W Low":"$542.80","Revenue Gr.":"+16.0%","Net Margin":"22.3%"},
+    metrics:{"P/E Ratio":"52.4x","Mkt Cap":"$502B","52W High":"$1,310","52W Low":"$542.80","Rev Growth":"+16.0%","Net Margin":"22.3%"},
     dividend:{yield:"0%",annual:"N/A",frequency:"None",nextDate:"N/A"},
     earnings:[{q:"Q1'26",est:5.72,act:6.61,beat:true},{q:"Q4'25",est:4.22,act:4.27,beat:true},{q:"Q3'25",est:3.73,act:5.40,beat:true},{q:"Q2'25",est:4.74,act:4.88,beat:true}],
     news:[{source:"BLOOMBERG",title:"Netflix ad-supported tier hits 40M monthly active users — revenue diversification on track",time:"5h ago",sentiment:"positive"},{source:"CNBC",title:"Netflix adds 5.1M subscribers in Q1, beats Wall Street estimates",time:"1d ago",sentiment:"positive"},{source:"WSJ",title:"Netflix live sports strategy paying off as NFL Christmas games drive record viewership",time:"2d ago",sentiment:"positive"}],
@@ -241,251 +319,358 @@ const STOCKS = {
   LCID:{name:"Lucid Group, Inc.",color:"#c084fc",sector:"EV",anchor:false,
     position:{shares:"0.09",value:"$0.61",costBasis:"$30.00",gainLoss:"-$2.13",gainPct:"-77.8%",monthly:"$0",target:"0%"},
     analyst:{rating:"SELL",score:3.2,buy:2,hold:8,sell:10,target:"$2.50",targetLow:"$1.00",targetHigh:"$5.00",current:2},
-    metrics:{"P/E Ratio":"N/A","Mkt Cap":"$6.4B","52W High":"$4.43","52W Low":"$1.93","Revenue Gr.":"+68.8%","Net Margin":"-312%"},
+    metrics:{"P/E Ratio":"N/A","Mkt Cap":"$6.4B","52W High":"$4.43","52W Low":"$1.93","Rev Growth":"+68.8%","Net Margin":"-312%"},
     dividend:{yield:"0%",annual:"N/A",frequency:"None",nextDate:"N/A"},
     earnings:[{q:"Q1'26",est:-0.20,act:-0.18,beat:true},{q:"Q4'25",est:-0.22,act:-0.21,beat:true},{q:"Q3'25",est:-0.28,act:-0.29,beat:false},{q:"Q2'25",est:-0.30,act:-0.31,beat:false}],
-    news:[{source:"REUTERS",title:"Lucid delivers 2,212 vehicles in Q1 — production still far below targets",time:"1d ago",sentiment:"negative"},{source:"BLOOMBERG",title:"Lucid raises $1.75B in equity offering, diluting shareholders again",time:"3d ago",sentiment:"negative"},{source:"WSJ",title:"Saudi Arabia PIF remains Lucid lifeline as company burns cash at record rate",time:"4d ago",sentiment:"neutral"}],
+    news:[{source:"REUTERS",title:"Lucid delivers 2,212 vehicles in Q1 — production still far below targets",time:"1d ago",sentiment:"negative"},{source:"BLOOMBERG",title:"Lucid raises $1.75B in equity offering, diluting shareholders further",time:"3d ago",sentiment:"negative"},{source:"WSJ",title:"Saudi Arabia PIF remains Lucid lifeline as company burns cash at record rate",time:"4d ago",sentiment:"neutral"}],
     tip:"Down 78%. Consider selling — the tax loss offsets gains on NVDA and TSLA. Redeploy into XOM or JPM."},
 };
 
-// ── LIVE CHART via Yahoo Finance proxy ───────────────────
-// Multiple proxy fallbacks
-const PROXIES = [
-  "https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/",
-  "https://api.allorigins.win/raw?url=https://query1.finance.yahoo.com/v8/finance/chart/",
-  "https://thingproxy.freeboard.io/fetch/https://query1.finance.yahoo.com/v8/finance/chart/",
-];
-let currentTicker = "";
-let currentRange = "1mo";
 
-function getParam(){return new URLSearchParams(window.location.search).get('t')||'NVDA';}
+// ── THEMES PER STOCK ──────────────────────────────────────
+const THEMES = {
+  NVDA:{
+    from:"#f0fff4",to:"#ecfdf5",mesh1:"rgba(163,230,53,0.10)",mesh2:"rgba(74,222,128,0.07)",
+    dots:"rgba(163,230,53,0.12)",
+    surfTint:"rgba(163,230,53,0.04)",borderTint:"rgba(163,230,53,0.18)",
+    label:"Nvidia Green • AI Power",
+  },
+  TSLA:{
+    from:"#fff1f2",to:"#fef2f2",mesh1:"rgba(248,113,113,0.10)",mesh2:"rgba(239,68,68,0.06)",
+    dots:"rgba(239,68,68,0.10)",
+    surfTint:"rgba(248,113,113,0.04)",borderTint:"rgba(248,113,113,0.18)",
+    label:"Tesla Red • Electric Future",
+  },
+  DELL:{
+    from:"#eff6ff",to:"#eef2ff",mesh1:"rgba(96,165,250,0.10)",mesh2:"rgba(99,102,241,0.07)",
+    dots:"rgba(96,165,250,0.12)",
+    surfTint:"rgba(96,165,250,0.04)",borderTint:"rgba(96,165,250,0.18)",
+    label:"Dell Blue • AI Infrastructure",
+  },
+  IBM:{
+    from:"#f5f3ff",to:"#ede9fe",mesh1:"rgba(129,140,248,0.10)",mesh2:"rgba(139,92,246,0.07)",
+    dots:"rgba(129,140,248,0.12)",
+    surfTint:"rgba(129,140,248,0.04)",borderTint:"rgba(129,140,248,0.18)",
+    label:"IBM Indigo • Enterprise AI",
+  },
+  SNDK:{
+    from:"#fff7ed",to:"#ffedd5",mesh1:"rgba(251,146,60,0.10)",mesh2:"rgba(249,115,22,0.07)",
+    dots:"rgba(251,146,60,0.12)",
+    surfTint:"rgba(251,146,60,0.04)",borderTint:"rgba(251,146,60,0.18)",
+    label:"SanDisk Orange • Memory Surge",
+  },
+  ABBV:{
+    from:"#f0fdf9",to:"#ecfdf5",mesh1:"rgba(52,211,153,0.10)",mesh2:"rgba(16,185,129,0.07)",
+    dots:"rgba(52,211,153,0.12)",
+    surfTint:"rgba(52,211,153,0.04)",borderTint:"rgba(52,211,153,0.18)",
+    label:"AbbVie Emerald • Pharma Anchor",
+  },
+  XOM:{
+    from:"#fffbeb",to:"#fef9c3",mesh1:"rgba(251,191,36,0.10)",mesh2:"rgba(245,158,11,0.07)",
+    dots:"rgba(251,191,36,0.14)",
+    surfTint:"rgba(251,191,36,0.04)",borderTint:"rgba(251,191,36,0.18)",
+    label:"ExxonMobil Gold • Energy Anchor",
+  },
+  JPM:{
+    from:"#f0f9ff",to:"#e0f2fe",mesh1:"rgba(56,189,248,0.10)",mesh2:"rgba(14,165,233,0.07)",
+    dots:"rgba(56,189,248,0.12)",
+    surfTint:"rgba(56,189,248,0.04)",borderTint:"rgba(56,189,248,0.18)",
+    label:"JPMorgan Sky • Financial Anchor",
+  },
+  NFLX:{
+    from:"#fff5f5",to:"#fef2f2",mesh1:"rgba(239,68,68,0.10)",mesh2:"rgba(220,38,38,0.07)",
+    dots:"rgba(239,68,68,0.10)",
+    surfTint:"rgba(239,68,68,0.04)",borderTint:"rgba(239,68,68,0.18)",
+    label:"Netflix Crimson • Streaming Giant",
+  },
+  LCID:{
+    from:"#faf5ff",to:"#f3e8ff",mesh1:"rgba(192,132,252,0.10)",mesh2:"rgba(168,85,247,0.07)",
+    dots:"rgba(192,132,252,0.12)",
+    surfTint:"rgba(192,132,252,0.04)",borderTint:"rgba(192,132,252,0.18)",
+    label:"Lucid Violet • Under Review",
+  },
+};
 
-async function fetchChart(ticker, range){
-  const interval = range==="1mo"?"1d":range==="3mo"?"1d":range==="6mo"?"1wk":"1wk";
-  const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${range}&interval=${interval}&corsDomain=finance.yahoo.com`;
-  
-  for(const proxy of PROXIES){
-    try {
-      const url = proxy + (proxy.includes("?") ? encodeURIComponent(yahooUrl.split("finance.yahoo.com/v8/finance/chart/")[1].replace(ticker,"")) : "") ;
-      // Build proper URL per proxy type
-      let fetchUrl;
-      if(proxy.includes("corsproxy.io")) fetchUrl = `https://corsproxy.io/?${encodeURIComponent(yahooUrl)}`;
-      else if(proxy.includes("allorigins")) fetchUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(yahooUrl)}`;
-      else fetchUrl = proxy + ticker + `?range=${range}&interval=${interval}`;
-      
-      const r = await fetch(fetchUrl, {signal: AbortSignal.timeout(6000)});
-      if(!r.ok) continue;
-      const data = await r.json();
-      const result = data?.chart?.result?.[0];
-      if(!result) continue;
-      const closes = result.indicators?.quote?.[0]?.close || [];
-      const timestamps = result.timestamp || [];
-      const points = closes.map((c,i)=>({price:c,ts:timestamps[i]})).filter(p=>p.price!==null&&p.price!==undefined);
-      if(points.length > 0) return points;
-    } catch(e) {
-      console.warn("Proxy failed, trying next:", e.message);
-      continue;
-    }
+function applyTheme(ticker){
+  const th=THEMES[ticker]||THEMES.NVDA;
+  const r=document.documentElement.style;
+  r.setProperty('--theme-from', th.from);
+  r.setProperty('--theme-to',   th.to);
+  r.setProperty('--theme-mesh1',th.mesh1);
+  r.setProperty('--theme-mesh2',th.mesh2);
+  r.setProperty('--theme-dots', th.dots);
+  // Tint cards slightly
+  document.querySelectorAll('.card,.chart-section,.hero-card').forEach(el=>{
+    el.style.background=`rgba(255,255,255,0.82)`;
+    el.style.backdropFilter='blur(20px)';
+    el.style.webkitBackdropFilter='blur(20px)';
+  });
+  // Theme label in nav
+  const pill=document.getElementById('navPill');
+  if(pill){
+    const s=STOCKS[ticker];
+    pill.textContent=s.sector;
+    pill.style.background=s.color+'22';
+    pill.style.color=s.color;
   }
-  console.warn("All proxies failed");
+}
+
+// ── CHART ─────────────────────────────────────────────────
+let currentTicker="",currentRange="1mo",slideDir="left";
+
+async function fetchChart(ticker,range){
+  const interval=range==="1y"?"1wk":"1d";
+  const yahooUrl="https://query1.finance.yahoo.com/v8/finance/chart/"+ticker+"?range="+range+"&interval="+interval+"&corsDomain=finance.yahoo.com";
+  const proxies=[
+    "https://corsproxy.io/?"+encodeURIComponent(yahooUrl),
+    "https://api.allorigins.win/raw?url="+encodeURIComponent(yahooUrl),
+    "https://cors-anywhere.herokuapp.com/"+yahooUrl,
+  ];
+  for(var i=0;i<proxies.length;i++){
+    try{
+      var controller=new AbortController();
+      var tid=setTimeout(function(){controller.abort();},7000);
+      var r=await fetch(proxies[i],{signal:controller.signal,headers:{"X-Requested-With":"XMLHttpRequest"}});
+      clearTimeout(tid);
+      if(!r.ok)continue;
+      var data=await r.json();
+      var res=data&&data.chart&&data.chart.result&&data.chart.result[0];
+      if(!res)continue;
+      var closes=(res.indicators&&res.indicators.quote&&res.indicators.quote[0]&&res.indicators.quote[0].close)||[];
+      var timestamps=res.timestamp||[];
+      var pts=[];
+      for(var j=0;j<closes.length;j++){
+        if(closes[j]!=null&&timestamps[j]!=null)pts.push({price:closes[j],ts:timestamps[j]});
+      }
+      if(pts.length>1)return pts;
+    }catch(e){continue;}
+  }
   return null;
 }
 
-function drawChart(points, color, range){
-  if(!points||points.length<2){
+function drawChart(pts,color){
+  if(!pts||pts.length<2){
     document.getElementById('chartArea').innerHTML=`
       <div class="chart-error">
-        <div style="font-size:24px;">📡</div>
-        <div>Live data unavailable</div>
-        <div style="font-size:10px;margin-top:4px;">CORS restriction on this browser</div>
-        <button onclick="window.open('https://finance.yahoo.com/quote/${currentTicker}','_blank')" style="margin-top:8px;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surf2);cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">View on Yahoo Finance ↗</button>
+        <div style="font-size:22px;">📡</div>
+        <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">Live data unavailable</div>
+        <a href="https://finance.yahoo.com/quote/${currentTicker}" target="_blank" style="margin-top:8px;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surf2);font-size:11px;color:var(--accent);font-family:'DM Sans',sans-serif;">View on Yahoo Finance ↗</a>
       </div>`;
     return;
   }
-
-  const mn=Math.min(...points.map(p=>p.price));
-  const mx=Math.max(...points.map(p=>p.price));
-  const range_val=mx-mn||1;
-  const W=400,H=140,pad=8,bottom=20;
-  const pts=points.map((p,i)=>{
-    const x=pad+(i/(points.length-1))*(W-pad*2);
-    const y=pad+(1-((p.price-mn)/range_val))*(H-pad-bottom);
-    return{x,y,price:p.price,ts:p.ts};
-  });
-
-  const isUp = pts[pts.length-1].price >= pts[0].price;
-  const lineColor = isUp ? "#16a34a" : "#dc2626";
-  const fillColor = isUp ? "#16a34a" : "#dc2626";
-
-  const area='M'+pts.map(p=>`${p.x},${p.y}`).join('L')+`L${pts[pts.length-1].x},${H-bottom} L${pts[0].x},${H-bottom} Z`;
-  const line='M'+pts.map(p=>`${p.x},${p.y}`).join('L');
-
-  // X labels
-  const labelStep=Math.max(1,Math.floor(pts.length/4));
-  const labels=pts.filter((_,i)=>i===0||i===pts.length-1||i%labelStep===0).map(p=>{
+  const mn=Math.min(...pts.map(p=>p.price)),mx=Math.max(...pts.map(p=>p.price)),rng=mx-mn||1;
+  const W=400,H=140,pad=6,bot=18;
+  const mapped=pts.map((p,i)=>({x:pad+(i/(pts.length-1))*(W-pad*2),y:pad+(1-((p.price-mn)/rng))*(H-pad-bot),price:p.price,ts:p.ts}));
+  const isUp=mapped[mapped.length-1].price>=mapped[0].price;
+  const lc=isUp?"#16a34a":"#dc2626";
+  const area='M'+mapped.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join('L')+`L${mapped[mapped.length-1].x},${H-bot} L${mapped[0].x},${H-bot} Z`;
+  const line='M'+mapped.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join('L');
+  const step=Math.max(1,Math.floor(mapped.length/4));
+  const xLabels=mapped.filter((_,i)=>i===0||i===mapped.length-1||i%step===0).map(p=>{
     const d=new Date(p.ts*1000);
-    const lbl=d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-    return`<text x="${p.x}" y="${H-2}" text-anchor="middle" fill="#94a3b8" font-size="7.5" font-family="DM Mono,monospace">${lbl}</text>`;
+    return`<text x="${p.x.toFixed(1)}" y="${H-2}" text-anchor="middle" fill="#94a3b8" font-size="7.5" font-family="DM Mono,monospace">${d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</text>`;
   }).join('');
-
-  // Price labels on right
-  const priceLabels=[mn,mn+(mx-mn)/2,mx].map((v,i)=>{
-    const y=pad+(1-((v-mn)/range_val))*(H-pad-bottom);
-    return`<text x="${W-2}" y="${y+3}" text-anchor="end" fill="#94a3b8" font-size="7.5" font-family="DM Mono,monospace">$${v.toFixed(0)}</text>`;
-  }).join('');
-
-  const lastPt=pts[pts.length-1];
-  const firstPt=pts[0];
-  const pctChange=((lastPt.price-firstPt.price)/firstPt.price*100).toFixed(2);
-
+  const last=mapped[mapped.length-1],first=mapped[0];
+  const pctChange=((last.price-first.price)/first.price*100).toFixed(2);
+  const sign=parseFloat(pctChange)>=0?"+":"";
   document.getElementById('chartArea').innerHTML=`
     <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:160px;" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="${fillColor}" stop-opacity="0.2"/>
-          <stop offset="100%" stop-color="${fillColor}" stop-opacity="0.02"/>
-        </linearGradient>
-      </defs>
-      <path d="${area}" fill="url(#cg)"/>
-      <path d="${line}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="${lastPt.x}" cy="${lastPt.y}" r="3.5" fill="${lineColor}" stroke="white" stroke-width="1.5"/>
-      ${labels}
+      <defs><linearGradient id="cg${currentTicker}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${lc}" stop-opacity="0.22"/><stop offset="100%" stop-color="${lc}" stop-opacity="0.01"/></linearGradient></defs>
+      <path d="${area}" fill="url(#cg${currentTicker})"/>
+      <path d="${line}" fill="none" stroke="${lc}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="3.5" fill="${lc}" stroke="white" stroke-width="1.5"/>
+      ${xLabels}
     </svg>`;
-
-  const changeSign = parseFloat(pctChange)>=0?"+":"";
-  document.getElementById('chartRange').innerHTML=`
-    <span style="font-weight:600;">$${lastPt.price.toFixed(2)}</span>
-    <span style="margin-left:8px;color:${parseFloat(pctChange)>=0?"#16a34a":"#dc2626"};font-weight:600;">${changeSign}${pctChange}%</span>
-    <span style="margin-left:6px;font-size:10px;color:var(--text3);">this period</span>
-    <span class="live-badge"><span class="live-dot"></span>LIVE</span>`;
-
-  // Update price in header too
-  document.getElementById('stockPrice').textContent=`$${lastPt.price.toFixed(2)}`;
-  document.getElementById('liveBadge').innerHTML=`<span class="live-badge" style="margin-top:4px;"><span class="live-dot"></span>Live price</span>`;
+  document.getElementById('chartInfo').innerHTML=`<span style="font-weight:600;">$${last.price.toFixed(2)}</span><span style="margin-left:8px;color:${isUp?"#16a34a":"#dc2626"};font-weight:600;">${sign}${pctChange}%</span><span style="margin-left:5px;font-size:9px;color:var(--text3);">this period</span><span style="display:inline-flex;align-items:center;gap:3px;font-size:8px;font-family:'DM Mono',monospace;color:#16a34a;background:#dcfce7;padding:2px 6px;border-radius:6px;margin-left:6px;"><span style="width:4px;height:4px;border-radius:50%;background:#16a34a;animation:blink 1.5s infinite;"></span>LIVE</span>`;
+  // Update header price
+  document.getElementById('stockPrice').textContent=`$${last.price.toFixed(2)}`;
+  document.getElementById('liveBadge').innerHTML=`<span style="display:inline-flex;align-items:center;gap:3px;font-size:8px;font-family:'DM Mono',monospace;color:#16a34a;background:#dcfce7;padding:2px 6px;border-radius:6px;margin-top:4px;"><span style="width:4px;height:4px;border-radius:50%;background:#16a34a;animation:blink 1.5s infinite;"></span>Live price</span>`;
 }
 
 async function loadChart(range){
   currentRange=range;
-  document.getElementById('chartArea').innerHTML='<div class="chart-loading">📡 Fetching live prices...</div>';
-  document.getElementById('chartRange').textContent='Loading...';
-  const points = await fetchChart(currentTicker, range);
-  const s = STOCKS[currentTicker];
-  drawChart(points, s?.color||"#6366f1", range);
+  const s=STOCKS[currentTicker];
+  document.getElementById('chartArea').innerHTML=`<div class="chart-loading"><div style="font-size:18px;">📡</div><div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);">Fetching live data...</div><div class="loading-bar"><div class="loading-fill" style="background:${s.color};"></div></div></div>`;
+  document.getElementById('chartInfo').textContent='Loading...';
+  // Update tab colors
+  document.querySelectorAll('.chart-tab').forEach(b=>{
+    b.classList.toggle('active',b.dataset.range===range);
+    if(b.classList.contains('active'))b.style.background=s.color;
+    else b.style.background='';
+  });
+  const pts=await fetchChart(currentTicker,range);
+  drawChart(pts,s.color);
 }
 
-// ── RENDER STATIC SECTIONS ────────────────────────────────
-function renderStatic(t, s){
+// ── RENDER ────────────────────────────────────────────────
+function buildSwitcher(activeTicker){
+  const sw=document.getElementById('switcher');
+  sw.innerHTML=TICKER_ORDER.map(t=>{
+    const s=STOCKS[t];
+    const isActive=t===activeTicker;
+    return`<button class="sw-btn${isActive?' active':''}" style="--sw-color:${s.color};" onclick="switchTo('${t}')">
+      <div class="sw-logo" style="background:${isActive?'rgba(255,255,255,0.25)':s.color+'22'};">
+        <img src="${LOGOS[t]}" onerror="this.style.display='none';this.nextSibling.style.display='flex';" style="width:100%;height:100%;object-fit:contain;border-radius:8px;"/>
+        <span style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:${isActive?'#fff':s.color};font-family:'Playfair Display',serif;">${t.slice(0,3)}</span>
+      </div>
+      <span class="sw-ticker">${t}</span>
+    </button>`;
+  }).join('');
+  // Scroll active into view
+  setTimeout(()=>{
+    const active=sw.querySelector('.active');
+    if(active)active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  },100);
+}
+
+function renderStatic(t,s,dir='left'){
+  currentTicker=t;
+  applyTheme(t);
+  // Switcher
+  buildSwitcher(t);
   // Nav
   document.title=`${t} — PortfolioOS`;
   document.getElementById('navTitle').textContent=t;
   document.getElementById('navPill').textContent=s.sector;
   document.getElementById('navPill').style.background=s.color+'22';
   document.getElementById('navPill').style.color=s.color;
-
+  // Hero card accent
+  document.getElementById('heroBgOrb').style.background=s.color;
+  document.getElementById('heroCard').style.borderColor=s.color+'33';
   // Logo
-  const logo=document.getElementById('stockLogo');
-  logo.textContent=t.slice(0,3);
-  logo.style.background=`linear-gradient(135deg,${s.color},${s.color}99)`;
-
-  // Header
+  const bl=document.getElementById('bigLogo');
+  bl.style.background=`linear-gradient(135deg,${s.color}33,${s.color}11)`;
+  bl.style.border=`2px solid ${s.color}44`;
+  bl.innerHTML=`<img src="${LOGOS[t]}" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='flex';" style="width:100%;height:100%;object-fit:contain;padding:8px;border-radius:16px;"/><div id="logoFallback" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:900;color:${s.color};">${t.slice(0,3)}</div>`;
+  // Ticker & info
   document.getElementById('stockTicker').textContent=t;
-  document.getElementById('stockFullname').textContent=s.name;
-  document.getElementById('stockPrice').textContent=s.analyst.current?`$${s.analyst.current}`:'—';
+  document.getElementById('stockName').textContent=s.name;
+  document.getElementById('stockPrice').innerHTML=`<div class="skeleton" style="width:90px;height:26px;"></div>`;
+  document.getElementById('stockChange').innerHTML='';
+  document.getElementById('liveBadge').innerHTML='';
   document.getElementById('stockBadges').innerHTML=`
     <span class="badge" style="background:${s.color}18;color:${s.color};">${s.sector}</span>
     ${s.anchor?'<span class="badge" style="background:#d1fae5;color:#065f46;">⚓ Anchor</span>':''}`;
-
+  // Inject btn
+  const ib=document.getElementById('injectBtn');
+  ib.style.background=`linear-gradient(135deg,${s.color},${s.color}cc)`;
+  ib.onclick=()=>window.location.href='app.html';
+  // Nav arrows
+  const idx=TICKER_ORDER.indexOf(t);
+  document.getElementById('prevBtn').disabled=idx===0;
+  document.getElementById('prevBtn').style.opacity=idx===0?'0.3':'1';
+  document.getElementById('nextBtn').disabled=idx===TICKER_ORDER.length-1;
+  document.getElementById('nextBtn').style.opacity=idx===TICKER_ORDER.length-1?'0.3':'1';
   // Position
   const pos=s.position;
   document.getElementById('positionRows').innerHTML=`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;">${pos.value}</div>
-      ${pos.gainPct!=='—'?`<div style="font-size:11px;padding:2px 8px;border-radius:8px;background:${pos.gainPct.startsWith('+')?'#dcfce7':'#fee2e2'};color:${pos.gainPct.startsWith('+')?'#166534':'#991b1b'};font-family:'DM Mono',monospace;">${pos.gainPct}</div>`:''}
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:900;">${pos.value}</div>
+      ${pos.gainPct!=='—'?`<div style="font-size:10px;padding:2px 8px;border-radius:8px;background:${pos.gainPct.startsWith('+')?'#dcfce7':'#fee2e2'};color:${pos.gainPct.startsWith('+')?'#166534':'#991b1b'};font-family:'DM Mono',monospace;">${pos.gainPct}</div>`:''}
     </div>
-    ${[['Shares owned',pos.shares],['Cost basis',pos.costBasis],['Gain / Loss',pos.gainLoss],['Monthly injection',pos.monthly],['Target allocation',pos.target]].map(([l,v])=>`
-      <div class="position-row"><span class="pos-label">${l}</span><span class="pos-val" style="color:${l==='Gain / Loss'&&v.startsWith('+')?'#16a34a':l==='Gain / Loss'&&v.startsWith('-')?'#dc2626':'var(--text)'};">${v}</span></div>`).join('')}
-    <div style="margin-top:10px;padding:9px 12px;background:${s.color}0d;border-radius:10px;border-left:2px solid ${s.color};font-size:11px;color:var(--text2);line-height:1.6;">💡 ${s.tip}</div>`;
-
+    ${[['Shares',pos.shares],['Cost basis',pos.costBasis],['Gain / Loss',pos.gainLoss],['Monthly',pos.monthly],['Target',pos.target]].map(([l,v])=>`<div class="position-row"><span class="pos-label">${l}</span><span class="pos-val" style="color:${l==='Gain / Loss'&&v.startsWith('+')?'#16a34a':l==='Gain / Loss'&&v.startsWith('-')?'#dc2626':'var(--text)'};">${v}</span></div>`).join('')}
+    <div style="margin-top:10px;padding:8px 10px;background:${s.color}0d;border-radius:10px;border-left:2px solid ${s.color};font-size:10px;color:var(--text2);line-height:1.6;">💡 ${s.tip}</div>`;
   // Analyst
-  const an=s.analyst;
-  const total=an.buy+an.hold+an.sell;
+  const an=s.analyst,tot=an.buy+an.hold+an.sell;
   const rc={'STRONG BUY':'#16a34a','BUY':'#22c55e','HOLD':'#f59e0b','SELL':'#ef4444','STRONG SELL':'#dc2626'};
-  const tLow=parseFloat(an.targetLow.replace(/[$,]/g,''));
-  const tHigh=parseFloat(an.targetHigh.replace(/[$,]/g,''));
-  const tPos=Math.min(Math.max(((an.current-tLow)/(tHigh-tLow))*100,2),98);
+  const tL=parseFloat(an.targetLow.replace(/[$,]/g,'')),tH=parseFloat(an.targetHigh.replace(/[$,]/g,''));
+  const tPos=Math.min(Math.max(((an.current-tL)/(tH-tL))*100,2),98);
   document.getElementById('analystContent').innerHTML=`
-    <div class="rating-circle" style="background:${rc[an.rating]}18;border:2px solid ${rc[an.rating]}44;">
+    <div class="rating-circle" style="background:${rc[an.rating]}15;border:2px solid ${rc[an.rating]}33;">
       <div class="rating-val" style="color:${rc[an.rating]};">${an.score}</div>
       <div class="rating-lbl" style="color:${rc[an.rating]};">${an.rating}</div>
     </div>
     <div class="analyst-bar">
-      <div class="analyst-seg" style="width:${(an.buy/total*100).toFixed(0)}%;background:#22c55e;"></div>
-      <div class="analyst-seg" style="width:${(an.hold/total*100).toFixed(0)}%;background:#f59e0b;"></div>
-      <div class="analyst-seg" style="width:${(an.sell/total*100).toFixed(0)}%;background:#ef4444;"></div>
+      <div class="analyst-seg" style="width:${(an.buy/tot*100).toFixed(0)}%;background:#22c55e;"></div>
+      <div class="analyst-seg" style="width:${(an.hold/tot*100).toFixed(0)}%;background:#f59e0b;"></div>
+      <div class="analyst-seg" style="width:${(an.sell/tot*100).toFixed(0)}%;background:#ef4444;"></div>
     </div>
-    <div class="analyst-labels"><span style="color:#22c55e;">Buy ${an.buy}</span><span style="color:#f59e0b;">Hold ${an.hold}</span><span style="color:#ef4444;">Sell ${an.sell}</span></div>
-    <div style="margin-top:10px;font-size:10px;color:var(--text2);">Target: ${an.targetLow} — <strong style="color:var(--accent);">${an.target}</strong> — ${an.targetHigh}</div>
+    <div style="display:flex;justify-content:space-between;font-size:8px;font-family:'DM Mono',monospace;margin-bottom:10px;">
+      <span style="color:#22c55e;">Buy ${an.buy}</span><span style="color:#f59e0b;">Hold ${an.hold}</span><span style="color:#ef4444;">Sell ${an.sell}</span>
+    </div>
+    <div style="font-size:9px;color:var(--text2);margin-bottom:6px;">Target: ${an.targetLow} → <strong style="color:var(--accent);">${an.target}</strong> → ${an.targetHigh}</div>
     <div class="target-track">
       <div style="height:100%;border-radius:4px;width:${tPos.toFixed(0)}%;background:linear-gradient(90deg,${s.color}66,${s.color});"></div>
-      <div class="target-dot" style="left:${tPos.toFixed(0)}%;background:${s.color};box-shadow:0 0 6px ${s.color}66;"></div>
+      <div class="target-dot" style="left:${tPos.toFixed(0)}%;background:${s.color};box-shadow:0 0 6px ${s.color}55;"></div>
     </div>
-    <div style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;">Current: $${an.current}</div>`;
-
+    <div style="font-size:8px;color:var(--text3);font-family:'DM Mono',monospace;">Current: $${an.current}</div>`;
   // Metrics
-  document.getElementById('keyMetrics').innerHTML=Object.entries(s.metrics).map(([k,v])=>`
-    <div class="metric-item"><div class="metric-label">${k}</div><div class="metric-val">${v}</div></div>`).join('');
-
+  document.getElementById('keyMetrics').innerHTML=Object.entries(s.metrics).map(([k,v])=>`<div class="metric-item"><div class="metric-label">${k}</div><div class="metric-val">${v}</div></div>`).join('');
   // Dividend
   const dv=s.dividend;
   document.getElementById('divContent').innerHTML=dv.yield==='0%'||dv.yield==='0'
-    ?`<div style="text-align:center;padding:18px 0;"><div style="font-size:28px;margin-bottom:6px;">—</div><div style="font-size:12px;color:var(--text3);">No dividend</div></div>`
-    :`<div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:#d97706;margin-bottom:2px;">${dv.yield}</div>
-      <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">Annual yield</div>
-      ${[['Annual payout',dv.annual],['Frequency',dv.frequency],['Next date',dv.nextDate]].map(([l,v])=>`<div class="position-row"><span class="pos-label">${l}</span><span class="pos-val">${v}</span></div>`).join('')}`;
-
+    ?`<div style="text-align:center;padding:16px 0;"><div style="font-size:26px;margin-bottom:4px;">—</div><div style="font-size:11px;color:var(--text3);">No dividend</div></div>`
+    :`<div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#d97706;">${dv.yield}</div><div style="font-size:10px;color:var(--text3);margin-bottom:8px;">Annual yield</div>${[['Annual payout',dv.annual],['Frequency',dv.frequency],['Next date',dv.nextDate]].map(([l,v])=>`<div class="position-row"><span class="pos-label">${l}</span><span class="pos-val">${v}</span></div>`).join('')}`;
   // Earnings
-  const maxEPS=Math.max(...s.earnings.flatMap(e=>[Math.abs(e.est),Math.abs(e.act)]));
+  const maxE=Math.max(...s.earnings.flatMap(e=>[Math.abs(e.est),Math.abs(e.act)]));
   document.getElementById('earningsRows').innerHTML=s.earnings.map(e=>`
     <div class="earnings-row">
       <div class="earnings-q">${e.q}</div>
       <div class="earnings-bars">
-        <div class="earnings-bar" style="height:${Math.max((Math.abs(e.est)/maxEPS)*28,3)}px;background:#c7d2f0;"></div>
-        <div class="earnings-bar" style="height:${Math.max((Math.abs(e.act)/maxEPS)*28,3)}px;background:${e.beat?'var(--accent)':'#ef4444'};"></div>
+        <div class="earnings-bar" style="height:${Math.max((Math.abs(e.est)/maxE)*28,3)}px;background:#c7d2f0;"></div>
+        <div class="earnings-bar" style="height:${Math.max((Math.abs(e.act)/maxE)*28,3)}px;background:${e.beat?'var(--accent)':'#ef4444'};"></div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;min-width:64px;">
-        <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text2);">$${e.act}</span>
-        <span style="font-size:8px;padding:1px 6px;border-radius:6px;margin-top:2px;background:${e.beat?'#dcfce7':'#fee2e2'};color:${e.beat?'#166534':'#991b1b'};">${e.beat?'BEAT':'MISS'}</span>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;min-width:60px;">
+        <span style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text2);">$${e.act}</span>
+        <span style="font-size:7px;padding:1px 5px;border-radius:5px;margin-top:1px;background:${e.beat?'#dcfce7':'#fee2e2'};color:${e.beat?'#166534':'#991b1b'};">${e.beat?'BEAT':'MISS'}</span>
       </div>
     </div>`).join('');
-
   // News
   document.getElementById('newsItems').innerHTML=s.news.map(n=>`
     <div class="news-item">
-      <div class="news-source">${n.source}<span class="news-sentiment" style="background:${n.sentiment==='positive'?'#dcfce7':n.sentiment==='negative'?'#fee2e2':'#f3f4f6'};color:${n.sentiment==='positive'?'#166534':n.sentiment==='negative'?'#991b1b':'#6b7280'};">${n.sentiment==='positive'?'▲ Bullish':n.sentiment==='negative'?'▼ Bearish':'● Neutral'}</span></div>
+      <div class="news-source">${n.source}<span class="sentiment-pill" style="background:${n.sentiment==='positive'?'#dcfce7':n.sentiment==='negative'?'#fee2e2':'#f3f4f6'};color:${n.sentiment==='positive'?'#166534':n.sentiment==='negative'?'#991b1b':'#6b7280'};">${n.sentiment==='positive'?'▲ Bullish':n.sentiment==='negative'?'▼ Bearish':'● Neutral'}</span></div>
       <div class="news-title">${n.title}</div>
       <div class="news-time">${n.time}</div>
     </div>`).join('');
 }
 
-// ── INIT ─────────────────────────────────────────────────
-async function init(){
-  const t=getParam();
-  currentTicker=t;
+// ── NAVIGATION ────────────────────────────────────────────
+function navigate(dir){
+  const idx=TICKER_ORDER.indexOf(currentTicker);
+  const next=TICKER_ORDER[idx+dir];
+  if(next) switchTo(next, dir>0?'left':'right');
+}
+
+function switchTo(t, dir='left'){
+  if(t===currentTicker)return;
+  slideDir=dir;
   const s=STOCKS[t];
-  if(!s){document.body.innerHTML='<div style="padding:40px;text-align:center;font-family:DM Sans,sans-serif;">Stock not found. <a href="index.html">Go back</a></div>';return;}
+  if(!s)return;
+  // Animate out
+  const hero=document.getElementById('heroCard');
+  hero.style.animation='none';
+  hero.style.opacity='0';
+  hero.style.transform=`translateX(${dir==='left'?'-30px':'30px'})`;
+  setTimeout(()=>{
+    renderStatic(t,s,dir);
+    hero.style.transition='opacity 0.25s ease, transform 0.25s ease';
+    hero.style.opacity='1';
+    hero.style.transform='translateX(0)';
+    window.scrollTo({top:0,behavior:'smooth'});
+    loadChart(currentRange);
+    // Update URL
+    history.replaceState(null,'',`stock.html?t=${t}`);
+  },120);
+}
+
+// ── INIT ─────────────────────────────────────────────────
+function init(){
+  const t=new URLSearchParams(window.location.search).get('t')||'NVDA';
+  const s=STOCKS[t];
+  if(!s){document.body.innerHTML='<div style="padding:40px;text-align:center;font-family:DM Sans,sans-serif;color:#475569;">Stock not found. <a href="index.html" style="color:#4f46e5;">Go back →</a></div>';return;}
   renderStatic(t,s);
-
-  // Chart tab listeners
+  // Chart tabs
   document.querySelectorAll('.chart-tab').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.chart-tab').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      loadChart(btn.dataset.range);
-    });
+    btn.addEventListener('click',()=>loadChart(btn.dataset.range));
   });
-
-  // Load chart
-  await loadChart('1mo');
+  // Swipe support
+  let startX=0;
+  document.addEventListener('touchstart',e=>startX=e.touches[0].clientX,{passive:true});
+  document.addEventListener('touchend',e=>{
+    const diff=startX-e.changedTouches[0].clientX;
+    if(Math.abs(diff)>60)navigate(diff>0?1:-1);
+  },{passive:true});
+  loadChart('1mo');
 }
 
 init();
