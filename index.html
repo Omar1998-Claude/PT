@@ -2,673 +2,486 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-  <!-- PWA -->
-  <link rel="manifest" href="/manifest.json"/>
-  <meta name="mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Portfolio"/>
-  <meta name="theme-color" content="#6366f1"/>
-  <link rel="apple-touch-icon" href="/icon-192.png"/>
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-<title>Portfolio Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PortfolioOS — Your Personal Investment Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-body{font-family:'Georgia',serif;min-height:100vh;padding-bottom:100px;transition:background 0.4s,color 0.4s;overflow-x:hidden;}
-button{font-family:'Georgia',serif;cursor:pointer;transition:all 0.25s;}
-input{font-family:'Georgia',serif;outline:none;}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#070b14;--surf:#0f1623;--surf2:#141e2e;
+  --text:#e8eaf0;--text2:#8892aa;--text3:#4a5568;
+  --accent:#6366f1;--accent2:#818cf8;--green:#4ade80;--gold:#fbbf24;
+  --border:#1a2640;
+}
+.light{
+  --bg:#f0f4ff;--surf:#ffffff;--surf2:#f8faff;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --accent:#4f46e5;--accent2:#6366f1;--green:#16a34a;--gold:#d97706;
+  --border:#e2e8f0;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;transition:background 0.4s,color 0.4s;overflow-x:hidden;}
 
-/* ── DARK ── */
-.dark{background:#070b14;color:#e8eaf0;}
-.dark .surf{background:#0f1623;}
-.dark .surf2{background:#141e2e;}
-.dark .surf3{background:#1a2640;}
-.dark .bd{border-color:#1a2640;}
-.dark .bd2{border-color:#243050;}
-.dark .t1{color:#e8eaf0;}
-.dark .t2{color:#8892aa;}
-.dark .t3{color:#4a5568;}
-.dark .hdr-bg{background:linear-gradient(160deg,#0c1a32 0%,#070b14 100%);}
-.dark .tab-bg{background:#070b14;}
-.dark .inp-bg{background:#0c1420;color:#e8eaf0;border-color:#243050;}
-.dark .glow-blue{box-shadow:0 0 20px #3b82f622;}
-.dark .glow-green{box-shadow:0 0 20px #4ade8022;}
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:var(--bg)cc;border-bottom:1px solid var(--border);transition:all 0.4s;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.theme-btn{background:var(--surf2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;color:var(--text2);font-size:12px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent);}
+.launch-btn-nav{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:20px;padding:8px 18px;color:#fff;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.5px;transition:all 0.2s;}
+.launch-btn-nav:hover{transform:translateY(-1px);box-shadow:0 4px 16px var(--accent)55;}
 
-/* ── LIGHT ── */
-.light{background:#f0f4ff;color:#0f172a;}
-.light .surf{background:#ffffff;}
-.light .surf2{background:#f8faff;}
-.light .surf3{background:#eef2ff;}
-.light .bd{border-color:#e2e8f8;}
-.light .bd2{border-color:#c7d2f0;}
-.light .t1{color:#0f172a;}
-.light .t2{color:#475569;}
-.light .t3{color:#94a3b8;}
-.light .hdr-bg{background:linear-gradient(160deg,#dbeafe 0%,#f0f4ff 100%);}
-.light .tab-bg{background:#ffffff;}
-.light .inp-bg{background:#f8faff;color:#0f172a;border-color:#c7d2f0;}
-.light .glow-blue{box-shadow:0 2px 16px #3b82f618;}
-.light .glow-green{box-shadow:0 2px 16px #4ade8018;}
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;animation:float 8s ease-in-out infinite;}
+.orb1{width:400px;height:400px;background:var(--accent);top:-100px;left:-100px;animation-delay:0s;}
+.orb2{width:300px;height:300px;background:#34d399;bottom:-50px;right:-50px;animation-delay:3s;}
+.orb3{width:200px;height:200px;background:var(--gold);top:50%;left:50%;animation-delay:6s;}
+@keyframes float{0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-20px);}
+}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--accent)18;border:1px solid var(--accent)44;border-radius:20px;padding:5px 14px;font-size:11px;color:var(--accent2);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;font-family:'DM Mono',monospace;}
+.hero-tag::before{content:'●';font-size:8px;color:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+h1{font-family:'Playfair Display',serif;font-size:clamp(36px,8vw,72px);font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;max-width:700px;}
+h1 span{background:linear-gradient(135deg,var(--accent),#a78bfa,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:clamp(15px,2.5vw,18px);color:var(--text2);max-width:480px;line-height:1.7;margin-bottom:36px;font-weight:300;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:14px;padding:14px 28px;color:#fff;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:0.3px;transition:all 0.3s;display:flex;align-items:center;gap:8px;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--accent)55;}
+.btn-secondary{background:transparent;border:1.5px solid var(--border);border-radius:14px;padding:14px 28px;color:var(--text2);font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.3s;}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
 
-/* ── LAYOUT ── */
-.sticky-hdr{position:sticky;top:0;z-index:20;border-bottom:1px solid;}
-.sticky-tabs{position:sticky;top:160px;z-index:19;display:flex;border-bottom:1px solid;}
-.tab-btn{flex:1;padding:11px 0;background:none;border:none;border-bottom:2px solid transparent;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;color:#4a5568;transition:all 0.2s;}
-.tab-btn.active{border-bottom-color:#6366f1;color:#6366f1!important;}
-.page{padding:16px 14px;}
+/* ── APP MOCKUP ── */
+.mockup-wrap{width:100%;max-width:320px;margin:0 auto;position:relative;}
+.phone-frame{background:var(--surf);border:1.5px solid var(--border);border-radius:36px;overflow:hidden;box-shadow:0 40px 80px #00000066,0 0 0 8px var(--surf2),0 0 0 9px var(--border);position:relative;}
+.phone-notch{width:80px;height:24px;background:var(--bg);border-radius:0 0 16px 16px;margin:0 auto;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;}
+.phone-screen{padding:32px 14px 14px;background:var(--bg);}
+.mock-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.mock-donut{width:52px;height:52px;border-radius:50%;background:conic-gradient(#a3e635 190deg,#f87171 190deg 270deg,#1a2640 270deg);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.mock-donut-inner{width:38px;height:38px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.mock-val{flex:1;}
+.mock-total{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--text);}
+.mock-gain{font-size:10px;color:#4ade80;margin-top:2px;}
+.mock-bar{height:4px;border-radius:2px;background:var(--surf2);margin-bottom:10px;overflow:hidden;display:flex;gap:1px;}
+.mock-seg{height:100%;border-radius:2px;}
+.mock-goal{background:var(--surf2);border-radius:8px;padding:8px 10px;margin-bottom:8px;}
+.mock-goal-lbl{font-size:8px;color:var(--text3);margin-bottom:4px;font-family:'DM Mono',monospace;}
+.mock-goal-bar{height:6px;border-radius:3px;background:var(--surf);overflow:hidden;}
+.mock-goal-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#6366f1,#818cf8);width:8.5%;}
+.mock-cards{display:flex;flex-direction:column;gap:6px;}
+.mock-card{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;}
+.mock-ticker-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;flex-shrink:0;}
+.mock-ticker-name{font-size:11px;font-weight:bold;color:var(--text);}
+.mock-ticker-sub{font-size:8px;color:var(--text3);}
+.mock-ticker-val{margin-left:auto;font-size:11px;font-weight:bold;color:var(--text);}
+.mock-ticker-bar{height:3px;border-radius:2px;margin-top:4px;overflow:hidden;background:var(--surf2);}
+.mock-ticker-fill{height:100%;border-radius:2px;}
+.glow-ring{position:absolute;inset:-2px;border-radius:38px;background:linear-gradient(135deg,var(--accent)44,#34d39944,var(--gold)44);z-index:-1;animation:spin 8s linear infinite;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
-/* ── CARDS ── */
-.card{border-radius:18px;padding:15px;margin-bottom:10px;border:1px solid;transition:all 0.3s;}
-.card-sm{border-radius:12px;padding:10px 12px;border:1px solid;}
-.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:8px;letter-spacing:0.5px;}
+/* ── STATS ── */
+.stats{display:flex;justify-content:center;gap:0;margin-bottom:60px;border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:480px;width:100%;backdrop-filter:blur(10px);}
+.stat{flex:1;padding:16px 12px;text-align:center;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.stat-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--text);}
+.stat-lbl{font-size:9px;color:var(--text3);margin-top:3px;letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace;}
 
-/* ── GOAL BAR ── */
-.goal-track{height:12px;border-radius:8px;overflow:hidden;}
-.dark .goal-track{background:#1a2640;}
-.light .goal-track{background:#e2e8f8;}
-.goal-fill{height:100%;border-radius:8px;transition:width 1s cubic-bezier(.4,0,.2,1);}
+/* ── SECTIONS ── */
+section{padding:80px 24px;max-width:900px;margin:0 auto;}
+.section-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent2);margin-bottom:12px;}
+h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,42px);font-weight:900;line-height:1.1;margin-bottom:16px;}
+.section-sub{font-size:16px;color:var(--text2);line-height:1.7;max-width:520px;font-weight:300;}
 
-/* ── INJECT BTN ── */
-.inj-btn{width:100%;padding:17px;border-radius:18px;font-size:13px;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;font-family:'Georgia',serif;transition:all 0.4s;}
+/* ── FEATURES ── */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:40px;}
+.feature-card{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:24px;transition:all 0.3s;position:relative;overflow:hidden;}
+.feature-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent)08,transparent);opacity:0;transition:opacity 0.3s;}
+.feature-card:hover{border-color:var(--accent)55;transform:translateY(-4px);box-shadow:0 12px 32px #00000033;}
+.feature-card:hover::before{opacity:1;}
+.feature-icon{font-size:28px;margin-bottom:14px;display:block;}
+.feature-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:8px;color:var(--text);}
+.feature-desc{font-size:13px;color:var(--text2);line-height:1.6;}
+.feature-tag{display:inline-block;margin-top:10px;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1px;color:var(--accent2);background:var(--accent)15;padding:2px 8px;border-radius:8px;}
+
+/* ── HOW IT WORKS ── */
+.steps{display:flex;flex-direction:column;gap:0;margin-top:40px;position:relative;}
+.steps::before{content:'';position:absolute;left:28px;top:40px;bottom:40px;width:1px;background:linear-gradient(180deg,var(--accent),#34d399,var(--gold));opacity:0.3;}
+.step{display:flex;gap:20px;align-items:flex-start;padding:24px 0;}
+.step-num{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 0 24px var(--accent)44;}
+.step-content{padding-top:12px;}
+.step-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:6px;}
+.step-desc{font-size:14px;color:var(--text2);line-height:1.6;}
+
+/* ── CTA ── */
+.cta-section{text-align:center;padding:80px 24px;position:relative;overflow:hidden;}
+.cta-card{background:var(--surf);border:1px solid var(--border);border-radius:32px;padding:60px 32px;max-width:600px;margin:0 auto;position:relative;overflow:hidden;}
+.cta-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent)08,#34d39908,var(--gold)08);pointer-events:none;}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,40px);font-weight:900;margin-bottom:16px;line-height:1.1;}
+.cta-sub{font-size:15px;color:var(--text2);margin-bottom:32px;line-height:1.7;}
+.cta-metrics{display:flex;justify-content:center;gap:24px;margin-bottom:32px;flex-wrap:wrap;}
+.cta-metric{text-align:center;}
+.cta-metric-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--accent2);}
+.cta-metric-lbl{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+.footer-sub{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:1px;}
 
 /* ── ANIMATIONS ── */
-@keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
-@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
-@keyframes slideIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.shimmer{background:linear-gradient(90deg,#4ade80,#a3e635,#4ade80);background-size:200% auto;animation:shimmer 3s linear infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.float{animation:float 3s ease-in-out infinite;}
-.pulse{animation:pulse 2s ease-in-out infinite;}
-.slide-in{animation:slideIn 0.3s ease forwards;}
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+.delay-1{transition-delay:0.1s;}
+.delay-2{transition-delay:0.2s;}
+.delay-3{transition-delay:0.3s;}
+.delay-4{transition-delay:0.4s;}
+.delay-5{transition-delay:0.5s;}
 
-/* ── SPARKLINE ── */
-.spark-bar{display:inline-block;width:4px;border-radius:2px;margin-right:1px;vertical-align:bottom;transition:height 0.5s ease;}
+@media(max-width:600px){
+  .stats{flex-direction:column;border-radius:12px;}
+  .stat{border-right:none;border-bottom:1px solid var(--border);}
+  .stat:last-child{border-bottom:none;}
+  .steps::before{display:none;}
+}
 </style>
 </head>
-<body class="dark" id="app">
-<div id="root"></div>
-<script>
-// ── CONSTANTS ─────────────────────────────────────────────
-const CORE=["NVDA","TSLA","DELL","IBM","SNDK"];
-const ANCHORS=["ABBV","XOM","JPM"];
-const ALL_ACTIVE=[...CORE,...ANCHORS];
-const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const BUDGETS=[200,300,400,500];
+<body id="body">
 
-// Annual dividend yield % per share (approximate 2026)
-const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,JPM:2.2,NVDA:0.03,TSLA:0,DELL:0,SNDK:0,NFLX:0,LCID:0};
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PortfolioOS</div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()">☀️ Light</button>
+    <button class="launch-btn-nav" onclick="window.location.href='app.html'">Launch App →</button>
+  </div>
+</nav>
 
-// Annual goals milestones
-const GOALS=[
-  {year:2026,amount:5000,emoji:"🎯"},
-  {year:2027,amount:15000,emoji:"🚀"},
-  {year:2028,amount:35000,emoji:"🌟"},
-];
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
 
-// Quarterly review questions
-const QUARTERLY_CHECKS=[
-  "Is AI infrastructure demand still growing? (impacts NVDA, DELL, SNDK)",
-  "Are your anchors still paying dividends? (ABBV, XOM, JPM)",
-  "Has any stock become >35% of portfolio? (concentration risk)",
-  "Did any holding miss earnings 2+ quarters in a row?",
-  "Is your monthly injection on track to hit your annual goal?",
-  "Any macro risks? (rate hikes, oil price swings, tech regulation)",
-];
+  <div class="hero-tag">● Live · Free · No signup needed</div>
 
-const DEFAULT_HOLDINGS=[
-  {ticker:"NVDA",name:"Nvidia",        value:224.14,basePct:0.20,target:25,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick"},
-  {ticker:"TSLA",name:"Tesla",         value:194.97,basePct:0.13,target:13,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside"},
-  {ticker:"DELL",name:"Dell",          value:0,     basePct:0.24,target:20,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth"},
-  {ticker:"IBM", name:"IBM",           value:0,     basePct:0.18,target:17,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend"},
-  {ticker:"SNDK",name:"SanDisk",       value:0,     basePct:0.10,target:10,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play"},
-  {ticker:"ABBV",name:"AbbVie",        value:0,     basePct:0.15,target:8, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof"},
-  {ticker:"XOM", name:"ExxonMobil",    value:0,     basePct:0.10,target:5, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth"},
-  {ticker:"JPM", name:"JPMorgan Chase",value:0,     basePct:0.10,target:2, color:"#38bdf8",anchor:true, tip:"Financial anchor — 2.2% dividend, largest US bank"},
-  {ticker:"NFLX",name:"Netflix",       value:6.80,  basePct:0,   target:0, color:"#ef4444",anchor:false,tip:"Small position — consider adding or consolidating"},
-  {ticker:"LCID",name:"Lucid",         value:0.61,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down 78% — consider selling. Loss offsets capital gains tax"},
-];
+  <h1 class="fade-up">Your Personal<br><span>Investment Command</span><br>Center</h1>
+  <p class="hero-sub fade-up delay-1">Track stocks, plan monthly injections, watch dividends grow, and hit your financial goals — all from one beautiful app.</p>
 
-// ── STATE ─────────────────────────────────────────────────
-let S={
-  holdings:JSON.parse(localStorage.getItem("pt_h")||"null")||DEFAULT_HOLDINGS,
-  history: JSON.parse(localStorage.getItem("pt_his")||"[]"),
-  dark:    localStorage.getItem("pt_dk")!=="false",
-  mode:    localStorage.getItem("pt_mode")||"rotation",
-  winner:"DELL",budget:500,
-  tab:"dashboard",
-  editIdx:null,editVal:"",
-  injected:false,expandedTip:null,
-  month:new Date().getMonth(),year:new Date().getFullYear(),
-  qChecks:{}, // quarterly check answers
-  divReinvest:true,
-};
-function save(){
-  localStorage.setItem("pt_h",JSON.stringify(S.holdings));
-  localStorage.setItem("pt_his",JSON.stringify(S.history));
-  localStorage.setItem("pt_dk",S.dark);
-  localStorage.setItem("pt_mode",S.mode);
-}
+  <div class="hero-btns fade-up delay-2">
+    <button class="btn-primary" onclick="window.location.href='app.html'">🚀 Launch App Free</button>
+    <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">See Features ↓</button>
+  </div>
 
-// ── UTILS ─────────────────────────────────────────────────
-const fmt=n=>"$"+Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
-const fmtK=n=>n>=1000?"$"+(n/1000).toFixed(1)+"k":fmt(n);
+  <!-- Stats -->
+  <div class="stats fade-up delay-3">
+    <div class="stat">
+      <div class="stat-val">8</div>
+      <div class="stat-lbl">Stocks tracked</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">6</div>
+      <div class="stat-lbl">Smart tabs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">$35K</div>
+      <div class="stat-lbl">Goal roadmap</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">100%</div>
+      <div class="stat-lbl">Free forever</div>
+    </div>
+  </div>
 
-function getRotDist(h,w,b){
-  const d={};ALL_ACTIVE.forEach(t=>{const x=h.find(v=>v.ticker===t);d[t]=Math.round(x.basePct*b);});
-  const tot=Object.values(d).reduce((s,v)=>s+v,0);d["NVDA"]+=(b-tot);
-  if(w&&CORE.includes(w)&&w!=="IBM"){
-    const mn=Math.round(b*0.08),nw=Math.max(mn,d["IBM"]-Math.round(b*0.18)),ex=d["IBM"]-nw;
-    d["IBM"]=nw;d[w]=(d[w]||0)+ex;
-  }return d;
-}
-function getIdxDist(h,b){
-  const tot=h.reduce((s,x)=>s+x.value,0)+b;
-  const uw=ALL_ACTIVE.map(t=>{const x=h.find(v=>v.ticker===t);const c=tot>0?(x.value/tot)*100:0;return{ticker:t,gap:Math.max(0,x.target-c)};}).filter(x=>x.gap>0);
-  const tg=uw.reduce((s,x)=>s+x.gap,0);const d={};ALL_ACTIVE.forEach(t=>d[t]=0);
-  uw.forEach(x=>{d[x.ticker]=Math.round((x.gap/tg)*b);});
-  const dt=Object.values(d).reduce((s,v)=>s+v,0);if(uw.length>0)d[uw[0].ticker]+=(b-dt);
-  const sc=ALL_ACTIVE.map(t=>{const x=h.find(v=>v.ticker===t);const c=tot>0?(x.value/tot)*100:0;return{ticker:t,gap:x.target-c};}).sort((a,b)=>b.gap-a.gap);
-  return{dist:d,top:sc[0].ticker,scores:sc};
-}
-
-// Annual dividend income
-function annualDividends(holdings){
-  return holdings.reduce((s,h)=>{const y=DIVIDENDS[h.ticker]||0;return s+(h.value*y/100);},0);
-}
-
-// Donut SVG
-function donut(holdings,total,size,dark){
-  const active=holdings.filter(h=>h.value>0);
-  const bg=dark?"#1a2640":"#e2e8f8";
-  const r=size*0.37,cx=size/2,cy=size/2,c=2*Math.PI*r;
-  if(!active.length||!total)return`<svg width="${size}" height="${size}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${bg}" stroke-width="${size*0.14}"/></svg>`;
-  let off=0,sl="";
-  active.forEach(h=>{const d=(h.value/total)*c;sl+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${h.color}" stroke-width="${size*0.14}" stroke-dasharray="${d} ${c-d}" stroke-dashoffset="${-off}" style="transition:all 0.7s ease"/>`;off+=d;});
-  return`<svg width="${size}" height="${size}" style="transform:rotate(-90deg)"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${bg}" stroke-width="${size*0.14}"/>${sl}</svg>`;
-}
-
-// Sparkline from history totals
-function sparkline(history,color){
-  if(history.length<2)return"";
-  const vals=history.map(h=>h.total);
-  const mx=Math.max(...vals),mn=Math.min(...vals),range=mx-mn||1;
-  return vals.slice(-8).map(v=>{const h=Math.max(8,Math.round(((v-mn)/range)*28)+8);return`<span class="spark-bar" style="height:${h}px;background:${color};opacity:0.8;"></span>`;}).join("");
-}
-
-// ── RENDER ────────────────────────────────────────────────
-function render(){
-  const {holdings,history,dark,mode,winner,budget,tab,editIdx,editVal,injected,expandedTip,month,year,qChecks}=S;
-  document.getElementById("app").className=dark?"dark":"light";
-
-  const tv=holdings.reduce((s,h)=>s+h.value,0);
-  const techV=holdings.filter(h=>CORE.includes(h.ticker)).reduce((s,h)=>s+h.value,0);
-  const anchV=holdings.filter(h=>ANCHORS.includes(h.ticker)).reduce((s,h)=>s+h.value,0);
-  const invested=history.reduce((s,h)=>s+h.budget,0);
-  const gl=tv-invested;
-  const glPct=invested>0?((gl/invested)*100).toFixed(1):0;
-  const annDiv=annualDividends(holdings);
-  const rotD=getRotDist(holdings,winner,budget);
-  const{dist:idxD,top:topT}=getIdxDist(holdings,budget);
-  const actD=mode==="rotation"?rotD:idxD;
-  const techPct=tv>0?(techV/tv*100).toFixed(0):0;
-  const anchPct=tv>0?(anchV/tv*100).toFixed(0):0;
-
-  // Current goal
-  const now=new Date();
-  const curGoal=GOALS.find(g=>g.year>=now.getFullYear())||GOALS[GOALS.length-1];
-  const goalPct=Math.min((tv/curGoal.amount)*100,100);
-  const rem=Math.max(curGoal.amount-tv,0);
-  const mLeft=Math.max(0,Math.round((new Date(`${curGoal.year}-12-31`)-now)/(1000*60*60*24*30)));
-  const mNeeded=mLeft>0?rem/mLeft:0;
-
-  // ── HEADER ──────────────────────────────────────────────
-  const segBar=holdings.filter(h=>h.value>0).map(h=>`<div style="width:${(h.value/tv*100).toFixed(1)}%;background:${h.color};height:100%;transition:width 0.7s ease;" title="${h.ticker}"></div>`).join("");
-
-  const hdr=`
-  <div class="sticky-hdr hdr-bg bd" style="padding:18px 16px 12px;">
-    <div style="display:flex;align-items:flex-start;gap:13px;">
-      <div style="position:relative;flex-shrink:0;">
-        ${donut(holdings,tv,80,dark)}
-        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
-          <div style="font-size:6px;letter-spacing:1px;" class="t3">TOTAL</div>
-          <div style="font-size:9px;font-weight:bold;" class="t1">${fmtK(tv)}</div>
-        </div>
-      </div>
-      <div style="flex:1;min-width:0;">
-        <div style="font-size:22px;font-weight:bold;letter-spacing:-0.5px;line-height:1;" class="t1">${fmt(tv)}</div>
-        ${invested>0?`<div style="display:flex;align-items:center;gap:6px;margin-top:5px;">
-          <span style="background:${gl>=0?"#4ade8022":"#f8717122"};color:${gl>=0?"#4ade80":"#f87171"};padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${gl>=0?"▲":"▼"} ${glPct}%</span>
-          <span style="font-size:10px;" class="t3">${fmt(Math.abs(gl))} ${gl>=0?"gain":"loss"}</span>
-        </div>`:""}
-        <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
-          <span style="font-size:8px;background:#a3e63514;border:1px solid #a3e63530;color:#a3e635;padding:2px 7px;border-radius:8px;">💻 ${techPct}%</span>
-          <span style="font-size:8px;background:#34d39914;border:1px solid #34d39930;color:#34d399;padding:2px 7px;border-radius:8px;">⚓ ${anchPct}%</span>
-          <span style="font-size:8px;background:${goalPct>=100?"#4ade8014":"#6366f114"};border:1px solid ${goalPct>=100?"#4ade8030":"#6366f130"};color:${goalPct>=100?"#4ade80":"#818cf8"};padding:2px 7px;border-radius:8px;">${curGoal.emoji} ${goalPct.toFixed(0)}%</span>
-          ${annDiv>0?`<span style="font-size:8px;background:#fbbf2414;border:1px solid #fbbf2430;color:#fbbf24;padding:2px 7px;border-radius:8px;">💰 ${fmt(annDiv)}/yr</span>`:""}
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:5px;">
-        <button onclick="S.dark=!S.dark;save();render();" style="background:${dark?"#141e2e":"#eef2ff"};border:1px solid ${dark?"#243050":"#c7d2f0"};border-radius:20px;padding:5px 11px;font-size:11px;" class="t2">${dark?"☀️":"🌙"}</button>
-        <div style="display:flex;background:${dark?"#141e2e":"#f0f4ff"};border-radius:20px;border:1px solid ${dark?"#243050":"#c7d2f0"};overflow:hidden;">
-          <button onclick="S.mode='rotation';save();render();" style="padding:4px 8px;border:none;background:${mode==="rotation"?"#14532d":"transparent"};color:${mode==="rotation"?"#4ade80":dark?"#4a5568":"#94a3b8"};font-size:8px;letter-spacing:1px;text-transform:uppercase;">🏆</button>
-          <button onclick="S.mode='index';save();render();" style="padding:4px 8px;border:none;background:${mode==="index"?"#1e1b4b":"transparent"};color:${mode==="index"?"#818cf8":dark?"#4a5568":"#94a3b8"};font-size:8px;letter-spacing:1px;text-transform:uppercase;">⚖️</button>
+  <!-- Phone mockup -->
+  <div class="mockup-wrap fade-up delay-4">
+    <div style="position:relative;">
+      <div class="glow-ring"></div>
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="mock-hdr">
+            <div class="mock-donut">
+              <div class="mock-donut-inner">
+                <div style="font-size:5px;color:#475569;">TOTAL</div>
+                <div style="font-size:8px;font-weight:bold;font-family:'Playfair Display',serif;">$426</div>
+              </div>
+            </div>
+            <div class="mock-val">
+              <div class="mock-total">$426.52</div>
+              <div class="mock-gain">▲ 12.4% gain</div>
+            </div>
+          </div>
+          <div class="mock-bar">
+            <div class="mock-seg" style="width:52%;background:#a3e635;"></div>
+            <div class="mock-seg" style="width:45%;background:#f87171;"></div>
+            <div class="mock-seg" style="width:3%;background:#818cf8;"></div>
+          </div>
+          <div class="mock-goal">
+            <div class="mock-goal-lbl">🎯 Goal: $5,000 by 2026 — 8.5%</div>
+            <div class="mock-goal-bar"><div class="mock-goal-fill"></div></div>
+          </div>
+          <div class="mock-cards">
+            ${[["NVDA","#a3e635","52%","$224.14"],["TSLA","#f87171","46%","$194.97"],["DELL","#60a5fa","0%","$0.00"]].map(([t,c,w,v])=>`
+            <div class="mock-card">
+              <div class="mock-ticker-circle" style="background:${c}22;color:${c};">${t}</div>
+              <div style="flex:1;">
+                <div class="mock-ticker-name">${t}</div>
+                <div class="mock-ticker-bar"><div class="mock-ticker-fill" style="width:${w};background:${c};"></div></div>
+              </div>
+              <div class="mock-ticker-val">${v}</div>
+            </div>`).join("")}
+          </div>
         </div>
       </div>
     </div>
-    <div style="display:flex;height:4px;border-radius:2px;overflow:hidden;gap:1px;margin-top:11px;" class="surf3">${segBar||`<div style="width:100%;height:100%;" class="surf3"></div>`}</div>
-    <div style="margin-top:6px;">
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-        <span style="font-size:8px;" class="t3">${curGoal.emoji} Goal: ${fmt(curGoal.amount)} by ${curGoal.year}</span>
-        <span style="font-size:8px;color:${goalPct>=100?"#4ade80":"#6366f1"};font-weight:bold;">${goalPct.toFixed(1)}%</span>
-      </div>
-      <div class="goal-track" style="height:6px;">
-        <div class="goal-fill" style="width:${goalPct.toFixed(1)}%;background:${goalPct>=100?"linear-gradient(90deg,#4ade80,#a3e635)":"linear-gradient(90deg,#6366f1,#818cf8)"}"></div>
-      </div>
-    </div>
-    <div style="font-size:8px;margin-top:4px;text-align:right;" class="t3">${MONTHS[month]} ${year} — next injection</div>
-  </div>`;
+  </div>
+</div>
 
-  // ── TABS ────────────────────────────────────────────────
-  const tabs=`
-  <div class="sticky-tabs tab-bg bd">
-    ${[["dashboard","📊"],["inject","💉"],["dividends","💰"],["goals","🎯"],["review","🔍"],["history","📈"]].map(([t,ic])=>`
-      <button class="tab-btn ${tab===t?"active":""}" onclick="S.tab='${t}';render();" style="font-size:8px;color:${tab===t?"#6366f1":dark?"#4a5568":"#94a3b8"};">${ic}<br><span style="font-size:7px;letter-spacing:1px;">${t}</span></button>
-    `).join("")}
-  </div>`;
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-tag fade-up">What's inside</div>
+  <h2 class="fade-up">Everything you need.<br>Nothing you don't.</h2>
+  <p class="section-sub fade-up delay-1">Built for real investors who want clarity, not complexity.</p>
 
-  // ══════════════════════════════════════════════════════
-  // ── DASHBOARD TAB ────────────────────────────────────
-  const dashHtml=`
-  <div class="slide-in">
-    <!-- Mode banner -->
-    <div class="card" style="background:${mode==="rotation"?(dark?"linear-gradient(135deg,#052e16,#07381c)":"linear-gradient(135deg,#f0fdf4,#dcfce7)"):(dark?"linear-gradient(135deg,#0f0b2d,#181445)":"linear-gradient(135deg,#eef2ff,#e0e7ff)")};border-color:${mode==="rotation"?"#16653488":"#312e8188"}!important;margin-bottom:14px;">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div style="font-size:24px;" class="float">${mode==="rotation"?"🏆":"⚖️"}</div>
+  <div class="features-grid">
+    ${[
+      ["📊","Dashboard","Live portfolio overview with donut chart, allocation bars and per-stock progress rings. See your full picture instantly.","Real-time"],
+      ["💉","Inject Planner","Choose your monthly budget ($200–$500), pick Rotation or Index mode, and get an exact breakdown of where every dollar goes.","Monthly"],
+      ["💰","Dividend Tracker","See your annual and monthly dividend income across ABBV, XOM, JPM and IBM. Includes a 3-year growth projection.","Passive Income"],
+      ["🎯","Goal Milestones","Three milestone roadmap: $5K → $15K → $35K with countdown timers, monthly targets, and on-track indicators.","$5K → $35K"],
+      ["🔍","Quarterly Review","6-question portfolio health check covering AI demand, dividends, concentration risk, earnings, and macro risks.","Every 3 months"],
+      ["🌙","Dark & Light Mode","Beautifully designed in both dark and light themes. Toggle instantly — your preference is saved locally.","Your choice"],
+    ].map(([ic,t,d,tag])=>`
+    <div class="feature-card fade-up">
+      <span class="feature-icon">${ic}</span>
+      <div class="feature-title">${t}</div>
+      <div class="feature-desc">${d}</div>
+      <span class="feature-tag">${tag}</span>
+    </div>`).join("")}
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-tag fade-up">How it works</div>
+  <h2 class="fade-up">Three steps.<br>Every month.</h2>
+  <p class="section-sub fade-up delay-1">Takes less than 60 seconds. No finance degree required.</p>
+
+  <div class="steps">
+    ${[
+      ["1","Check the market","Come back every 25th and ask for a market update. See who's winning and what's moving in your portfolio."],
+      ["2","Pick your strategy","Choose Rotation mode to back the winner, or Index mode to auto-rebalance. The app shows you exactly where every dollar goes."],
+      ["3","Inject & grow","Hit inject. Your portfolio updates instantly. Watch your goal bar move. Repeat next month."],
+    ].map(([n,t,d])=>`
+    <div class="step fade-up">
+      <div class="step-num">${n}</div>
+      <div class="step-content">
+        <div class="step-title">${t}</div>
+        <div class="step-desc">${d}</div>
+      </div>
+    </div>`).join("")}
+  </div>
+</section>
+
+
+<!-- STOCKS -->
+<section id="stocks" style="max-width:900px;margin:0 auto;padding:80px 24px;">
+  <div class="section-tag fade-up">Your Holdings</div>
+  <h2 class="fade-up">Every stock.<br>Fully analyzed.</h2>
+  <p class="section-sub fade-up delay-1">Tap any stock to see a full deep dive — price chart, earnings, analyst ratings, news and your position.</p>
+  <div class="features-grid" style="margin-top:32px;">
+<a href="stock.html?t=NVDA" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #a3e635;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#a3e63522;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#a3e635;">NVD</div>
         <div>
-          <div style="font-size:12px;font-weight:bold;color:${mode==="rotation"?"#4ade80":"#818cf8"};">${mode==="rotation"?"Rotation Mode":"Index Mode"}</div>
-          <div style="font-size:10px;margin-top:1px;" class="t2">${mode==="rotation"?"Pick the winner — extra flows to best performer":"Auto-pilot — spread across underweight positions"}</div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">NVDA</div>
+          <div style="font-size:10px;color:var(--text3);">Nvidia</div>
         </div>
+        
       </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">AI chip leader — highest conviction</div>
+      <div style="margin-top:10px;font-size:10px;color:#a3e635;font-family:DM Mono,monospace;">View deep dive →</div>
     </div>
-
-    <!-- Holdings -->
-    ${holdings.map((h,i)=>{
-      const pct=tv>0?(h.value/tv*100):0;
-      const isExp=expandedTip===h.ticker;
-      const divIncome=h.value*(DIVIDENDS[h.ticker]||0)/100;
-      return`
-      <div class="card surf bd" style="border-color:${isExp?h.color+"77":h.anchor?(dark?"#065f4655":"#d1fae555"):""}!important;${isExp?`box-shadow:0 0 24px ${h.color}22;`:""}" >
-        <div style="display:flex;align-items:center;gap:11px;">
-          <div style="width:44px;height:44px;border-radius:50%;flex-shrink:0;background:conic-gradient(${h.color} ${pct*3.6}deg,${dark?"#1a2640":"#e2e8f8"} 0deg);display:flex;align-items:center;justify-content:center;">
-            <div style="width:33px;height:33px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;color:${h.color};" class="surf">${h.ticker.slice(0,4)}</div>
-          </div>
-          <div style="flex:1;min-width:0;">
-            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
-              <span style="font-size:13px;font-weight:bold;" class="t1">${h.ticker}</span>
-              <span style="font-size:10px;" class="t3">${h.name}</span>
-              ${h.anchor?`<span class="pill" style="background:#065f4633;color:#34d399;">⚓</span>`:""}
-              ${h.ticker==="LCID"?`<span class="pill" style="background:#45001033;color:#f87171;">⚠</span>`:""}
-              ${divIncome>0?`<span class="pill" style="background:#fbbf2420;color:#fbbf24;">💰 ${fmt(divIncome)}/yr</span>`:""}
-            </div>
-            <div style="height:5px;border-radius:3px;overflow:hidden;margin-top:7px;" class="surf3">
-              <div style="height:100%;border-radius:3px;width:${Math.min(pct*2.2,100)}%;background:linear-gradient(90deg,${h.color}66,${h.color});transition:width 0.6s ease;"></div>
-            </div>
-            <div style="font-size:9px;margin-top:3px;" class="t3">${pct.toFixed(1)}% of portfolio</div>
-          </div>
-          <div style="text-align:right;flex-shrink:0;">
-            ${editIdx===i?`
-              <div style="display:flex;gap:4px;align-items:center;">
-                <input id="ei" type="number" value="${editVal}" class="inp-bg" style="width:72px;border-radius:8px;padding:5px 6px;font-size:12px;border:1px solid #6366f1;" oninput="S.editVal=this.value" onchange="S.editVal=this.value"/>
-                <button onclick="doSave(${i})" style="background:#4f46e5;border:none;border-radius:8px;color:#fff;padding:5px 9px;font-size:13px;">✓</button>
-              </div>
-            `:`
-              <div style="font-size:15px;font-weight:bold;" class="t1">${fmt(h.value)}</div>
-              <div style="display:flex;gap:5px;justify-content:flex-end;margin-top:4px;">
-                <button onclick="doEdit(${i})" class="card-sm bd2 t3" style="padding:2px 7px;font-size:8px;background:transparent;">Edit</button>
-                <button onclick="S.expandedTip=S.expandedTip==='${h.ticker}'?null:'${h.ticker}';render();" class="card-sm" style="padding:2px 7px;font-size:8px;background:${isExp?h.color+"22":"transparent"};border:1px solid ${isExp?h.color+"55":dark?"#243050":"#c7d2f0"};color:${isExp?h.color:dark?"#4a5568":"#94a3b8"};">💡</button>
-              </div>
-            `}
-          </div>
+  </a>
+<a href="stock.html?t=TSLA" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #f87171;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#f8717122;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#f87171;">TSL</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">TSLA</div>
+          <div style="font-size:10px;color:var(--text3);">Tesla</div>
         </div>
-        ${isExp?`<div style="margin-top:10px;padding:9px 12px;border-radius:10px;font-size:11px;line-height:1.6;border-left:2px solid ${h.color};background:${h.color}10;" class="t2">💡 ${h.tip}</div>`:""}
-      </div>`;
-    }).join("")}
-  </div>`;
-
-  // ══════════════════════════════════════════════════════
-  // ── INJECT TAB ───────────────────────────────────────
-  const techT=CORE.reduce((s,t)=>s+(actD[t]||0),0);
-  const anchT=ANCHORS.reduce((s,t)=>s+(actD[t]||0),0);
-
-  const injectHtml=`
-  <div class="slide-in">
-    <!-- Macro view -->
-    <div class="card surf bd glow-blue" style="margin-bottom:18px;">
-      <div style="font-size:12px;font-weight:bold;margin-bottom:2px;" class="t1">📊 Macro View — Where Your Money Goes</div>
-      <div style="font-size:10px;margin-bottom:14px;" class="t3">${fmt(budget)} breakdown this month</div>
-      ${ALL_ACTIVE.filter(t=>(actD[t]||0)>0).map(t=>{
-        const h=holdings.find(x=>x.ticker===t);
-        const amt=actD[t]||0;const pct=budget>0?(amt/budget*100):0;
-        const isHL=mode==="rotation"?t===winner:amt>0;
-        return`
-        <div style="margin-bottom:10px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <div style="display:flex;align-items:center;gap:7px;">
-              <div style="width:10px;height:10px;border-radius:50%;background:${h?.color};flex-shrink:0;"></div>
-              <span style="font-size:12px;font-weight:${isHL?"bold":"normal"};color:${isHL?h?.color:dark?"#e8eaf0":"#0f172a"};">${t}</span>
-              <span style="font-size:9px;" class="t3">${h?.name}</span>
-              ${h?.anchor?`<span style="font-size:7px;color:#34d399;background:#34d39920;padding:1px 5px;border-radius:8px;">⚓</span>`:""}
-            </div>
-            <div style="display:flex;align-items:center;gap:7px;">
-              <span style="font-size:9px;" class="t3">${pct.toFixed(0)}%</span>
-              <span style="font-size:14px;font-weight:bold;color:${isHL?h?.color:dark?"#e8eaf0":"#0f172a"};min-width:50px;text-align:right;">${fmt(amt)}</span>
-            </div>
-          </div>
-          <div style="height:10px;border-radius:6px;overflow:hidden;" class="surf3">
-            <div style="height:100%;border-radius:6px;width:${pct.toFixed(0)}%;background:${isHL?`linear-gradient(90deg,${h?.color}77,${h?.color})`:"linear-gradient(90deg,#334155,#334155)"};transition:width 0.6s ease;${isHL?`box-shadow:0 0 8px ${h?.color}55;`:""}"></div>
-          </div>
-        </div>`;
-      }).join("")}
-      <div style="display:flex;gap:7px;padding-top:12px;border-top:1px solid ${dark?"#1a2640":"#e2e8f8"};margin-top:4px;">
-        ${[["💻 Tech",techT,"#a3e635"],["⚓ Anchors",anchT,"#34d399"],["Total",budget,"#6366f1"]].map(([l,v,c])=>`
-          <div style="flex:1;background:${c}11;border:1px solid ${c}30;border-radius:10px;padding:8px;text-align:center;">
-            <div style="font-size:13px;font-weight:bold;color:${c};">${fmt(v)}</div>
-            <div style="font-size:8px;margin-top:2px;" class="t3">${l}</div>
-          </div>`).join("")}
+        
       </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">EV + energy — volatile, high upside</div>
+      <div style="margin-top:10px;font-size:10px;color:#f87171;font-family:DM Mono,monospace;">View deep dive →</div>
     </div>
-
-    <!-- Budget -->
-    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#4ade80;margin-bottom:10px;">Step 1 — Budget</div>
-    <div style="display:flex;gap:7px;margin-bottom:18px;">
-      ${BUDGETS.map(b=>`<button onclick="S.budget=${b};render();" style="flex:1;padding:13px 4px;border-radius:12px;border:1.5px solid ${budget===b?"#4ade80":dark?"#1a2640":"#e2e8f8"};background:${budget===b?(dark?"#052e16":"#f0fdf4"):dark?"#141e2e":"#f8faff"};color:${budget===b?"#4ade80":dark?"#4a5568":"#94a3b8"};font-size:13px;font-weight:${budget===b?"bold":"normal"};${budget===b?"box-shadow:0 0 14px #4ade8033;":""}">${b}$</button>`).join("")}
-    </div>
-
-    <!-- Strategy -->
-    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#6366f1;margin-bottom:10px;">Step 2 — Strategy</div>
-    <div style="display:flex;gap:7px;margin-bottom:18px;">
-      ${[["rotation","🏆","Rotation","Pick the winner","#4ade80","#052e16","#f0fdf4"],
-         ["index","⚖️","Index","Auto-rebalance","#818cf8","#0f0b2d","#eef2ff"]].map(([m,ic,l,s,c,db,lb])=>`
-        <button onclick="S.mode='${m}';save();render();" style="flex:1;padding:13px 9px;border-radius:14px;border:1.5px solid ${mode===m?c+"88":dark?"#1a2640":"#e2e8f8"};background:${mode===m?(dark?db:lb):dark?"#141e2e":"#f8faff"};color:${mode===m?c:dark?"#4a5568":"#94a3b8"};text-align:left;">
-          <div style="font-size:18px;margin-bottom:4px;">${ic}</div>
-          <div style="font-size:11px;font-weight:bold;">${l}</div>
-          <div style="font-size:9px;margin-top:2px;opacity:0.7;">${s}</div>
-        </button>`).join("")}
-    </div>
-
-    <!-- Winner or auto -->
-    ${mode==="rotation"?`
-    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#4ade80;margin-bottom:10px;">Step 3 — Pick Winner</div>
-    <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;">
-      ${CORE.map(t=>{const h=holdings.find(x=>x.ticker===t);return`
-        <button onclick="S.winner='${t}';render();" style="flex:1;min-width:28%;padding:11px 5px;border-radius:12px;border:1.5px solid ${winner===t?h?.color+"aa":dark?"#1a2640":"#e2e8f8"};background:${winner===t?h?.color+"18":dark?"#141e2e":"#f8faff"};color:${winner===t?h?.color:dark?"#4a5568":"#94a3b8"};font-size:11px;font-weight:${winner===t?"bold":"normal"};${winner===t?`box-shadow:0 0 14px ${h?.color}33;`:""}">
-          <div style="width:7px;height:7px;border-radius:50%;background:${winner===t?h?.color:dark?"#243050":"#c7d2f0"};margin:0 auto 4px;"></div>${t}
-        </button>`;}).join("")}
-    </div>`:`
-    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#818cf8;margin-bottom:10px;">Step 3 — Auto</div>
-    <div class="card surf3 bd" style="font-size:10px;line-height:1.6;margin-bottom:18px;" class="t2">⚖️ Budget spread proportionally across all underweight positions automatically.</div>`}
-
-    <button onclick="doInject();" class="inj-btn ${injected?"done":""}" style="background:${injected?"#052e16":"linear-gradient(135deg,#4f46e5,#6366f1)"};color:${injected?"#4ade80":"#fff"};border:1.5px solid ${injected?"#4ade80":"#6366f1"};${injected?"box-shadow:0 0 20px #4ade8044;":"box-shadow:0 4px 24px #6366f144;"}">
-      ${injected?"✓ Injected! View History →":`💉 Inject ${fmt(budget)} — ${MONTHS[month]} ${year}`}
-    </button>
-  </div>`;
-
-  // ══════════════════════════════════════════════════════
-  // ── DIVIDENDS TAB ────────────────────────────────────
-  const divPayers=holdings.filter(h=>(DIVIDENDS[h.ticker]||0)>0&&h.value>0);
-  const totalAnnDiv=annualDividends(holdings);
-  const monthlyDiv=totalAnnDiv/12;
-
-  const divHtml=`
-  <div class="slide-in">
-    <!-- Hero -->
-    <div class="card" style="background:${dark?"linear-gradient(135deg,#1a1200,#2a1e00)":"linear-gradient(135deg,#fffbeb,#fef3c7)"};border-color:#fbbf2444!important;margin-bottom:14px;text-align:center;padding:20px;">
-      <div style="font-size:32px;" class="float">💰</div>
-      <div style="font-size:28px;font-weight:bold;color:#fbbf24;margin-top:6px;" class="${totalAnnDiv>0?"shimmer":""}">${fmt(totalAnnDiv)}</div>
-      <div style="font-size:11px;margin-top:4px;" class="t2">Estimated annual dividend income</div>
-      <div style="font-size:12px;color:#4ade80;margin-top:4px;">${fmt(monthlyDiv)} / month</div>
-      ${totalAnnDiv===0?`<div style="font-size:10px;margin-top:8px;color:#fbbf24;opacity:0.7;">Dividends start flowing once you inject into IBM, ABBV, XOM, JPM</div>`:""}
-    </div>
-
-    <!-- Per stock -->
-    <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;" class="t3">Dividend Breakdown</div>
-    ${holdings.filter(h=>(DIVIDENDS[h.ticker]||0)>0).map(h=>{
-      const yr=h.value*(DIVIDENDS[h.ticker]||0)/100;
-      const mo=yr/12;
-      const yld=DIVIDENDS[h.ticker]||0;
-      return`
-      <div class="card surf bd" style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-        <div style="width:38px;height:38px;border-radius:50%;background:${h.color}22;border:1.5px solid ${h.color}44;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;color:${h.color};flex-shrink:0;">${h.ticker}</div>
-        <div style="flex:1;">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:12px;font-weight:bold;" class="t1">${h.ticker}</span>
-            <span style="font-size:13px;font-weight:bold;color:#fbbf24;">${fmt(yr)}/yr</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-top:2px;">
-            <span style="font-size:9px;" class="t3">${yld}% yield · ${fmt(h.value)} invested</span>
-            <span style="font-size:9px;color:#4ade80;">${fmt(mo)}/mo</span>
-          </div>
-          <div style="height:4px;border-radius:2px;overflow:hidden;margin-top:6px;" class="surf3">
-            <div style="height:100%;border-radius:2px;width:${totalAnnDiv>0?(yr/totalAnnDiv*100).toFixed(0):0}%;background:linear-gradient(90deg,${h.color}77,${h.color});transition:width 0.6s;"></div>
-          </div>
+  </a>
+<a href="stock.html?t=DELL" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #60a5fa;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#60a5fa22;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#60a5fa;">DEL</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">DELL</div>
+          <div style="font-size:10px;color:var(--text3);">Dell</div>
         </div>
-      </div>`;
-    }).join("")}
-
-    <!-- Projection -->
-    <div class="card surf bd" style="margin-top:6px;">
-      <div style="font-size:10px;font-weight:bold;margin-bottom:10px;" class="t1">📈 Dividend Growth Projection</div>
-      ${[1,2,3].map(yr=>{
-        const proj=totalAnnDiv*(1+0.05*yr);
-        return`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid ${dark?"#1a2640":"#e2e8f8"};">
-          <span style="font-size:11px;" class="t2">${new Date().getFullYear()+yr}</span>
-          <span style="font-size:12px;font-weight:bold;color:#fbbf24;">${fmt(proj)}/yr</span>
-          <span style="font-size:9px;color:#4ade80;">+${(5*yr).toFixed(0)}% est.</span>
-        </div>`;
-      }).join("")}
-      <div style="font-size:9px;margin-top:8px;" class="t3">* Assumes ~5% annual dividend growth across your anchor positions</div>
-    </div>
-  </div>`;
-
-  // ══════════════════════════════════════════════════════
-  // ── GOALS TAB ────────────────────────────────────────
-  const goalsHtml=`
-  <div class="slide-in">
-    <div style="font-size:10px;margin-bottom:16px;line-height:1.6;" class="t2">Your roadmap to financial freedom. Each milestone builds on the last — stay consistent with monthly injections and compounding does the rest.</div>
-    ${GOALS.map((g,i)=>{
-      const pct=Math.min((tv/g.amount)*100,100);
-      const done=tv>=g.amount;
-      const active=!done&&(i===0||(tv>=GOALS[i-1]?.amount));
-      const endDate=new Date(`${g.year}-12-31`);
-      const mRemain=Math.max(0,Math.round((endDate-now)/(1000*60*60*24*30)));
-      const mNeed=mRemain>0?Math.max(0,g.amount-tv)/mRemain:0;
-      return`
-      <div class="card" style="background:${done?(dark?"linear-gradient(135deg,#052e16,#07381c)":"linear-gradient(135deg,#f0fdf4,#dcfce7)"):active?(dark?"linear-gradient(135deg,#0f0b2d,#181445)":"linear-gradient(135deg,#eef2ff,#e0e7ff)"):(dark?"#0f1623":"#ffffff")};border-color:${done?"#4ade8055":active?"#6366f155":""}!important;margin-bottom:12px;${done?"box-shadow:0 0 24px #4ade8022;":active?"box-shadow:0 0 24px #6366f122;":""}">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-          <div>
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="font-size:22px;">${g.emoji}</span>
-              <div>
-                <div style="font-size:15px;font-weight:bold;" class="${done?"shimmer":""}" style="${done?"":""}color:${done?"#4ade80":active?"#818cf8":dark?"#94a3b8":"#475569"};">${fmtK(g.amount)} by ${g.year}</div>
-                <div style="font-size:9px;margin-top:2px;" class="t3">${done?"✓ Achieved!":(active?"In progress":i===0?"Current goal":"Upcoming")}</div>
-              </div>
-            </div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:18px;font-weight:bold;color:${done?"#4ade80":active?"#818cf8":dark?"#4a5568":"#94a3b8"};">${pct.toFixed(1)}%</div>
-            <div style="font-size:9px;" class="t3">${fmt(tv)} / ${fmt(g.amount)}</div>
-          </div>
-        </div>
-        <div class="goal-track" style="height:10px;">
-          <div class="goal-fill" style="width:${pct.toFixed(1)}%;background:${done?"linear-gradient(90deg,#4ade80,#a3e635)":active?"linear-gradient(90deg,#6366f1,#818cf8)":"linear-gradient(90deg,#334155,#334155)"}"></div>
-        </div>
-        ${active&&!done?`
-        <div style="display:flex;justify-content:space-between;margin-top:10px;">
-          <div style="text-align:center;flex:1;">
-            <div style="font-size:12px;font-weight:bold;color:#f87171;">${fmt(Math.max(0,g.amount-tv))}</div>
-            <div style="font-size:8px;margin-top:1px;" class="t3">Still needed</div>
-          </div>
-          <div style="text-align:center;flex:1;">
-            <div style="font-size:12px;font-weight:bold;color:#fbbf24;">${mRemain}</div>
-            <div style="font-size:8px;margin-top:1px;" class="t3">Months left</div>
-          </div>
-          <div style="text-align:center;flex:1;">
-            <div style="font-size:12px;font-weight:bold;color:${mNeed<=500?"#4ade80":"#f87171"};">${fmt(mNeed)}</div>
-            <div style="font-size:8px;margin-top:1px;" class="t3">Per month needed</div>
-          </div>
-        </div>
-        ${mNeed>500?`<div style="margin-top:8px;padding:7px 10px;background:#f8717118;border-radius:8px;font-size:10px;color:#f87171;">⚠ ${fmt(mNeed)}/month needed — above your $500 max. Consider adding LCID proceeds or a bonus injection.</div>`:""}
-        ${mNeed<=500&&mNeed>0?`<div style="margin-top:8px;padding:7px 10px;background:#4ade8018;border-radius:8px;font-size:10px;color:#4ade80;">✓ On track! ${fmt(budget)}/month keeps you on target.</div>`:""}
-        `:""}
-        ${done?`<div style="margin-top:10px;padding:8px 12px;border-radius:10px;background:#4ade8018;font-size:11px;color:#4ade80;font-weight:bold;" class="pulse">🎉 Goal reached! Next: ${fmtK(GOALS[i+1]?.amount||0)} by ${GOALS[i+1]?.year||"—"}</div>`:""}
-      </div>`;
-    }).join("")}
-
-    <!-- Custom note -->
-    <div class="card surf bd" style="margin-top:4px;">
-      <div style="font-size:10px;font-weight:bold;margin-bottom:6px;" class="t1">💡 Strategy Tips by Milestone</div>
-      ${[["$5K","Keep injecting consistently. Sell LCID and redeploy."],["$15K","Consider opening a Roth IRA. Add QQQ as 10% baseline."],["$35K","Add bonds/REITs as recession hedge. Review anchor allocations."]].map(([m,t])=>`
-        <div style="padding:8px 0;border-bottom:1px solid ${dark?"#1a2640":"#e2e8f8"};">
-          <span style="font-size:10px;font-weight:bold;color:#6366f1;">${m}:</span>
-          <span style="font-size:10px;margin-left:6px;" class="t2">${t}</span>
-        </div>`).join("")}
-    </div>
-  </div>`;
-
-  // ══════════════════════════════════════════════════════
-  // ── QUARTERLY REVIEW TAB ─────────────────────────────
-  const qScore=QUARTERLY_CHECKS.filter((_,i)=>qChecks[i]==="yes").length;
-  const reviewHtml=`
-  <div class="slide-in">
-    <div class="card" style="background:${dark?"linear-gradient(135deg,#0a0a1a,#121228)":"linear-gradient(135deg,#f8faff,#eef2ff)"};border-color:#6366f155!important;margin-bottom:16px;text-align:center;padding:18px;">
-      <div style="font-size:28px;" class="float">🔍</div>
-      <div style="font-size:13px;font-weight:bold;margin-top:6px;" class="t1">Quarterly Portfolio Review</div>
-      <div style="font-size:10px;margin-top:4px;" class="t2">Do this every 3 months — takes 5 minutes</div>
-      <div style="margin-top:10px;">
-        <span style="font-size:24px;font-weight:bold;color:${qScore>=5?"#4ade80":qScore>=3?"#fbbf24":"#f87171"};">${qScore}/${QUARTERLY_CHECKS.length}</span>
-        <span style="font-size:10px;margin-left:6px;" class="t3">checks passed</span>
+        
       </div>
-      <div style="height:6px;border-radius:3px;overflow:hidden;margin-top:8px;" class="surf3">
-        <div style="height:100%;border-radius:3px;width:${(qScore/QUARTERLY_CHECKS.length*100).toFixed(0)}%;background:${qScore>=5?"linear-gradient(90deg,#4ade80,#a3e635)":qScore>=3?"linear-gradient(90deg,#fbbf24,#f59e0b)":"linear-gradient(90deg,#f87171,#ef4444)"};transition:width 0.6s;"></div>
-      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">AI infrastructure — explosive growth</div>
+      <div style="margin-top:10px;font-size:10px;color:#60a5fa;font-family:DM Mono,monospace;">View deep dive →</div>
     </div>
-
-    ${QUARTERLY_CHECKS.map((q,i)=>{
-      const ans=qChecks[i];
-      return`
-      <div class="card surf bd" style="margin-bottom:8px;${ans==="yes"?"border-color:#4ade8055!important;":ans==="no"?"border-color:#f8717155!important;":""}">
-        <div style="font-size:11px;line-height:1.6;margin-bottom:10px;" class="t1">${q}</div>
-        <div style="display:flex;gap:8px;">
-          <button onclick="S.qChecks[${i}]='yes';render();" style="flex:1;padding:8px;border-radius:10px;border:1.5px solid ${ans==="yes"?"#4ade80":dark?"#1a2640":"#e2e8f8"};background:${ans==="yes"?"#4ade8022":dark?"#141e2e":"#f8faff"};color:${ans==="yes"?"#4ade80":dark?"#4a5568":"#94a3b8"};font-size:11px;font-weight:${ans==="yes"?"bold":"normal"};">✓ Yes</button>
-          <button onclick="S.qChecks[${i}]='no';render();" style="flex:1;padding:8px;border-radius:10px;border:1.5px solid ${ans==="no"?"#f87171":dark?"#1a2640":"#e2e8f8"};background:${ans==="no"?"#f8717122":dark?"#141e2e":"#f8faff"};color:${ans==="no"?"#f87171":dark?"#4a5568":"#94a3b8"};font-size:11px;font-weight:${ans==="no"?"bold":"normal"};">✗ No</button>
-          <button onclick="delete S.qChecks[${i}];render();" style="padding:8px 12px;border-radius:10px;border:1px solid ${dark?"#1a2640":"#e2e8f8"};background:transparent;color:${dark?"#4a5568":"#94a3b8"};font-size:10px;">Skip</button>
+  </a>
+<a href="stock.html?t=IBM" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #818cf8;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#818cf822;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#818cf8;">IBM</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">IBM</div>
+          <div style="font-size:10px;color:var(--text3);">IBM</div>
         </div>
-      </div>`;
-    }).join("")}
-
-    ${qScore===QUARTERLY_CHECKS.length?`<div class="card" style="background:linear-gradient(135deg,#052e16,#07381c);border-color:#4ade8055!important;text-align:center;padding:18px;margin-top:4px;" class="glow-green"><div style="font-size:24px;" class="float">🎉</div><div style="font-size:13px;font-weight:bold;color:#4ade80;margin-top:6px;">Portfolio health is excellent!</div><div style="font-size:10px;margin-top:4px;" class="t2">All checks passed. Keep injecting and see you next quarter.</div></div>`:""}
-
-    <button onclick="S.qChecks={};render();" style="width:100%;margin-top:12px;padding:12px;border-radius:12px;border:1px solid ${dark?"#1a2640":"#e2e8f8"};background:transparent;color:${dark?"#4a5568":"#94a3b8"};font-size:11px;">Reset Review</button>
-  </div>`;
-
-  // ══════════════════════════════════════════════════════
-  // ── HISTORY TAB ──────────────────────────────────────
-  const historyHtml=history.length===0?`
-  <div style="text-align:center;padding:60px 16px;" class="slide-in">
-    <div style="font-size:52px;margin-bottom:14px;">📭</div>
-    <div style="font-size:14px;font-weight:bold;" class="t2">No injections yet</div>
-    <div style="font-size:11px;margin-top:5px;" class="t3">Tap 💉 Inject to make your first move</div>
-  </div>`:`
-  <div class="slide-in">
-    <div style="background:${gl>=0?(dark?"linear-gradient(135deg,#052e16,#07381c)":"#f0fdf4"):(dark?"linear-gradient(135deg,#2a0a0a,#3a1010)":"#fef2f2")};border:1px solid ${gl>=0?"#4ade8044":"#f8717144"};border-left:3px solid ${gl>=0?"#4ade80":"#f87171"};border-radius:12px;padding:11px 13px;margin-bottom:14px;font-size:11px;line-height:1.65;" class="t2">
-      ${gl>=0?"🚀":"💪"} ${gl>=0?`Up ${glPct}% (${fmt(gl)}) on ${fmt(invested)} invested over ${history.length} month${history.length>1?"s":""}. Keep going!`:`Down ${fmt(Math.abs(gl))} over ${history.length} months. Stay the course — time in market wins.`}
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:14px;">
-      ${[["Invested",fmt(invested),"#6366f1"],["Value",fmt(tv),gl>=0?"#4ade80":"#f87171"],["Months",history.length,"#fb923c"]].map(([l,v,c])=>`
-        <div class="card surf" style="border:1px solid ${c}33;padding:12px 6px;text-align:center;">
-          <div style="font-size:14px;font-weight:bold;color:${c};">${v}</div>
-          <div style="font-size:7px;letter-spacing:1px;text-transform:uppercase;margin-top:3px;" class="t3">${l}</div>
-        </div>`).join("")}
-    </div>
-
-    <!-- Sparkline chart -->
-    <div class="card surf bd" style="margin-bottom:14px;padding:14px;">
-      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;" class="t3">Portfolio Growth</div>
-      <div style="display:flex;align-items:flex-end;gap:4px;height:70px;">
-        ${(()=>{const mx=Math.max(...history.map(x=>x.total));return history.map(h=>`
-          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-            <div style="width:100%;border-radius:5px 5px 0 0;height:${Math.max((h.total/mx*100),4).toFixed(0)}%;background:${h.mode==="index"?"linear-gradient(180deg,#818cf8,#312e81)":"linear-gradient(180deg,#6366f1,#4338ca)"};transition:height 0.5s;"></div>
-            <div style="font-size:6px;" class="t3">${h.month}</div>
-          </div>`).join("");})()}
+        
       </div>
-      <div style="display:flex;gap:12px;margin-top:8px;">
-        <span style="font-size:8px;color:#6366f1;">● Rotation</span>
-        <span style="font-size:8px;color:#818cf8;">● Index</span>
-      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Stable tech + 2.5% dividend</div>
+      <div style="margin-top:10px;font-size:10px;color:#818cf8;font-family:DM Mono,monospace;">View deep dive →</div>
     </div>
-
-    ${[...history].reverse().map(h=>`
-      <div class="card surf bd" style="margin-bottom:8px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-            <span style="font-size:13px;font-weight:bold;" class="t1">${h.month} ${h.year}</span>
-            <span class="pill" style="background:${h.mode==="index"?(dark?"#1e1b4b":"#eef2ff"):(dark?"#052e16":"#f0fdf4")};color:${h.mode==="index"?"#818cf8":"#4ade80"};">${h.mode.toUpperCase()}</span>
-            <span class="pill" style="background:${dark?"#0f1623":"#f8faff"};color:#6366f1;">${fmt(h.budget)}</span>
-          </div>
-          <span style="font-size:13px;font-weight:bold;color:#6366f1;">${fmt(h.total)}</span>
+  </a>
+<a href="stock.html?t=SNDK" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #fb923c;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#fb923c22;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#fb923c;">SND</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">SNDK</div>
+          <div style="font-size:10px;color:var(--text3);">SanDisk</div>
         </div>
-        ${Object.entries(h.dist).filter(([,a])=>a>0).map(([t,a])=>{
-          const hh=DEFAULT_HOLDINGS.find(x=>x.ticker===t);
-          const isW=t===h.winner;const p=h.budget>0?(a/h.budget*100):0;
-          return`<div style="margin-bottom:5px;">
-            <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
-              <div style="display:flex;align-items:center;gap:4px;">
-                <div style="width:5px;height:5px;border-radius:50%;background:${hh?.color};"></div>
-                <span style="font-size:9px;color:${isW?hh?.color:dark?"#8892aa":"#475569"};font-weight:${isW?"bold":"normal"};">${t}${isW?" ★":""}</span>
-              </div>
-              <span style="font-size:9px;font-weight:bold;color:${isW?hh?.color:dark?"#8892aa":"#475569"};">${fmt(a)}</span>
-            </div>
-            <div style="height:3px;border-radius:2px;overflow:hidden;" class="surf3">
-              <div style="height:100%;width:${p.toFixed(0)}%;background:${isW?hh?.color:dark?"#243050":"#c7d2f0"};border-radius:2px;transition:width 0.4s;"></div>
-            </div>
-          </div>`;}).join("")}
+        
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">NAND memory — high risk/reward</div>
+      <div style="margin-top:10px;font-size:10px;color:#fb923c;font-family:DM Mono,monospace;">View deep dive →</div>
+    </div>
+  </a>
+<a href="stock.html?t=ABBV" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #34d399;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#34d39922;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#34d399;">ABB</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">ABBV</div>
+          <div style="font-size:10px;color:var(--text3);">AbbVie</div>
+        </div>
+        <span style='margin-left:auto;font-size:8px;background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:8px;'>⚓ ANCHOR</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Pharma anchor — 3.4% dividend</div>
+      <div style="margin-top:10px;font-size:10px;color:#34d399;font-family:DM Mono,monospace;">View deep dive →</div>
+    </div>
+  </a>
+<a href="stock.html?t=XOM" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #fbbf24;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#fbbf2422;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#fbbf24;">XOM</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">XOM</div>
+          <div style="font-size:10px;color:var(--text3);">ExxonMobil</div>
+        </div>
+        <span style='margin-left:auto;font-size:8px;background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:8px;'>⚓ ANCHOR</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Energy anchor — 42yr div growth</div>
+      <div style="margin-top:10px;font-size:10px;color:#fbbf24;font-family:DM Mono,monospace;">View deep dive →</div>
+    </div>
+  </a>
+<a href="stock.html?t=JPM" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #38bdf8;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#38bdf822;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#38bdf8;">JPM</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">JPM</div>
+          <div style="font-size:10px;color:var(--text3);">JPMorgan Chase</div>
+        </div>
+        <span style='margin-left:auto;font-size:8px;background:#d1fae5;color:#065f46;padding:2px 7px;border-radius:8px;'>⚓ ANCHOR</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Financial anchor — 2.2% dividend</div>
+      <div style="margin-top:10px;font-size:10px;color:#38bdf8;font-family:DM Mono,monospace;">View deep dive →</div>
+    </div>
+  </a>
+<a href="stock.html?t=NFLX" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #ef4444;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#ef444422;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#ef4444;">NFL</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">NFLX</div>
+          <div style="font-size:10px;color:var(--text3);">Netflix</div>
+        </div>
+        
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Small position — review</div>
+      <div style="margin-top:10px;font-size:10px;color:#ef4444;font-family:DM Mono,monospace;">View deep dive →</div>
+    </div>
+  </a>
+<a href="stock.html?t=LCID" style="text-decoration:none;">
+    <div class="feature-card fade-up" style="border-left:3px solid #c084fc;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+        <div style="width:38px;height:38px;border-radius:10px;background:#c084fc22;display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:11px;font-weight:900;color:#c084fc;">LCI</div>
+        <div>
+          <div style="font-family:Playfair Display,serif;font-size:15px;font-weight:700;color:var(--text);">LCID</div>
+          <div style="font-size:10px;color:var(--text3);">Lucid</div>
+        </div>
+        
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Down 78% — consider selling</div>
+      <div style="margin-top:10px;font-size:10px;color:#c084fc;font-family:DM Mono,monospace;">View deep dive →</div>
+    </div>
+  </a>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-card fade-up">
+    <div class="cta-title">Ready to take<br>control of your<br><span style="background:linear-gradient(135deg,var(--accent),#a78bfa,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">investments?</span></div>
+    <p class="cta-sub">Free. No login. No ads. Your data stays on your device. Install it as an app on your phone in 30 seconds.</p>
+    <div class="cta-metrics">
+      ${[["100%","Private"],["0$","Forever free"],["offline","Works anywhere"]].map(([v,l])=>`
+      <div class="cta-metric">
+        <div class="cta-metric-val">${v}</div>
+        <div class="cta-metric-lbl">${l}</div>
       </div>`).join("")}
-  </div>`;
+    </div>
+    <button class="btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:16px;" onclick="window.location.href='app.html'">
+      🚀 Launch PortfolioOS Free
+    </button>
+    <div style="margin-top:14px;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">No signup · No credit card · Installs on iPhone & Android</div>
+  </div>
+</div>
 
-  // ── ASSEMBLE ─────────────────────────────────────────
-  const pages={dashboard:dashHtml,inject:injectHtml,dividends:divHtml,goals:goalsHtml,review:reviewHtml,history:historyHtml};
-  document.getElementById("root").innerHTML=`${hdr}${tabs}<div class="page">${pages[tab]||""}</div>`;
-
-  if(editIdx!==null){const ei=document.getElementById("ei");if(ei){ei.focus();ei.value=editVal;}}
-}
-
-// ── ACTIONS ───────────────────────────────────────────────
-function doEdit(i){S.editIdx=i;S.editVal=S.holdings[i].value.toFixed(2);render();}
-function doSave(i){const v=parseFloat(S.editVal);if(!isNaN(v)&&v>=0)S.holdings[i].value=v;S.editIdx=null;save();render();}
-
-function doInject(){
-  const{holdings,mode,winner,budget,month,year}=S;
-  const{dist:id,top}=getIdxDist(holdings,budget);
-  const rd=getRotDist(holdings,winner,budget);
-  const ad=mode==="rotation"?rd:id;
-  S.holdings=holdings.map(h=>({...h,value:h.value+(ad[h.ticker]||0)}));
-  S.history=[...S.history,{month:MONTHS[month],year,mode,budget,winner:mode==="rotation"?winner:top,dist:{...ad},total:S.holdings.reduce((s,h)=>s+h.value,0)}];
-  if(month===11){S.month=0;S.year++;}else S.month++;
-  S.injected=true;save();render();
-  setTimeout(()=>{S.injected=false;render();},2500);
-}
-
-render();
-</script>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">PortfolioOS</div>
+  <div class="footer-sub" style="margin-top:6px;">Built with 🤍 and Claude AI · Your data never leaves your device</div>
+  <div style="margin-top:16px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <a href="app.html" style="font-size:12px;color:var(--text3);text-decoration:none;font-family:'DM Mono',monospace;">Launch App</a>
+    <span style="color:var(--border);">·</span>
+    <a href="https://github.com/Omar1998-Claude/PT" style="font-size:12px;color:var(--text3);text-decoration:none;font-family:'DM Mono',monospace;">GitHub</a>
+  </div>
+</footer>
 
 <script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('/sw.js').then(r=>console.log('SW registered')).catch(e=>console.log('SW error',e));
-  });
+// Theme
+let dark=true;
+function toggleTheme(){
+  dark=!dark;
+  document.getElementById('body').className=dark?'':'light';
+  document.querySelector('.theme-btn').textContent=dark?'☀️ Light':'🌙 Dark';
+  document.querySelector('.mock-donut-inner').style.background=dark?'#070b14':'#f0f4ff';
 }
+
+// Scroll animations
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>
