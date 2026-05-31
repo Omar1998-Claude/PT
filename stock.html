@@ -446,7 +446,7 @@ function render(t) {
   document.getElementById("posRows").innerHTML =
     '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">'
     + '<div style="font-family:Playfair Display,serif;font-size:20px;font-weight:900;color:var(--text);">'+p.val+'</div>'
-    + (p.pct!=="—"?'<div style="font-size:10px;padding:2px 8px;border-radius:8px;background:'+(p.pct.charAt(0)==="+":"#dcfce7":"#fee2e2")+';color:'+(p.pct.charAt(0)==="+":"#166534":"#991b1b")+';font-family:DM Mono,monospace;">'+p.pct+'</div>':"")
+    + (p.pct!=="—"?'<div style="font-size:10px;padding:2px 8px;border-radius:8px;background:'+(p.pct.charAt(0)==="+"?"#dcfce7":"#fee2e2")+';color:'+(p.pct.charAt(0)==="+"?"#166534":"#991b1b")+';font-family:DM Mono,monospace;">'+p.pct+'</div>':"")
     + '</div>'
     + [["Shares",p.shares],["Cost basis",p.cost],["Gain / Loss",p.gl],["Monthly",p.mo],["Target",p.tgt]].map(function(r){
       var valColor = r[0]==="Gain / Loss"&&r[1].charAt(0)==="+"?"#16a34a":r[0]==="Gain / Loss"&&r[1].charAt(0)==="-"?"#dc2626":"var(--text)";
