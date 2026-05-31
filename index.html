@@ -1,1 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PortfolioOS — Your Personal Investment Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#070b14;--surf:#0f1623;--surf2:#141e2e;
+  --text:#e8eaf0;--text2:#8892aa;--text3:#4a5568;
+  --accent:#6366f1;--accent2:#818cf8;--green:#4ade80;--gold:#fbbf24;
+  --border:#1a2640;
+}
+.light{
+  --bg:#f0f4ff;--surf:#ffffff;--surf2:#f8faff;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --accent:#4f46e5;--accent2:#6366f1;--green:#16a34a;--gold:#d97706;
+  --border:#e2e8f0;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;transition:background 0.4s,color 0.4s;overflow-x:hidden;}
 
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:var(--bg);border-bottom:1px solid var(--border);transition:all 0.4s;}
+.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.theme-btn{background:var(--surf2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.launch-btn-nav{background:linear-gradient(135deg,#6366f1,#818cf8);border:none;border-radius:20px;padding:8px 18px;color:#fff;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;animation:float 8s ease-in-out infinite;}
+.orb1{width:400px;height:400px;background:#6366f1;top:-100px;left:-100px;}
+.orb2{width:300px;height:300px;background:#34d399;bottom:-50px;right:-50px;animation-delay:3s;}
+.orb3{width:200px;height:200px;background:#fbbf24;top:50%;left:50%;animation-delay:6s;}
+@keyframes float{0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-20px);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+@keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:#6366f118;border:1px solid #6366f144;border-radius:20px;padding:5px 14px;font-size:11px;color:#818cf8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;font-family:'DM Mono',monospace;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
+h1{font-family:'Playfair Display',serif;font-size:clamp(36px,8vw,72px);font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;max-width:700px;}
+.gradient-text{background:linear-gradient(135deg,#6366f1,#a78bfa,#4ade80);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;}
+.hero-sub{font-size:clamp(15px,2.5vw,18px);color:var(--text2);max-width:480px;line-height:1.7;margin-bottom:36px;font-weight:300;}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;}
+.btn-primary{background:linear-gradient(135deg,#6366f1,#818cf8);border:none;border-radius:14px;padding:14px 28px;color:#fff;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.3s;display:flex;align-items:center;gap:8px;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px #6366f155;}
+.btn-secondary{background:transparent;border:1.5px solid var(--border);border-radius:14px;padding:14px 28px;color:var(--text2);font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.3s;}
+.btn-secondary:hover{border-color:#6366f1;color:#6366f1;}
+
+.stats{display:flex;justify-content:center;border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:480px;width:100%;margin-bottom:48px;}
+.stat{flex:1;padding:16px 12px;text-align:center;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.stat-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
+.stat-lbl{font-size:9px;color:var(--text3);margin-top:3px;letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+
+.mockup-wrap{width:100%;max-width:300px;margin:0 auto;}
+.phone-frame{background:var(--surf);border:1.5px solid var(--border);border-radius:36px;overflow:hidden;box-shadow:0 40px 80px #00000066,0 0 0 8px var(--surf2),0 0 0 9px var(--border);position:relative;}
+.phone-notch{width:80px;height:20px;background:var(--bg);border-radius:0 0 14px 14px;margin:0 auto;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;}
+.phone-screen{padding:28px 12px 12px;background:var(--bg);}
+
+section{padding:80px 24px;max-width:900px;margin:0 auto;}
+.section-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#818cf8;margin-bottom:12px;}
+h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,42px);font-weight:900;line-height:1.1;margin-bottom:16px;}
+.section-sub{font-size:16px;color:var(--text2);line-height:1.7;max-width:520px;font-weight:300;}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:40px;}
+.feature-card{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:24px;transition:all 0.3s;cursor:pointer;text-decoration:none;display:block;color:var(--text);}
+.feature-card:hover{border-color:#6366f155;transform:translateY(-4px);box-shadow:0 12px 32px #00000033;}
+.feature-icon{font-size:28px;margin-bottom:14px;display:block;}
+.feature-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;margin-bottom:8px;}
+.feature-desc{font-size:13px;color:var(--text2);line-height:1.6;}
+.feature-tag{display:inline-block;margin-top:10px;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1px;color:#818cf8;background:#6366f115;padding:2px 8px;border-radius:8px;}
+.feature-arrow{font-size:11px;color:#6366f1;margin-top:8px;display:block;font-family:'DM Mono',monospace;}
+
+.steps{display:flex;flex-direction:column;gap:0;margin-top:40px;position:relative;}
+.steps::before{content:'';position:absolute;left:27px;top:40px;bottom:40px;width:1px;background:linear-gradient(180deg,#6366f1,#34d399,#fbbf24);opacity:0.3;}
+.step{display:flex;gap:20px;align-items:flex-start;padding:24px 0;}
+.step-num{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;}
+.step-content{padding-top:10px;}
+.step-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:6px;}
+.step-desc{font-size:14px;color:var(--text2);line-height:1.6;}
+
+.cta-section{text-align:center;padding:80px 24px;}
+.cta-card{background:var(--surf);border:1px solid var(--border);border-radius:32px;padding:60px 32px;max-width:600px;margin:0 auto;}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,40px);font-weight:900;margin-bottom:16px;line-height:1.1;}
+.cta-sub{font-size:15px;color:var(--text2);margin-bottom:32px;line-height:1.7;}
+.cta-metrics{display:flex;justify-content:center;gap:24px;margin-bottom:32px;flex-wrap:wrap;}
+.cta-metric-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#818cf8;}
+.cta-metric-lbl{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+
+footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}.d4{transition-delay:0.4s;}
+
+.stock-card{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:20px;transition:all 0.3s;text-decoration:none;display:block;color:var(--text);}
+.stock-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px #00000033;}
+
+@media(max-width:600px){
+  .stats{flex-direction:column;}
+  .stat{border-right:none;border-bottom:1px solid var(--border);}
+  .stat:last-child{border-bottom:none;}
+  .steps::before{display:none;}
+}
+</style>
+</head>
+<body id="body">
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PortfolioOS</div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️ Light</button>
+    <button class="launch-btn-nav" onclick="window.location.href='app.html'">Launch App →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+
+  <div class="hero-tag fade-up"><div class="live-dot"></div> Live · Free · No signup needed</div>
+  <h1 class="fade-up d1">Your Personal<br><span class="gradient-text">Investment Command</span><br>Center</h1>
+  <p class="hero-sub fade-up d2">Track stocks, plan monthly injections, watch dividends grow, and hit your financial goals — all from one beautiful app.</p>
+
+  <div class="hero-btns fade-up d3">
+    <button class="btn-primary" onclick="window.location.href='app.html'">🚀 Launch App Free</button>
+    <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">See Features ↓</button>
+  </div>
+
+  <div class="stats fade-up d3">
+    <div class="stat"><div class="stat-val">8</div><div class="stat-lbl">Stocks</div></div>
+    <div class="stat"><div class="stat-val">6</div><div class="stat-lbl">Smart tabs</div></div>
+    <div class="stat"><div class="stat-val">$35K</div><div class="stat-lbl">Goal roadmap</div></div>
+    <div class="stat"><div class="stat-val">100%</div><div class="stat-lbl">Free</div></div>
+  </div>
+
+  <!-- Phone mockup -->
+  <div class="mockup-wrap fade-up d4">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <div style="width:50px;height:50px;border-radius:50%;background:conic-gradient(#a3e635 190deg,#f87171 190deg 270deg,#1a2640 270deg);display:flex;align-items:center;justify-content:center;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <div style="font-size:5px;color:#475569;">TOTAL</div>
+              <div style="font-size:8px;font-weight:bold;font-family:'Playfair Display',serif;">$426</div>
+            </div>
+          </div>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;">$426.52</div>
+            <div style="font-size:10px;color:#4ade80;">▲ 12.4% gain</div>
+          </div>
+        </div>
+        <div style="display:flex;height:4px;border-radius:2px;overflow:hidden;gap:1px;margin-bottom:8px;">
+          <div style="width:52%;background:#a3e635;"></div>
+          <div style="width:45%;background:#f87171;"></div>
+          <div style="width:3%;background:#818cf8;"></div>
+        </div>
+        <div style="background:#141e2e;border-radius:8px;padding:8px;margin-bottom:8px;">
+          <div style="font-size:8px;color:#475569;font-family:'DM Mono',monospace;margin-bottom:4px;">🎯 Goal: $5,000 by 2026 — 8.5%</div>
+          <div style="height:5px;background:#0f1623;border-radius:3px;overflow:hidden;">
+            <div style="height:100%;width:8.5%;background:linear-gradient(90deg,#6366f1,#818cf8);border-radius:3px;"></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="background:#0f1623;border:1px solid #1a2640;border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
+            <div style="width:26px;height:26px;border-radius:50%;background:#a3e63522;border:1px solid #a3e63544;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;color:#a3e635;">NVDA</div>
+            <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">NVDA</div><div style="height:3px;background:#1a2640;border-radius:2px;margin-top:4px;"><div style="height:100%;width:52%;background:#a3e635;border-radius:2px;"></div></div></div>
+            <div style="font-size:11px;font-weight:bold;">$224.14</div>
+          </div>
+          <div style="background:#0f1623;border:1px solid #1a2640;border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
+            <div style="width:26px;height:26px;border-radius:50%;background:#f8717122;border:1px solid #f8717144;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;color:#f87171;">TSLA</div>
+            <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">TSLA</div><div style="height:3px;background:#1a2640;border-radius:2px;margin-top:4px;"><div style="height:100%;width:45%;background:#f87171;border-radius:2px;"></div></div></div>
+            <div style="font-size:11px;font-weight:bold;">$194.97</div>
+          </div>
+          <div style="background:#0f1623;border:1px solid #1a2640;border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
+            <div style="width:26px;height:26px;border-radius:50%;background:#60a5fa22;border:1px solid #60a5fa44;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;color:#60a5fa;">DELL</div>
+            <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">DELL</div><div style="height:3px;background:#1a2640;border-radius:2px;margin-top:4px;"><div style="height:100%;width:0%;background:#60a5fa;border-radius:2px;"></div></div></div>
+            <div style="font-size:11px;font-weight:bold;">$0.00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-tag fade-up">What's inside</div>
+  <h2 class="fade-up">Everything you need.<br>Nothing you don't.</h2>
+  <p class="section-sub fade-up d1">Built for real investors who want clarity, not complexity.</p>
+  <div class="features-grid">
+    <div class="feature-card fade-up"><span class="feature-icon">📊</span><div class="feature-title">Dashboard</div><div class="feature-desc">Live portfolio overview with donut chart, allocation bars and per-stock progress rings.</div><span class="feature-tag">Real-time</span></div>
+    <div class="feature-card fade-up d1"><span class="feature-icon">💉</span><div class="feature-title">Inject Planner</div><div class="feature-desc">Choose your monthly budget ($200–$500), pick Rotation or Index mode, get exact breakdown.</div><span class="feature-tag">Monthly</span></div>
+    <div class="feature-card fade-up d2"><span class="feature-icon">💰</span><div class="feature-title">Dividend Tracker</div><div class="feature-desc">See annual and monthly dividend income across ABBV, XOM, JPM and IBM. 3-year projection included.</div><span class="feature-tag">Passive Income</span></div>
+    <div class="feature-card fade-up d3"><span class="feature-icon">🎯</span><div class="feature-title">Goal Milestones</div><div class="feature-desc">Three milestone roadmap: $5K → $15K → $35K with countdown timers and on-track indicators.</div><span class="feature-tag">$5K → $35K</span></div>
+    <div class="feature-card fade-up"><span class="feature-icon">🔍</span><div class="feature-title">Quarterly Review</div><div class="feature-desc">6-question portfolio health check covering AI demand, dividends, concentration risk and macro risks.</div><span class="feature-tag">Every 3 months</span></div>
+    <div class="feature-card fade-up d1"><span class="feature-icon">🌙</span><div class="feature-title">Dark & Light Mode</div><div class="feature-desc">Beautifully designed in both themes. Toggle instantly — your preference is saved locally on device.</div><span class="feature-tag">Your choice</span></div>
+  </div>
+</section>
+
+<!-- STOCKS -->
+<section id="stocks">
+  <div class="section-tag fade-up">Your Holdings</div>
+  <h2 class="fade-up">Every stock.<br>Fully analyzed.</h2>
+  <p class="section-sub fade-up d1">Tap any stock for a full deep dive — price chart, earnings, analyst ratings, news and your position.</p>
+  <div class="features-grid" style="margin-top:32px;">
+
+    <a href="stock.html?t=NVDA" class="stock-card fade-up" style="border-left:3px solid #a3e635;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#a3e63522;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#a3e635;font-family:'Playfair Display',serif;">NVD</div>
+        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">NVDA</div><div style="font-size:10px;color:var(--text3);">Nvidia</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">AI chip leader — your highest conviction pick</div>
+      <div style="margin-top:8px;font-size:10px;color:#a3e635;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=TSLA" class="stock-card fade-up d1" style="border-left:3px solid #f87171;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#f8717122;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#f87171;font-family:'Playfair Display',serif;">TSL</div>
+        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">TSLA</div><div style="font-size:10px;color:var(--text3);">Tesla</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">EV & energy — volatile but high upside</div>
+      <div style="margin-top:8px;font-size:10px;color:#f87171;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=DELL" class="stock-card fade-up d2" style="border-left:3px solid #60a5fa;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#60a5fa22;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#60a5fa;font-family:'Playfair Display',serif;">DEL</div>
+        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">DELL</div><div style="font-size:10px;color:var(--text3);">Dell Technologies</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">AI server infrastructure — explosive growth</div>
+      <div style="margin-top:8px;font-size:10px;color:#60a5fa;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=IBM" class="stock-card fade-up" style="border-left:3px solid #818cf8;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#818cf822;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#818cf8;font-family:'Playfair Display',serif;">IBM</div>
+        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">IBM</div><div style="font-size:10px;color:var(--text3);">IBM Corporation</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Stable tech — your ballast + 2.5% dividend</div>
+      <div style="margin-top:8px;font-size:10px;color:#818cf8;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=SNDK" class="stock-card fade-up d1" style="border-left:3px solid #fb923c;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#fb923c22;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fb923c;font-family:'Playfair Display',serif;">SNK</div>
+        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">SNDK</div><div style="font-size:10px;color:var(--text3);">SanDisk</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">NAND memory — high risk, high reward AI play</div>
+      <div style="margin-top:8px;font-size:10px;color:#fb923c;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=ABBV" class="stock-card fade-up d2" style="border-left:3px solid #34d399;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#34d39922;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#34d399;font-family:'Playfair Display',serif;">ABB</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:6px;"><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">ABBV</div><span style="font-size:7px;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;">⚓ ANCHOR</span></div>
+          <div style="font-size:10px;color:var(--text3);">AbbVie</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Pharma anchor — 3.4% dividend, recession-proof</div>
+      <div style="margin-top:8px;font-size:10px;color:#34d399;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=XOM" class="stock-card fade-up" style="border-left:3px solid #fbbf24;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#fbbf2422;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fbbf24;font-family:'Playfair Display',serif;">XOM</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:6px;"><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">XOM</div><span style="font-size:7px;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;">⚓ ANCHOR</span></div>
+          <div style="font-size:10px;color:var(--text3);">ExxonMobil</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Energy anchor — 42 years of dividend growth</div>
+      <div style="margin-top:8px;font-size:10px;color:#fbbf24;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=JPM" class="stock-card fade-up d1" style="border-left:3px solid #38bdf8;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#38bdf822;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#38bdf8;font-family:'Playfair Display',serif;">JPM</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:6px;"><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">JPM</div><span style="font-size:7px;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;">⚓ ANCHOR</span></div>
+          <div style="font-size:10px;color:var(--text3);">JPMorgan Chase</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Financial anchor — largest US bank, 2.2% dividend</div>
+      <div style="margin-top:8px;font-size:10px;color:#38bdf8;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=NFLX" class="stock-card fade-up d2" style="border-left:3px solid #ef4444;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#ef444422;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#ef4444;font-family:'Playfair Display',serif;">NFX</div>
+        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">NFLX</div><div style="font-size:10px;color:var(--text3);">Netflix</div></div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Small position — consider adding or consolidating</div>
+      <div style="margin-top:8px;font-size:10px;color:#ef4444;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+    <a href="stock.html?t=LCID" class="stock-card fade-up" style="border-left:3px solid #c084fc;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#c084fc22;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#c084fc;font-family:'Playfair Display',serif;">LCI</div>
+        <div>
+          <div style="display:flex;align-items:center;gap:6px;"><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">LCID</div><span style="font-size:7px;background:#fef2f2;color:#991b1b;padding:1px 6px;border-radius:8px;">⚠ REVIEW</span></div>
+          <div style="font-size:10px;color:var(--text3);">Lucid Group</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Down 78% — consider selling, redeploy into anchors</div>
+      <div style="margin-top:8px;font-size:10px;color:#c084fc;font-family:'DM Mono',monospace;">View deep dive →</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-tag fade-up">How it works</div>
+  <h2 class="fade-up">Three steps.<br>Every month.</h2>
+  <p class="section-sub fade-up d1">Takes less than 60 seconds. No finance degree required.</p>
+  <div class="steps">
+    <div class="step fade-up">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Check the market</div>
+        <div class="step-desc">Come back every 25th and ask Claude for a market update. See who's winning and what's moving in your portfolio this month.</div>
+      </div>
+    </div>
+    <div class="step fade-up d1">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Pick your strategy</div>
+        <div class="step-desc">Choose Rotation mode to back the winner, or Index mode to auto-rebalance. The app shows you exactly where every dollar goes.</div>
+      </div>
+    </div>
+    <div class="step fade-up d2">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Inject & grow</div>
+        <div class="step-desc">Hit inject. Your portfolio updates instantly. Watch your goal bar move. Repeat next month and let compounding do the work.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-card fade-up">
+    <div class="cta-title">Ready to take<br>control of your<br><span class="gradient-text">investments?</span></div>
+    <p class="cta-sub">Free. No login. No ads. Your data stays on your device. Install it as an app on your phone in 30 seconds.</p>
+    <div class="cta-metrics">
+      <div style="text-align:center;"><div class="cta-metric-val">100%</div><div class="cta-metric-lbl">Private</div></div>
+      <div style="text-align:center;"><div class="cta-metric-val">$0</div><div class="cta-metric-lbl">Forever free</div></div>
+      <div style="text-align:center;"><div class="cta-metric-val">Offline</div><div class="cta-metric-lbl">Works anywhere</div></div>
+    </div>
+    <button class="btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:16px;" onclick="window.location.href='app.html'">
+      🚀 Launch PortfolioOS Free
+    </button>
+    <div style="margin-top:14px;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">No signup · No credit card · Installs on iPhone & Android</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">PortfolioOS</div>
+  <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:6px;letter-spacing:1px;">Built with 🤍 and Claude AI · Your data never leaves your device</div>
+  <div style="margin-top:16px;display:flex;justify-content:center;gap:16px;">
+    <a href="app.html" style="font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;">Launch App</a>
+    <span style="color:var(--border);">·</span>
+    <a href="https://github.com/Omar1998-Claude/PT" style="font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;">GitHub</a>
+  </div>
+</footer>
+
+<script>
+let dark=true;
+function toggleTheme(){
+  dark=!dark;
+  document.getElementById('body').className=dark?'':'light';
+  document.getElementById('themeBtn').textContent=dark?'☀️ Light':'🌙 Dark';
+}
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
