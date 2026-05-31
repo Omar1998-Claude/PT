@@ -12,443 +12,370 @@
   --bg:#f8faff;--surf:#ffffff;--surf2:#f1f5ff;--surf3:#e8eeff;
   --text:#0a0f1e;--text2:#475569;--text3:#94a3b8;
   --border:#e2e8f8;--border2:#c7d2f0;
-  --accent:#4f46e5;--accent2:#6366f1;--accent3:#818cf8;
+  --accent:#4f46e5;--accent2:#6366f1;
 }
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:80px;}
 a{text-decoration:none;color:inherit;}
 
-/* NAV */
-nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;}
+nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;}
 .nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;padding:6px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surf);transition:all 0.2s;}
 .nav-back:hover{border-color:var(--accent);color:var(--accent);}
 .nav-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;flex:1;text-align:center;}
 .nav-pill{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:10px;letter-spacing:1px;}
 
-/* HERO STOCK HEADER */
-.stock-hero{padding:32px 20px 0;max-width:800px;margin:0 auto;}
-.stock-top{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;}
-.stock-logo{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:14px;font-weight:900;color:#fff;flex-shrink:0;}
-.stock-name{flex:1;}
-.stock-ticker{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;line-height:1;}
-.stock-fullname{font-size:14px;color:var(--text2);margin-top:3px;}
-.stock-badges{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
-.badge{font-size:9px;padding:3px 9px;border-radius:10px;font-family:'DM Mono',monospace;letter-spacing:0.5px;font-weight:500;}
-.stock-price-block{text-align:right;}
-.stock-price{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;}
-.stock-change{font-size:13px;font-weight:500;margin-top:4px;}
+.stock-hero{padding:24px 20px 0;max-width:800px;margin:0 auto;}
+.stock-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;}
+.stock-logo{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:13px;font-weight:900;color:#fff;flex-shrink:0;}
+.stock-ticker{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;line-height:1;}
+.stock-fullname{font-size:13px;color:var(--text2);margin-top:3px;}
+.stock-badges{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+.badge{font-size:9px;padding:2px 8px;border-radius:10px;font-family:'DM Mono',monospace;}
+.stock-price{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;}
+.stock-change{font-size:13px;font-weight:500;margin-top:3px;}
 
-/* CHART AREA */
-.chart-section{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:20px;margin:0 20px 16px;max-width:800px;margin-left:auto;margin-right:auto;}
-.chart-tabs{display:flex;gap:4px;margin-bottom:16px;}
+.chart-section{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:18px;margin:0 20px 14px;max-width:800px;margin-left:auto;margin-right:auto;}
+.chart-tabs{display:flex;gap:4px;}
 .chart-tab{font-family:'DM Mono',monospace;font-size:10px;padding:5px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all 0.2s;}
 .chart-tab.active{background:var(--accent);border-color:var(--accent);color:#fff;}
-.chart-canvas{height:160px;position:relative;overflow:hidden;}
+.chart-loading{height:160px;display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:12px;font-family:'DM Mono',monospace;}
+.chart-canvas{height:160px;position:relative;}
 .chart-svg{width:100%;height:100%;}
+.chart-error{height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--text3);font-size:11px;text-align:center;}
 
-/* CARDS GRID */
-.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px;max-width:800px;margin:0 auto 16px;}
+.cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 20px;max-width:800px;margin:0 auto 14px;}
 .card{background:var(--surf);border:1px solid var(--border);border-radius:16px;padding:16px;}
 .card-full{grid-column:1/-1;}
 .card-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px;}
-.card-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
-.card-sub{font-size:11px;color:var(--text3);margin-top:4px;}
 
-/* MY POSITION */
-.position-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);}
+.position-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);}
 .position-row:last-child{border-bottom:none;}
 .pos-label{font-size:12px;color:var(--text2);}
 .pos-val{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;}
 
-/* ANALYST */
-.analyst-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:12px 0 8px;gap:2px;}
-.analyst-seg{height:100%;border-radius:4px;transition:width 0.8s ease;}
+.analyst-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px;}
+.analyst-seg{height:100%;border-radius:4px;}
 .analyst-labels{display:flex;justify-content:space-between;font-size:9px;font-family:'DM Mono',monospace;}
 
-/* EARNINGS */
-.earnings-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.earnings-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
 .earnings-row:last-child{border-bottom:none;}
 .earnings-q{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);width:40px;}
 .earnings-bars{flex:1;display:flex;gap:4px;align-items:flex-end;height:32px;}
-.earnings-bar{border-radius:3px 3px 0 0;width:14px;transition:height 0.6s ease;}
-.earnings-legend{display:flex;gap:10px;margin-top:10px;}
-.earnings-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;}
+.earnings-bar{border-radius:3px 3px 0 0;width:14px;}
 
-/* NEWS */
-.news-item{padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all 0.2s;}
+.news-item{padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;}
 .news-item:last-child{border-bottom:none;}
-.news-item:hover .news-title{color:var(--accent);}
-.news-source{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1px;margin-bottom:5px;}
-.news-title{font-size:13px;font-weight:500;line-height:1.5;color:var(--text);transition:color 0.2s;}
-.news-time{font-size:10px;color:var(--text3);margin-top:4px;}
-.news-sentiment{display:inline-block;font-size:8px;padding:2px 6px;border-radius:6px;font-family:'DM Mono',monospace;margin-left:6px;}
+.news-source{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1px;margin-bottom:4px;}
+.news-title{font-size:13px;font-weight:500;line-height:1.5;color:var(--text);}
+.news-time{font-size:10px;color:var(--text3);margin-top:3px;}
+.news-sentiment{font-size:8px;padding:2px 6px;border-radius:6px;font-family:'DM Mono',monospace;margin-left:6px;}
 
-/* KEY METRICS */
-.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.metric-item{padding:10px;background:var(--surf2);border-radius:10px;}
-.metric-label{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:4px;}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.metric-item{padding:9px;background:var(--surf2);border-radius:10px;}
+.metric-label{font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;letter-spacing:1px;margin-bottom:3px;}
 .metric-val{font-size:14px;font-weight:600;font-family:'DM Mono',monospace;}
 
-/* TARGET PRICE */
-.target-track{height:8px;border-radius:4px;background:var(--surf2);position:relative;margin:12px 0;}
-.target-fill{height:100%;border-radius:4px;}
-.target-dot{width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid #fff;box-shadow:0 0 8px var(--accent)66;position:absolute;top:-2px;transform:translateX(-50%);}
+.target-track{height:8px;border-radius:4px;background:var(--surf2);position:relative;margin:10px 0;}
+.target-dot{width:12px;height:12px;border-radius:50%;border:2px solid #fff;position:absolute;top:-2px;transform:translateX(-50%);}
 
-/* RATING CIRCLE */
-.rating-circle{width:80px;height:80px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 10px;}
+.rating-circle{width:76px;height:76px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 8px;}
 .rating-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;}
-.rating-lbl{font-size:8px;font-family:'DM Mono',monospace;letter-spacing:1px;}
+.rating-lbl{font-size:7px;font-family:'DM Mono',monospace;letter-spacing:1px;}
 
-/* BACK TO PORTFOLIO */
-.back-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:rgba(248,250,255,0.95);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;gap:10px;}
+.back-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:rgba(248,250,255,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;gap:10px;}
 .back-bar-btn{flex:1;padding:13px;border-radius:14px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all 0.2s;}
 
-/* ANIMATIONS */
-@keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.slide{animation:slideUp 0.4s ease forwards;}
-.slide-d1{animation-delay:0.05s;opacity:0;}
-.slide-d2{animation-delay:0.1s;opacity:0;}
-.slide-d3{animation-delay:0.15s;opacity:0;}
-.slide-d4{animation-delay:0.2s;opacity:0;}
-.slide-d5{animation-delay:0.25s;opacity:0;}
+/* Loading skeleton */
+.skeleton{background:linear-gradient(90deg,var(--surf2) 25%,var(--surf3) 50%,var(--surf2) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.skel-line{height:12px;border-radius:6px;margin-bottom:8px;}
+
+@keyframes slideUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.slide{animation:slideUp 0.35s ease forwards;}
+.d1{animation-delay:0.05s;opacity:0;}
+.d2{animation-delay:0.1s;opacity:0;}
+.d3{animation-delay:0.15s;opacity:0;}
+.d4{animation-delay:0.2s;opacity:0;}
+.d5{animation-delay:0.25s;opacity:0;}
+
+/* Live price badge */
+.live-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-family:'DM Mono',monospace;color:#16a34a;background:#dcfce7;padding:2px 7px;border-radius:8px;margin-left:6px;}
+.live-dot{width:5px;height:5px;border-radius:50%;background:#16a34a;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-back" onclick="history.back()">← Back</div>
-  <div class="nav-title" id="navTitle">—</div>
-  <div class="nav-pill" id="navPill" style="background:#e0e7ff;color:#4f46e5;">TECH</div>
+  <div class="nav-back" onclick="window.location.href='index.html'">← Back</div>
+  <div class="nav-title" id="navTitle">Loading...</div>
+  <div class="nav-pill" id="navPill" style="background:#e0e7ff;color:#4f46e5;">—</div>
 </nav>
 
 <div class="stock-hero slide">
   <div class="stock-top">
     <div class="stock-logo" id="stockLogo">—</div>
-    <div class="stock-name">
+    <div style="flex:1;">
       <div class="stock-ticker" id="stockTicker">—</div>
       <div class="stock-fullname" id="stockFullname">—</div>
       <div class="stock-badges" id="stockBadges"></div>
     </div>
-    <div class="stock-price-block">
-      <div class="stock-price" id="stockPrice">—</div>
-      <div class="stock-change" id="stockChange">—</div>
+    <div style="text-align:right;">
+      <div class="stock-price" id="stockPrice">
+        <div class="skeleton skel-line" style="width:100px;height:28px;"></div>
+      </div>
+      <div class="stock-change" id="stockChange"></div>
+      <div id="liveBadge"></div>
     </div>
   </div>
 </div>
 
 <!-- CHART -->
-<div class="chart-section slide slide-d1">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+<div class="chart-section slide d1">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
     <div>
-      <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">PRICE TREND</div>
-      <div id="chartHigh" style="font-size:12px;color:var(--text2);margin-top:2px;"></div>
+      <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">PRICE CHART</div>
+      <div id="chartRange" style="font-size:11px;color:var(--text2);margin-top:2px;">Loading live data...</div>
     </div>
-    <div class="chart-tabs">
-      <button class="chart-tab active">1M</button>
-      <button class="chart-tab">3M</button>
-      <button class="chart-tab">6M</button>
-      <button class="chart-tab">1Y</button>
+    <div style="display:flex;gap:4px;" id="chartTabs">
+      <button class="chart-tab active" data-range="1mo">1M</button>
+      <button class="chart-tab" data-range="3mo">3M</button>
+      <button class="chart-tab" data-range="6mo">6M</button>
+      <button class="chart-tab" data-range="1y">1Y</button>
     </div>
   </div>
-  <div class="chart-canvas">
-    <svg class="chart-svg" id="chartSvg" viewBox="0 0 400 160" preserveAspectRatio="none"></svg>
+  <div id="chartArea">
+    <div class="chart-loading">📡 Fetching live prices...</div>
   </div>
 </div>
 
-<!-- MY POSITION + ANALYST SIDE BY SIDE -->
+<!-- CARDS -->
 <div class="cards-grid">
-
-  <!-- My Position -->
-  <div class="card slide slide-d2">
-    <div class="card-label">My Position</div>
-    <div id="positionRows"></div>
-  </div>
-
-  <!-- Analyst Rating -->
-  <div class="card slide slide-d2" style="text-align:center;">
-    <div class="card-label">Analyst Consensus</div>
-    <div class="rating-circle" id="ratingCircle">
-      <div class="rating-val" id="ratingVal">—</div>
-      <div class="rating-lbl" id="ratingLbl">—</div>
-    </div>
-    <div class="analyst-bar" id="analystBar"></div>
-    <div class="analyst-labels" id="analystLabels"></div>
-    <div style="font-size:10px;color:var(--text3);margin-top:8px;" id="priceTarget"></div>
-  </div>
-
-  <!-- Key Metrics -->
-  <div class="card slide slide-d3">
-    <div class="card-label">Key Metrics</div>
-    <div class="metrics-grid" id="keyMetrics"></div>
-  </div>
-
-  <!-- Dividend -->
-  <div class="card slide slide-d3" id="divCard">
-    <div class="card-label">Dividend</div>
-    <div id="divContent"></div>
-  </div>
-
-  <!-- Earnings -->
-  <div class="card card-full slide slide-d4">
-    <div class="card-label">Quarterly Earnings — EPS (Est. vs Actual)</div>
-    <div id="earningsRows"></div>
-    <div class="earnings-legend">
-      <div><span class="earnings-dot" style="background:#c7d2f0;"></span><span style="font-size:10px;color:var(--text3);">Estimated</span></div>
-      <div><span class="earnings-dot" style="background:var(--accent);"></span><span style="font-size:10px;color:var(--text3);">Actual</span></div>
-    </div>
-  </div>
-
-  <!-- News -->
-  <div class="card card-full slide slide-d5">
-    <div class="card-label">Latest News</div>
-    <div id="newsItems"></div>
-  </div>
-
+  <div class="card slide d2"><div class="card-label">My Position</div><div id="positionRows"><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div></div></div>
+  <div class="card slide d2" style="text-align:center;"><div class="card-label">Analyst Consensus</div><div id="analystContent"><div class="skeleton skel-line" style="height:76px;border-radius:50%;width:76px;margin:0 auto 10px;"></div></div></div>
+  <div class="card slide d3"><div class="card-label">Key Metrics</div><div class="metrics-grid" id="keyMetrics"><div class="skeleton skel-line" style="height:50px;border-radius:10px;"></div><div class="skeleton skel-line" style="height:50px;border-radius:10px;"></div><div class="skeleton skel-line" style="height:50px;border-radius:10px;"></div><div class="skeleton skel-line" style="height:50px;border-radius:10px;"></div></div></div>
+  <div class="card slide d3"><div class="card-label">Dividend</div><div id="divContent"><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div></div></div>
+  <div class="card card-full slide d4"><div class="card-label">Quarterly Earnings — EPS (Est. vs Actual)</div><div id="earningsRows"></div><div style="display:flex;gap:10px;margin-top:10px;"><div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#c7d2f0;margin-right:4px;"></span><span style="font-size:10px;color:var(--text3);">Estimated</span></div><div><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:4px;"></span><span style="font-size:10px;color:var(--text3);">Actual</span></div></div></div>
+  <div class="card card-full slide d5"><div class="card-label">Latest News</div><div id="newsItems"><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div></div></div>
 </div>
 
-<!-- BOTTOM BAR -->
 <div class="back-bar">
-  <button class="back-bar-btn" style="background:var(--surf2);color:var(--text2);border:1px solid var(--border);" onclick="history.back()">← Back to App</button>
+  <button class="back-bar-btn" style="background:var(--surf2);color:var(--text2);border:1px solid var(--border);" onclick="window.location.href='index.html'">← Back</button>
   <button class="back-bar-btn" style="background:var(--accent);color:#fff;" onclick="window.location.href='app.html'">💉 Go to Inject</button>
 </div>
 
 <script>
-// ── STOCK DATA ────────────────────────────────────────────
+// ── STATIC DATA (position, analyst, earnings, news) ───────
 const STOCKS = {
-  NVDA: {
-    name:"Nvidia Corporation", color:"#a3e635", textColor:"#365314",
-    sector:"Tech", anchor:false,
-    price:"$131.38", change:"+2.4%", changePos:true,
+  NVDA:{name:"Nvidia Corporation",color:"#a3e635",sector:"Tech",anchor:false,
     position:{shares:"1.06",value:"$224.14",costBasis:"$111.28",gainLoss:"+$112.86",gainPct:"+101.4%",monthly:"$100",target:"25%"},
     analyst:{rating:"STRONG BUY",score:9.2,buy:28,hold:5,sell:1,target:"$165",targetLow:"$120",targetHigh:"$200",current:131},
-    metrics:{PERatio:"35.2x","Mkt Cap":"$3.2T","52W High":"$153.13","52W Low":"$78.40","Revenue Gr.":"+78%","Profit Margin":"55.4%"},
+    metrics:{"P/E Ratio":"35.2x","Mkt Cap":"$3.2T","52W High":"$153.13","52W Low":"$78.40","Revenue Gr.":"+78%","Net Margin":"55.4%"},
     dividend:{yield:"0.03%",annual:"$0.04",frequency:"Quarterly",nextDate:"Jun 2026"},
-    earnings:[
-      {q:"Q1'26",est:0.88,act:0.96,beat:true},{q:"Q4'25",est:0.75,act:0.81,beat:true},
-      {q:"Q3'25",est:0.64,act:0.74,beat:true},{q:"Q2'25",est:0.53,act:0.60,beat:true}
-    ],
-    news:[
-      {source:"REUTERS",title:"Nvidia reports record Q1 revenue of $44.1B driven by Blackwell GPU demand",time:"2h ago",sentiment:"positive"},
-      {source:"BLOOMBERG",title:"Analyst raises NVDA price target to $200 citing AI infrastructure supercycle",time:"5h ago",sentiment:"positive"},
-      {source:"CNBC",title:"Nvidia's data center segment surpasses $39B for first time in single quarter",time:"1d ago",sentiment:"positive"},
-    ],
-    chartPoints:[120,115,118,122,119,125,128,124,130,127,133,131,135,132,138,131],
-    tip:"Your single biggest winner. AI infrastructure demand shows no signs of slowing. Hold and keep adding.",
-  },
-  TSLA: {
-    name:"Tesla, Inc.", color:"#f87171", textColor:"#7f1d1d",
-    sector:"EV", anchor:false,
-    price:"$315.82", change:"-1.2%", changePos:false,
+    earnings:[{q:"Q1'26",est:0.88,act:0.96,beat:true},{q:"Q4'25",est:0.75,act:0.81,beat:true},{q:"Q3'25",est:0.64,act:0.74,beat:true},{q:"Q2'25",est:0.53,act:0.60,beat:true}],
+    news:[{source:"REUTERS",title:"Nvidia reports record Q1 revenue of $44.1B driven by Blackwell GPU demand",time:"2h ago",sentiment:"positive"},{source:"BLOOMBERG",title:"Analyst raises NVDA price target to $200 citing AI infrastructure supercycle",time:"5h ago",sentiment:"positive"},{source:"CNBC",title:"Nvidia data center segment surpasses $39B for first time in a single quarter",time:"1d ago",sentiment:"positive"}],
+    tip:"Your single biggest winner. AI infrastructure demand shows no signs of slowing. Hold and keep adding."},
+  TSLA:{name:"Tesla, Inc.",color:"#f87171",sector:"EV",anchor:false,
     position:{shares:"0.45",value:"$194.97",costBasis:"$83.33",gainLoss:"+$111.64",gainPct:"+134.0%",monthly:"$65",target:"13%"},
     analyst:{rating:"HOLD",score:6.1,buy:14,hold:16,sell:8,target:"$310",targetLow:"$180",targetHigh:"$500",current:315},
-    metrics:{PERatio:"89.4x","Mkt Cap":"$1.0T","52W High":"$479.87","52W Low":"$138.80","Revenue Gr.":"+8.1%","Profit Margin":"7.3%"},
+    metrics:{"P/E Ratio":"89.4x","Mkt Cap":"$1.0T","52W High":"$479.87","52W Low":"$138.80","Revenue Gr.":"+8.1%","Net Margin":"7.3%"},
     dividend:{yield:"0%",annual:"N/A",frequency:"None",nextDate:"N/A"},
-    earnings:[
-      {q:"Q1'26",est:0.42,act:0.27,beat:false},{q:"Q4'25",est:0.76,act:0.73,beat:false},
-      {q:"Q3'25",est:0.58,act:0.72,beat:true},{q:"Q2'25",est:0.43,act:0.52,beat:true}
-    ],
-    news:[
-      {source:"WSJ",title:"Tesla Q1 deliveries miss estimates as EV competition intensifies globally",time:"3h ago",sentiment:"negative"},
-      {source:"TECHCRUNCH",title:"Tesla's Full Self-Driving V13 shows major improvement in urban navigation",time:"1d ago",sentiment:"positive"},
-      {source:"FT",title:"Elon Musk commits to return as Tesla CEO focus after DOGE role wind-down",time:"2d ago",sentiment:"positive"},
-    ],
-    chartPoints:[280,295,310,305,298,315,320,308,312,305,319,315,322,315,318,315],
-    tip:"Volatile but up 134%. Robotaxi and FSD are the next catalysts. Keep position, watch quarterly deliveries.",
-  },
-  DELL: {
-    name:"Dell Technologies", color:"#60a5fa", textColor:"#1e3a5f",
-    sector:"Tech", anchor:false,
-    price:"$145.22", change:"+34.2%", changePos:true,
+    earnings:[{q:"Q1'26",est:0.42,act:0.27,beat:false},{q:"Q4'25",est:0.76,act:0.73,beat:false},{q:"Q3'25",est:0.58,act:0.72,beat:true},{q:"Q2'25",est:0.43,act:0.52,beat:true}],
+    news:[{source:"WSJ",title:"Tesla Q1 deliveries miss estimates as EV competition intensifies globally",time:"3h ago",sentiment:"negative"},{source:"TECHCRUNCH",title:"Tesla Full Self-Driving V13 shows major improvement in urban navigation tests",time:"1d ago",sentiment:"positive"},{source:"FT",title:"Elon Musk commits to return as Tesla CEO focus after DOGE role wind-down",time:"2d ago",sentiment:"positive"}],
+    tip:"Volatile but up 134%. Robotaxi and FSD are the next catalysts. Keep position, watch quarterly deliveries."},
+  DELL:{name:"Dell Technologies",color:"#60a5fa",sector:"Tech",anchor:false,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$120",target:"20%"},
     analyst:{rating:"BUY",score:8.1,buy:18,hold:6,sell:2,target:"$180",targetLow:"$130",targetHigh:"$220",current:145},
-    metrics:{PERatio:"18.6x","Mkt Cap":"$100B","52W High":"$179.70","52W Low":"$79.80","Revenue Gr.":"+87.7%","Profit Margin":"3.1%"},
+    metrics:{"P/E Ratio":"18.6x","Mkt Cap":"$100B","52W High":"$179.70","52W Low":"$79.80","Revenue Gr.":"+87.7%","Net Margin":"3.1%"},
     dividend:{yield:"1.8%",annual:"$2.08",frequency:"Quarterly",nextDate:"Jul 2026"},
-    earnings:[
-      {q:"Q1'26",est:1.64,act:2.20,beat:true},{q:"Q4'25",est:2.14,act:2.68,beat:true},
-      {q:"Q3'25",est:1.80,act:2.15,beat:true},{q:"Q2'25",est:1.54,act:1.89,beat:true}
-    ],
-    news:[
-      {source:"BLOOMBERG",title:"Dell AI server revenue surges 757% to $16.1B as data center boom accelerates",time:"1h ago",sentiment:"positive"},
-      {source:"REUTERS",title:"Dell raises full year guidance after blockbuster AI infrastructure quarter",time:"4h ago",sentiment:"positive"},
-      {source:"CNBC",title:"Dell stock hits all-time high on record AI order backlog of $14B",time:"1d ago",sentiment:"positive"},
-    ],
-    chartPoints:[85,88,92,95,98,100,105,110,118,125,130,138,142,140,145,145],
-    tip:"Best pure-play AI infrastructure stock right now. You haven't injected yet — this should be your next priority.",
-  },
-  IBM: {
-    name:"IBM Corporation", color:"#818cf8", textColor:"#312e81",
-    sector:"Tech", anchor:false,
-    price:"$271.44", change:"+0.8%", changePos:true,
+    earnings:[{q:"Q1'26",est:1.64,act:2.20,beat:true},{q:"Q4'25",est:2.14,act:2.68,beat:true},{q:"Q3'25",est:1.80,act:2.15,beat:true},{q:"Q2'25",est:1.54,act:1.89,beat:true}],
+    news:[{source:"BLOOMBERG",title:"Dell AI server revenue surges 757% to $16.1B as data center boom accelerates",time:"1h ago",sentiment:"positive"},{source:"REUTERS",title:"Dell raises full year guidance after blockbuster AI infrastructure quarter",time:"4h ago",sentiment:"positive"},{source:"CNBC",title:"Dell stock hits all-time high on record AI order backlog of $14B",time:"1d ago",sentiment:"positive"}],
+    tip:"Best pure-play AI infrastructure stock right now. You haven't injected yet — this should be your next priority."},
+  IBM:{name:"IBM Corporation",color:"#818cf8",sector:"Tech",anchor:false,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$90",target:"17%"},
     analyst:{rating:"HOLD",score:6.8,buy:8,hold:14,sell:3,target:"$245",targetLow:"$190",targetHigh:"$300",current:271},
-    metrics:{PERatio:"22.1x","Mkt Cap":"$246B","52W High":"$284.89","52W Low":"$168.20","Revenue Gr.":"+9.0%","Profit Margin":"14.2%"},
+    metrics:{"P/E Ratio":"22.1x","Mkt Cap":"$246B","52W High":"$284.89","52W Low":"$168.20","Revenue Gr.":"+9.0%","Net Margin":"14.2%"},
     dividend:{yield:"2.5%",annual:"$6.76",frequency:"Quarterly",nextDate:"Jun 2026"},
-    earnings:[
-      {q:"Q1'26",est:1.40,act:1.60,beat:true},{q:"Q4'25",est:3.72,act:3.92,beat:true},
-      {q:"Q3'25",est:2.23,act:2.30,beat:true},{q:"Q2'25",est:2.19,act:2.43,beat:true}
-    ],
-    news:[
-      {source:"WSJ",title:"IBM Q1 revenue beats estimates as software and consulting units accelerate",time:"6h ago",sentiment:"positive"},
-      {source:"BLOOMBERG",title:"IBM raises quarterly dividend to $1.69 per share, 29th consecutive increase",time:"2d ago",sentiment:"positive"},
-      {source:"FT",title:"IBM's AI consulting business wins $4B in new enterprise contracts in Q1",time:"3d ago",sentiment:"positive"},
-    ],
-    chartPoints:[220,225,228,232,235,240,245,248,252,258,262,266,268,270,272,271],
-    tip:"Your steady ballast. Consistent dividend payer — 29 consecutive increases. Great anchor within tech.",
-  },
-  SNDK: {
-    name:"SanDisk Corporation", color:"#fb923c", textColor:"#7c2d12",
-    sector:"Memory", anchor:false,
-    price:"$1,684.22", change:"+5.1%", changePos:true,
+    earnings:[{q:"Q1'26",est:1.40,act:1.60,beat:true},{q:"Q4'25",est:3.72,act:3.92,beat:true},{q:"Q3'25",est:2.23,act:2.30,beat:true},{q:"Q2'25",est:2.19,act:2.43,beat:true}],
+    news:[{source:"WSJ",title:"IBM Q1 revenue beats estimates as software and consulting units accelerate",time:"6h ago",sentiment:"positive"},{source:"BLOOMBERG",title:"IBM raises quarterly dividend to $1.69 per share, 29th consecutive increase",time:"2d ago",sentiment:"positive"},{source:"FT",title:"IBM AI consulting business wins $4B in new enterprise contracts in Q1",time:"3d ago",sentiment:"positive"}],
+    tip:"Your steady ballast. Consistent dividend payer — 29 consecutive increases. Great anchor within tech."},
+  SNDK:{name:"SanDisk Corporation",color:"#fb923c",sector:"Memory",anchor:false,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$50",target:"10%"},
     analyst:{rating:"BUY",score:8.4,buy:16,hold:4,sell:1,target:"$2,100",targetLow:"$1,200",targetHigh:"$3,250",current:1684},
-    metrics:{PERatio:"42.8x","Mkt Cap":"$68B","52W High":"$1,842.00","52W Low":"$36.20","Revenue Gr.":"+320%","Profit Margin":"22.1%"},
+    metrics:{"P/E Ratio":"42.8x","Mkt Cap":"$68B","52W High":"$1,842","52W Low":"$36.20","Revenue Gr.":"+320%","Net Margin":"22.1%"},
     dividend:{yield:"0%",annual:"N/A",frequency:"None",nextDate:"N/A"},
-    earnings:[
-      {q:"Q1'26",est:8.20,act:10.40,beat:true},{q:"Q4'25",est:4.80,act:6.20,beat:true},
-      {q:"Q3'25",est:2.10,act:3.40,beat:true},{q:"Q2'25",est:0.40,act:1.20,beat:true}
-    ],
-    news:[
-      {source:"BLOOMBERG",title:"SanDisk NAND demand surges as AI data centers require unprecedented storage",time:"2h ago",sentiment:"positive"},
-      {source:"REUTERS",title:"Susquehanna raises SNDK price target to $3,250 on AI memory supercycle thesis",time:"1d ago",sentiment:"positive"},
-      {source:"BARRON'S",title:"Morningstar flags SNDK trading at 900% premium to fair value — high uncertainty",time:"2d ago",sentiment:"negative"},
-    ],
-    chartPoints:[36,80,150,250,400,600,850,1050,1200,1350,1480,1580,1640,1660,1680,1684],
-    tip:"Extraordinary run — up 3,700%+ in a year. High risk but AI memory demand is real. Small position is wise.",
-  },
-  ABBV: {
-    name:"AbbVie Inc.", color:"#34d399", textColor:"#064e3b",
-    sector:"Pharma", anchor:true,
-    price:"$198.42", change:"+0.3%", changePos:true,
+    earnings:[{q:"Q1'26",est:8.20,act:10.40,beat:true},{q:"Q4'25",est:4.80,act:6.20,beat:true},{q:"Q3'25",est:2.10,act:3.40,beat:true},{q:"Q2'25",est:0.40,act:1.20,beat:true}],
+    news:[{source:"BLOOMBERG",title:"SanDisk NAND demand surges as AI data centers require unprecedented storage",time:"2h ago",sentiment:"positive"},{source:"REUTERS",title:"Susquehanna raises SNDK price target to $3,250 on AI memory supercycle thesis",time:"1d ago",sentiment:"positive"},{source:"BARRON'S",title:"Morningstar flags SNDK trading at 900% premium to fair value — high uncertainty",time:"2d ago",sentiment:"negative"}],
+    tip:"Extraordinary run — up 3,700%+ in a year. High risk but AI memory demand is real. Small position is wise."},
+  ABBV:{name:"AbbVie Inc.",color:"#34d399",sector:"Pharma",anchor:true,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$75",target:"8%"},
     analyst:{rating:"BUY",score:8.0,buy:16,hold:8,sell:1,target:"$215",targetLow:"$170",targetHigh:"$250",current:198},
-    metrics:{PERatio:"16.2x","Mkt Cap":"$350B","52W High":"$214.10","52W Low":"$152.40","Revenue Gr.":"+12.2%","Profit Margin":"18.4%"},
+    metrics:{"P/E Ratio":"16.2x","Mkt Cap":"$350B","52W High":"$214.10","52W Low":"$152.40","Revenue Gr.":"+12.2%","Net Margin":"18.4%"},
     dividend:{yield:"3.4%",annual:"$6.56",frequency:"Quarterly",nextDate:"May 2026"},
-    earnings:[
-      {q:"Q1'26",est:2.97,act:3.22,beat:true},{q:"Q4'25",est:5.62,act:5.93,beat:true},
-      {q:"Q3'25",est:2.89,act:2.95,beat:true},{q:"Q2'25",est:2.65,act:2.77,beat:true}
-    ],
-    news:[
-      {source:"REUTERS",title:"AbbVie Q1 revenue beats on Skyrizi and Rinvoq growth offsetting Humira decline",time:"4h ago",sentiment:"positive"},
-      {source:"WSJ",title:"AbbVie raises dividend 5.8% — 13th consecutive annual increase",time:"2d ago",sentiment:"positive"},
-      {source:"FT",title:"AbbVie's oncology pipeline shows promise with three Phase 3 trial readouts due",time:"3d ago",sentiment:"positive"},
-    ],
-    chartPoints:[165,168,172,175,178,180,184,186,190,192,194,196,198,197,199,198],
-    tip:"Your pharma anchor — recession-proof with a 3.4% dividend. Skyrizi replacing Humira better than expected.",
-  },
-  XOM: {
-    name:"ExxonMobil Corporation", color:"#fbbf24", textColor:"#78350f",
-    sector:"Energy", anchor:true,
-    price:"$112.84", change:"+1.1%", changePos:true,
+    earnings:[{q:"Q1'26",est:2.97,act:3.22,beat:true},{q:"Q4'25",est:5.62,act:5.93,beat:true},{q:"Q3'25",est:2.89,act:2.95,beat:true},{q:"Q2'25",est:2.65,act:2.77,beat:true}],
+    news:[{source:"REUTERS",title:"AbbVie Q1 revenue beats on Skyrizi and Rinvoq growth offsetting Humira decline",time:"4h ago",sentiment:"positive"},{source:"WSJ",title:"AbbVie raises dividend 5.8% — 13th consecutive annual increase",time:"2d ago",sentiment:"positive"},{source:"FT",title:"AbbVie oncology pipeline shows promise with three Phase 3 trial readouts due",time:"3d ago",sentiment:"positive"}],
+    tip:"Your pharma anchor — recession-proof with a 3.4% dividend. Skyrizi replacing Humira better than expected."},
+  XOM:{name:"ExxonMobil Corporation",color:"#fbbf24",sector:"Energy",anchor:true,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$50",target:"5%"},
     analyst:{rating:"BUY",score:7.8,buy:14,hold:10,sell:2,target:"$125",targetLow:"$95",targetHigh:"$148",current:112},
-    metrics:{PERatio:"13.8x","Mkt Cap":"$480B","52W High":"$126.34","52W Low":"$98.40","Revenue Gr.":"+2.1%","Profit Margin":"8.9%"},
+    metrics:{"P/E Ratio":"13.8x","Mkt Cap":"$480B","52W High":"$126.34","52W Low":"$98.40","Revenue Gr.":"+2.1%","Net Margin":"8.9%"},
     dividend:{yield:"3.5%",annual:"$3.96",frequency:"Quarterly",nextDate:"Jun 2026"},
-    earnings:[
-      {q:"Q1'26",est:1.70,act:1.76,beat:true},{q:"Q4'25",est:1.78,act:1.67,beat:false},
-      {q:"Q3'25",est:1.89,act:1.92,beat:true},{q:"Q2'25",est:2.02,act:2.14,beat:true}
-    ],
-    news:[
-      {source:"BLOOMBERG",title:"ExxonMobil raises dividend for 42nd consecutive year signaling cash flow confidence",time:"1d ago",sentiment:"positive"},
-      {source:"REUTERS",title:"XOM Q1 earnings beat as Permian Basin production hits record high",time:"2d ago",sentiment:"positive"},
-      {source:"FT",title:"ExxonMobil accelerates LNG expansion amid surging global energy demand",time:"3d ago",sentiment:"positive"},
-    ],
-    chartPoints:[105,107,108,110,109,111,112,110,113,111,114,112,113,112,113,112],
-    tip:"Energy anchor with 42 consecutive dividend increases. Steady cash flow regardless of market conditions.",
-  },
-  JPM: {
-    name:"JPMorgan Chase & Co.", color:"#38bdf8", textColor:"#0c4a6e",
-    sector:"Financial", anchor:true,
-    price:"$262.18", change:"+0.6%", changePos:true,
+    earnings:[{q:"Q1'26",est:1.70,act:1.76,beat:true},{q:"Q4'25",est:1.78,act:1.67,beat:false},{q:"Q3'25",est:1.89,act:1.92,beat:true},{q:"Q2'25",est:2.02,act:2.14,beat:true}],
+    news:[{source:"BLOOMBERG",title:"ExxonMobil raises dividend for 42nd consecutive year signaling cash flow confidence",time:"1d ago",sentiment:"positive"},{source:"REUTERS",title:"XOM Q1 earnings beat as Permian Basin production hits record high",time:"2d ago",sentiment:"positive"},{source:"FT",title:"ExxonMobil accelerates LNG expansion amid surging global energy demand",time:"3d ago",sentiment:"positive"}],
+    tip:"Energy anchor with 42 consecutive dividend increases. Steady cash flow regardless of market conditions."},
+  JPM:{name:"JPMorgan Chase & Co.",color:"#38bdf8",sector:"Financial",anchor:true,
     position:{shares:"0.00",value:"$0.00",costBasis:"—",gainLoss:"—",gainPct:"—",monthly:"$50",target:"2%"},
     analyst:{rating:"BUY",score:8.2,buy:18,hold:8,sell:1,target:"$290",targetLow:"$230",targetHigh:"$320",current:262},
-    metrics:{PERatio:"12.4x","Mkt Cap":"$740B","52W High":"$280.24","52W Low":"$185.90","Revenue Gr.":"+11.2%","Profit Margin":"28.6%"},
+    metrics:{"P/E Ratio":"12.4x","Mkt Cap":"$740B","52W High":"$280.24","52W Low":"$185.90","Revenue Gr.":"+11.2%","Net Margin":"28.6%"},
     dividend:{yield:"2.2%",annual:"$5.60",frequency:"Quarterly",nextDate:"Jul 2026"},
-    earnings:[
-      {q:"Q1'26",est:4.61,act:5.07,beat:true},{q:"Q4'25",est:4.09,act:4.81,beat:true},
-      {q:"Q3'25",est:4.00,act:4.37,beat:true},{q:"Q2'25",est:4.19,act:4.26,beat:true}
-    ],
-    news:[
-      {source:"WSJ",title:"JPMorgan Q1 profit surges 9% as investment banking fees hit record levels",time:"3h ago",sentiment:"positive"},
-      {source:"BLOOMBERG",title:"Jamie Dimon warns of geopolitical risks while touting JPM's fortress balance sheet",time:"1d ago",sentiment:"neutral"},
-      {source:"FT",title:"JPMorgan raises dividend 9% to $1.40/quarter as capital ratios remain strong",time:"2d ago",sentiment:"positive"},
-    ],
-    chartPoints:[220,228,234,240,238,245,248,252,255,258,260,262,264,261,263,262],
-    tip:"Financial anchor — largest US bank with 2.2% dividend. Fortress balance sheet weathers any storm.",
-  },
-  NFLX: {
-    name:"Netflix, Inc.", color:"#ef4444", textColor:"#7f1d1d",
-    sector:"Streaming", anchor:false,
-    price:"$1,185.43", change:"+0.9%", changePos:true,
+    earnings:[{q:"Q1'26",est:4.61,act:5.07,beat:true},{q:"Q4'25",est:4.09,act:4.81,beat:true},{q:"Q3'25",est:4.00,act:4.37,beat:true},{q:"Q2'25",est:4.19,act:4.26,beat:true}],
+    news:[{source:"WSJ",title:"JPMorgan Q1 profit surges 9% as investment banking fees hit record levels",time:"3h ago",sentiment:"positive"},{source:"BLOOMBERG",title:"Jamie Dimon warns of geopolitical risks while touting JPM fortress balance sheet",time:"1d ago",sentiment:"neutral"},{source:"FT",title:"JPMorgan raises dividend 9% to $1.40 per quarter as capital ratios remain strong",time:"2d ago",sentiment:"positive"}],
+    tip:"Financial anchor — largest US bank with 2.2% dividend. Fortress balance sheet weathers any storm."},
+  NFLX:{name:"Netflix, Inc.",color:"#ef4444",sector:"Streaming",anchor:false,
     position:{shares:"0.08",value:"$6.80",costBasis:"$61.35",gainLoss:"+$5.12",gainPct:"+38.3%",monthly:"$0",target:"0%"},
     analyst:{rating:"BUY",score:7.9,buy:20,hold:10,sell:3,target:"$1,250",targetLow:"$950",targetHigh:"$1,600",current:1185},
-    metrics:{PERatio:"52.4x","Mkt Cap":"$502B","52W High":"$1,310.00","52W Low":"$542.80","Revenue Gr.":"+16.0%","Profit Margin":"22.3%"},
+    metrics:{"P/E Ratio":"52.4x","Mkt Cap":"$502B","52W High":"$1,310","52W Low":"$542.80","Revenue Gr.":"+16.0%","Net Margin":"22.3%"},
     dividend:{yield:"0%",annual:"N/A",frequency:"None",nextDate:"N/A"},
-    earnings:[
-      {q:"Q1'26",est:5.72,act:6.61,beat:true},{q:"Q4'25",est:4.22,act:4.27,beat:true},
-      {q:"Q3'25",est:3.73,act:5.40,beat:true},{q:"Q2'25",est:4.74,act:4.88,beat:true}
-    ],
-    news:[
-      {source:"BLOOMBERG",title:"Netflix ad-supported tier hits 40M monthly active users — revenue diversification on track",time:"5h ago",sentiment:"positive"},
-      {source:"CNBC",title:"Netflix adds 5.1M subscribers in Q1, beats Wall Street estimates",time:"1d ago",sentiment:"positive"},
-      {source:"WSJ",title:"Netflix live sports strategy paying off as NFL Christmas games drive record viewership",time:"2d ago",sentiment:"positive"},
-    ],
-    chartPoints:[820,860,900,940,960,980,1020,1060,1080,1100,1120,1140,1160,1170,1182,1185],
-    tip:"Small position but up 38%. Too small to meaningfully track — consider adding more or consolidating.",
-  },
-  LCID: {
-    name:"Lucid Group, Inc.", color:"#c084fc", textColor:"#581c87",
-    sector:"EV", anchor:false,
-    price:"$2.14", change:"-1.8%", changePos:false,
+    earnings:[{q:"Q1'26",est:5.72,act:6.61,beat:true},{q:"Q4'25",est:4.22,act:4.27,beat:true},{q:"Q3'25",est:3.73,act:5.40,beat:true},{q:"Q2'25",est:4.74,act:4.88,beat:true}],
+    news:[{source:"BLOOMBERG",title:"Netflix ad-supported tier hits 40M monthly active users — revenue diversification on track",time:"5h ago",sentiment:"positive"},{source:"CNBC",title:"Netflix adds 5.1M subscribers in Q1, beats Wall Street estimates",time:"1d ago",sentiment:"positive"},{source:"WSJ",title:"Netflix live sports strategy paying off as NFL Christmas games drive record viewership",time:"2d ago",sentiment:"positive"}],
+    tip:"Small position but up 38%. Too small to meaningfully track — consider adding more or consolidating."},
+  LCID:{name:"Lucid Group, Inc.",color:"#c084fc",sector:"EV",anchor:false,
     position:{shares:"0.09",value:"$0.61",costBasis:"$30.00",gainLoss:"-$2.13",gainPct:"-77.8%",monthly:"$0",target:"0%"},
     analyst:{rating:"SELL",score:3.2,buy:2,hold:8,sell:10,target:"$2.50",targetLow:"$1.00",targetHigh:"$5.00",current:2},
-    metrics:{PERatio:"N/A","Mkt Cap":"$6.4B","52W High":"$4.43","52W Low":"$1.93","Revenue Gr.":"+68.8%","Profit Margin":"-312%"},
+    metrics:{"P/E Ratio":"N/A","Mkt Cap":"$6.4B","52W High":"$4.43","52W Low":"$1.93","Revenue Gr.":"+68.8%","Net Margin":"-312%"},
     dividend:{yield:"0%",annual:"N/A",frequency:"None",nextDate:"N/A"},
-    earnings:[
-      {q:"Q1'26",est:-0.20,act:-0.18,beat:true},{q:"Q4'25",est:-0.22,act:-0.21,beat:true},
-      {q:"Q3'25",est:-0.28,act:-0.29,beat:false},{q:"Q2'25",est:-0.30,act:-0.31,beat:false}
-    ],
-    news:[
-      {source:"REUTERS",title:"Lucid delivers 2,212 vehicles in Q1 — production still far below targets",time:"1d ago",sentiment:"negative"},
-      {source:"BLOOMBERG",title:"Lucid raises $1.75B in equity offering, diluting shareholders again",time:"3d ago",sentiment:"negative"},
-      {source:"WSJ",title:"Saudi Arabia's PIF remains Lucid's lifeline as company burns cash at record rate",time:"4d ago",sentiment:"neutral"},
-    ],
-    chartPoints:[4.2,3.8,3.5,3.2,3.0,2.8,2.6,2.4,2.3,2.2,2.1,2.2,2.1,2.0,2.1,2.14],
-    tip:"Down 78%. Consider selling — the tax loss offsets gains on NVDA and TSLA. Redeploy into XOM or JPM.",
-  },
+    earnings:[{q:"Q1'26",est:-0.20,act:-0.18,beat:true},{q:"Q4'25",est:-0.22,act:-0.21,beat:true},{q:"Q3'25",est:-0.28,act:-0.29,beat:false},{q:"Q2'25",est:-0.30,act:-0.31,beat:false}],
+    news:[{source:"REUTERS",title:"Lucid delivers 2,212 vehicles in Q1 — production still far below targets",time:"1d ago",sentiment:"negative"},{source:"BLOOMBERG",title:"Lucid raises $1.75B in equity offering, diluting shareholders again",time:"3d ago",sentiment:"negative"},{source:"WSJ",title:"Saudi Arabia PIF remains Lucid lifeline as company burns cash at record rate",time:"4d ago",sentiment:"neutral"}],
+    tip:"Down 78%. Consider selling — the tax loss offsets gains on NVDA and TSLA. Redeploy into XOM or JPM."},
 };
 
-// ── RENDER ────────────────────────────────────────────────
+// ── LIVE CHART via Yahoo Finance proxy ───────────────────
+// Multiple proxy fallbacks
+const PROXIES = [
+  "https://corsproxy.io/?https://query1.finance.yahoo.com/v8/finance/chart/",
+  "https://api.allorigins.win/raw?url=https://query1.finance.yahoo.com/v8/finance/chart/",
+  "https://thingproxy.freeboard.io/fetch/https://query1.finance.yahoo.com/v8/finance/chart/",
+];
+let currentTicker = "";
+let currentRange = "1mo";
+
 function getParam(){return new URLSearchParams(window.location.search).get('t')||'NVDA';}
 
-function drawChart(points, color){
-  const svg=document.getElementById('chartSvg');
-  const W=400,H=160,pad=10;
-  const mn=Math.min(...points),mx=Math.max(...points),range=mx-mn||1;
-  const pts=points.map((v,i)=>{
-    const x=pad+(i/(points.length-1))*(W-pad*2);
-    const y=H-pad-(((v-mn)/range)*(H-pad*2));
-    return[x,y];
-  });
-  const area='M'+pts.map(p=>p.join(',')).join('L')+`L${pts[pts.length-1][0]},${H} L${pts[0][0]},${H} Z`;
-  const line='M'+pts.map(p=>p.join(',')).join('L');
-  svg.innerHTML=`
-    <defs>
-      <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="${color}" stop-opacity="0.25"/>
-        <stop offset="100%" stop-color="${color}" stop-opacity="0.02"/>
-      </linearGradient>
-    </defs>
-    <path d="${area}" fill="url(#cg)"/>
-    <path d="${line}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    ${pts.map(([x,y],i)=>i===pts.length-1?`<circle cx="${x}" cy="${y}" r="4" fill="${color}" stroke="white" stroke-width="2"/>`:'').join('')}
-    ${[0,1,2,3,4].map(i=>{const x=pad+(i/4)*(W-pad*2);const lbl=points[Math.round(i/4*(points.length-1))];return`<text x="${x}" y="${H-1}" text-anchor="middle" fill="#94a3b8" font-size="8" font-family="DM Mono,monospace">${typeof lbl==='number'&&lbl>100?'$'+Math.round(lbl):'$'+lbl.toFixed(2)}</text>`}).join('')}
-  `;
+async function fetchChart(ticker, range){
+  const interval = range==="1mo"?"1d":range==="3mo"?"1d":range==="6mo"?"1wk":"1wk";
+  const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${range}&interval=${interval}&corsDomain=finance.yahoo.com`;
+  
+  for(const proxy of PROXIES){
+    try {
+      const url = proxy + (proxy.includes("?") ? encodeURIComponent(yahooUrl.split("finance.yahoo.com/v8/finance/chart/")[1].replace(ticker,"")) : "") ;
+      // Build proper URL per proxy type
+      let fetchUrl;
+      if(proxy.includes("corsproxy.io")) fetchUrl = `https://corsproxy.io/?${encodeURIComponent(yahooUrl)}`;
+      else if(proxy.includes("allorigins")) fetchUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(yahooUrl)}`;
+      else fetchUrl = proxy + ticker + `?range=${range}&interval=${interval}`;
+      
+      const r = await fetch(fetchUrl, {signal: AbortSignal.timeout(6000)});
+      if(!r.ok) continue;
+      const data = await r.json();
+      const result = data?.chart?.result?.[0];
+      if(!result) continue;
+      const closes = result.indicators?.quote?.[0]?.close || [];
+      const timestamps = result.timestamp || [];
+      const points = closes.map((c,i)=>({price:c,ts:timestamps[i]})).filter(p=>p.price!==null&&p.price!==undefined);
+      if(points.length > 0) return points;
+    } catch(e) {
+      console.warn("Proxy failed, trying next:", e.message);
+      continue;
+    }
+  }
+  console.warn("All proxies failed");
+  return null;
 }
 
-function render(){
-  const t=getParam();
-  const s=STOCKS[t];
-  if(!s){document.body.innerHTML='<div style="padding:40px;text-align:center;">Stock not found</div>';return;}
+function drawChart(points, color, range){
+  if(!points||points.length<2){
+    document.getElementById('chartArea').innerHTML=`
+      <div class="chart-error">
+        <div style="font-size:24px;">📡</div>
+        <div>Live data unavailable</div>
+        <div style="font-size:10px;margin-top:4px;">CORS restriction on this browser</div>
+        <button onclick="window.open('https://finance.yahoo.com/quote/${currentTicker}','_blank')" style="margin-top:8px;padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surf2);cursor:pointer;font-size:11px;font-family:'DM Sans',sans-serif;">View on Yahoo Finance ↗</button>
+      </div>`;
+    return;
+  }
 
+  const mn=Math.min(...points.map(p=>p.price));
+  const mx=Math.max(...points.map(p=>p.price));
+  const range_val=mx-mn||1;
+  const W=400,H=140,pad=8,bottom=20;
+  const pts=points.map((p,i)=>{
+    const x=pad+(i/(points.length-1))*(W-pad*2);
+    const y=pad+(1-((p.price-mn)/range_val))*(H-pad-bottom);
+    return{x,y,price:p.price,ts:p.ts};
+  });
+
+  const isUp = pts[pts.length-1].price >= pts[0].price;
+  const lineColor = isUp ? "#16a34a" : "#dc2626";
+  const fillColor = isUp ? "#16a34a" : "#dc2626";
+
+  const area='M'+pts.map(p=>`${p.x},${p.y}`).join('L')+`L${pts[pts.length-1].x},${H-bottom} L${pts[0].x},${H-bottom} Z`;
+  const line='M'+pts.map(p=>`${p.x},${p.y}`).join('L');
+
+  // X labels
+  const labelStep=Math.max(1,Math.floor(pts.length/4));
+  const labels=pts.filter((_,i)=>i===0||i===pts.length-1||i%labelStep===0).map(p=>{
+    const d=new Date(p.ts*1000);
+    const lbl=d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+    return`<text x="${p.x}" y="${H-2}" text-anchor="middle" fill="#94a3b8" font-size="7.5" font-family="DM Mono,monospace">${lbl}</text>`;
+  }).join('');
+
+  // Price labels on right
+  const priceLabels=[mn,mn+(mx-mn)/2,mx].map((v,i)=>{
+    const y=pad+(1-((v-mn)/range_val))*(H-pad-bottom);
+    return`<text x="${W-2}" y="${y+3}" text-anchor="end" fill="#94a3b8" font-size="7.5" font-family="DM Mono,monospace">$${v.toFixed(0)}</text>`;
+  }).join('');
+
+  const lastPt=pts[pts.length-1];
+  const firstPt=pts[0];
+  const pctChange=((lastPt.price-firstPt.price)/firstPt.price*100).toFixed(2);
+
+  document.getElementById('chartArea').innerHTML=`
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:160px;" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="${fillColor}" stop-opacity="0.2"/>
+          <stop offset="100%" stop-color="${fillColor}" stop-opacity="0.02"/>
+        </linearGradient>
+      </defs>
+      <path d="${area}" fill="url(#cg)"/>
+      <path d="${line}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${lastPt.x}" cy="${lastPt.y}" r="3.5" fill="${lineColor}" stroke="white" stroke-width="1.5"/>
+      ${labels}
+    </svg>`;
+
+  const changeSign = parseFloat(pctChange)>=0?"+":"";
+  document.getElementById('chartRange').innerHTML=`
+    <span style="font-weight:600;">$${lastPt.price.toFixed(2)}</span>
+    <span style="margin-left:8px;color:${parseFloat(pctChange)>=0?"#16a34a":"#dc2626"};font-weight:600;">${changeSign}${pctChange}%</span>
+    <span style="margin-left:6px;font-size:10px;color:var(--text3);">this period</span>
+    <span class="live-badge"><span class="live-dot"></span>LIVE</span>`;
+
+  // Update price in header too
+  document.getElementById('stockPrice').textContent=`$${lastPt.price.toFixed(2)}`;
+  document.getElementById('liveBadge').innerHTML=`<span class="live-badge" style="margin-top:4px;"><span class="live-dot"></span>Live price</span>`;
+}
+
+async function loadChart(range){
+  currentRange=range;
+  document.getElementById('chartArea').innerHTML='<div class="chart-loading">📡 Fetching live prices...</div>';
+  document.getElementById('chartRange').textContent='Loading...';
+  const points = await fetchChart(currentTicker, range);
+  const s = STOCKS[currentTicker];
+  drawChart(points, s?.color||"#6366f1", range);
+}
+
+// ── RENDER STATIC SECTIONS ────────────────────────────────
+function renderStatic(t, s){
+  // Nav
   document.title=`${t} — PortfolioOS`;
   document.getElementById('navTitle').textContent=t;
   document.getElementById('navPill').textContent=s.sector;
@@ -463,139 +390,105 @@ function render(){
   // Header
   document.getElementById('stockTicker').textContent=t;
   document.getElementById('stockFullname').textContent=s.name;
-  document.getElementById('stockPrice').textContent=s.price;
-  const chEl=document.getElementById('stockChange');
-  chEl.textContent=s.change+' today';
-  chEl.style.color=s.changePos?'#16a34a':'#dc2626';
-
-  // Badges
-  const badges=document.getElementById('stockBadges');
-  badges.innerHTML=`
+  document.getElementById('stockPrice').textContent=s.analyst.current?`$${s.analyst.current}`:'—';
+  document.getElementById('stockBadges').innerHTML=`
     <span class="badge" style="background:${s.color}18;color:${s.color};">${s.sector}</span>
-    ${s.anchor?`<span class="badge" style="background:#d1fae5;color:#065f46;">⚓ Anchor</span>`:''}
-    <span class="badge" style="background:${s.changePos?'#dcfce7':'#fee2e2'};color:${s.changePos?'#166534':'#991b1b'};">${s.changePos?'▲':'▼'} ${s.change}</span>
-  `;
-
-  // Chart
-  document.getElementById('chartHigh').textContent=`52W: ${s.metrics['52W Low']} — ${s.metrics['52W High']}`;
-  drawChart(s.chartPoints, s.color);
-
-  // Chart tabs
-  document.querySelectorAll('.chart-tab').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.chart-tab').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
+    ${s.anchor?'<span class="badge" style="background:#d1fae5;color:#065f46;">⚓ Anchor</span>':''}`;
 
   // Position
-  const posEl=document.getElementById('positionRows');
   const pos=s.position;
-  posEl.innerHTML=`
+  document.getElementById('positionRows').innerHTML=`
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-      <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;">${pos.value}</div>
-      ${pos.gainPct!=='—'?`<div style="font-size:11px;padding:3px 8px;border-radius:8px;background:${pos.gainPct.startsWith('+')?'#dcfce7':'#fee2e2'};color:${pos.gainPct.startsWith('+')?'#166534':'#991b1b'};font-family:'DM Mono',monospace;">${pos.gainPct}</div>`:''}
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:900;">${pos.value}</div>
+      ${pos.gainPct!=='—'?`<div style="font-size:11px;padding:2px 8px;border-radius:8px;background:${pos.gainPct.startsWith('+')?'#dcfce7':'#fee2e2'};color:${pos.gainPct.startsWith('+')?'#166534':'#991b1b'};font-family:'DM Mono',monospace;">${pos.gainPct}</div>`:''}
     </div>
     ${[['Shares owned',pos.shares],['Cost basis',pos.costBasis],['Gain / Loss',pos.gainLoss],['Monthly injection',pos.monthly],['Target allocation',pos.target]].map(([l,v])=>`
-      <div class="position-row">
-        <span class="pos-label">${l}</span>
-        <span class="pos-val" style="color:${l==='Gain / Loss'&&v.startsWith('+')?'#16a34a':l==='Gain / Loss'&&v.startsWith('-')?'#dc2626':'var(--text)'};">${v}</span>
-      </div>`).join('')}
-    <div style="margin-top:12px;padding:10px;background:${s.color}0d;border-radius:10px;border-left:2px solid ${s.color};font-size:11px;color:var(--text2);line-height:1.6;">
-      💡 ${s.tip}
-    </div>`;
+      <div class="position-row"><span class="pos-label">${l}</span><span class="pos-val" style="color:${l==='Gain / Loss'&&v.startsWith('+')?'#16a34a':l==='Gain / Loss'&&v.startsWith('-')?'#dc2626':'var(--text)'};">${v}</span></div>`).join('')}
+    <div style="margin-top:10px;padding:9px 12px;background:${s.color}0d;border-radius:10px;border-left:2px solid ${s.color};font-size:11px;color:var(--text2);line-height:1.6;">💡 ${s.tip}</div>`;
 
   // Analyst
   const an=s.analyst;
   const total=an.buy+an.hold+an.sell;
-  const ratingColors={'STRONG BUY':'#16a34a','BUY':'#22c55e','HOLD':'#f59e0b','SELL':'#ef4444','STRONG SELL':'#dc2626'};
-  const rc=document.getElementById('ratingCircle');
-  rc.style.background=ratingColors[an.rating]+'18';
-  rc.style.border=`2px solid ${ratingColors[an.rating]}44`;
-  document.getElementById('ratingVal').textContent=an.score;
-  document.getElementById('ratingVal').style.color=ratingColors[an.rating];
-  document.getElementById('ratingLbl').textContent=an.rating;
-  document.getElementById('ratingLbl').style.color=ratingColors[an.rating];
-  document.getElementById('analystBar').innerHTML=`
-    <div class="analyst-seg" style="width:${(an.buy/total*100).toFixed(0)}%;background:#22c55e;"></div>
-    <div class="analyst-seg" style="width:${(an.hold/total*100).toFixed(0)}%;background:#f59e0b;"></div>
-    <div class="analyst-seg" style="width:${(an.sell/total*100).toFixed(0)}%;background:#ef4444;"></div>
-  `;
-  document.getElementById('analystLabels').innerHTML=`
-    <span style="color:#22c55e;">Buy ${an.buy}</span>
-    <span style="color:#f59e0b;">Hold ${an.hold}</span>
-    <span style="color:#ef4444;">Sell ${an.sell}</span>
-  `;
+  const rc={'STRONG BUY':'#16a34a','BUY':'#22c55e','HOLD':'#f59e0b','SELL':'#ef4444','STRONG SELL':'#dc2626'};
   const tLow=parseFloat(an.targetLow.replace(/[$,]/g,''));
   const tHigh=parseFloat(an.targetHigh.replace(/[$,]/g,''));
-  const tCur=an.current;
-  const tPos=Math.min(Math.max(((tCur-tLow)/(tHigh-tLow))*100,0),100);
-  document.getElementById('priceTarget').innerHTML=`
-    <div style="font-size:10px;margin-bottom:6px;">Target: ${an.targetLow} — <strong style="color:var(--accent);">${an.target}</strong> — ${an.targetHigh}</div>
-    <div class="target-track">
-      <div class="target-fill" style="width:${tPos.toFixed(0)}%;background:linear-gradient(90deg,${s.color}66,${s.color});"></div>
-      <div class="target-dot" style="left:${tPos.toFixed(0)}%;background:${s.color};box-shadow:0 0 8px ${s.color}66;"></div>
+  const tPos=Math.min(Math.max(((an.current-tLow)/(tHigh-tLow))*100,2),98);
+  document.getElementById('analystContent').innerHTML=`
+    <div class="rating-circle" style="background:${rc[an.rating]}18;border:2px solid ${rc[an.rating]}44;">
+      <div class="rating-val" style="color:${rc[an.rating]};">${an.score}</div>
+      <div class="rating-lbl" style="color:${rc[an.rating]};">${an.rating}</div>
     </div>
-    <div style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:4px;">Current: ${s.price}</div>
-  `;
+    <div class="analyst-bar">
+      <div class="analyst-seg" style="width:${(an.buy/total*100).toFixed(0)}%;background:#22c55e;"></div>
+      <div class="analyst-seg" style="width:${(an.hold/total*100).toFixed(0)}%;background:#f59e0b;"></div>
+      <div class="analyst-seg" style="width:${(an.sell/total*100).toFixed(0)}%;background:#ef4444;"></div>
+    </div>
+    <div class="analyst-labels"><span style="color:#22c55e;">Buy ${an.buy}</span><span style="color:#f59e0b;">Hold ${an.hold}</span><span style="color:#ef4444;">Sell ${an.sell}</span></div>
+    <div style="margin-top:10px;font-size:10px;color:var(--text2);">Target: ${an.targetLow} — <strong style="color:var(--accent);">${an.target}</strong> — ${an.targetHigh}</div>
+    <div class="target-track">
+      <div style="height:100%;border-radius:4px;width:${tPos.toFixed(0)}%;background:linear-gradient(90deg,${s.color}66,${s.color});"></div>
+      <div class="target-dot" style="left:${tPos.toFixed(0)}%;background:${s.color};box-shadow:0 0 6px ${s.color}66;"></div>
+    </div>
+    <div style="font-size:9px;color:var(--text3);font-family:'DM Mono',monospace;">Current: $${an.current}</div>`;
 
-  // Key metrics
-  const km=document.getElementById('keyMetrics');
-  km.innerHTML=Object.entries(s.metrics).map(([k,v])=>`
-    <div class="metric-item">
-      <div class="metric-label">${k}</div>
-      <div class="metric-val">${v}</div>
-    </div>`).join('');
+  // Metrics
+  document.getElementById('keyMetrics').innerHTML=Object.entries(s.metrics).map(([k,v])=>`
+    <div class="metric-item"><div class="metric-label">${k}</div><div class="metric-val">${v}</div></div>`).join('');
 
   // Dividend
-  const dc=document.getElementById('divContent');
   const dv=s.dividend;
-  if(dv.yield==='0%'||dv.yield==='0'){
-    dc.innerHTML=`<div style="text-align:center;padding:20px 0;"><div style="font-size:32px;margin-bottom:8px;">—</div><div style="font-size:12px;color:var(--text3);">No dividend</div></div>`;
-  } else {
-    dc.innerHTML=`
-      <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:#d97706;margin-bottom:4px;">${dv.yield}</div>
-      <div style="font-size:11px;color:var(--text3);margin-bottom:12px;">Annual yield</div>
-      ${[['Annual payout',dv.annual],['Frequency',dv.frequency],['Next date',dv.nextDate]].map(([l,v])=>`
-        <div class="position-row"><span class="pos-label">${l}</span><span class="pos-val">${v}</span></div>`).join('')}
-    `;
-  }
+  document.getElementById('divContent').innerHTML=dv.yield==='0%'||dv.yield==='0'
+    ?`<div style="text-align:center;padding:18px 0;"><div style="font-size:28px;margin-bottom:6px;">—</div><div style="font-size:12px;color:var(--text3);">No dividend</div></div>`
+    :`<div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:#d97706;margin-bottom:2px;">${dv.yield}</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">Annual yield</div>
+      ${[['Annual payout',dv.annual],['Frequency',dv.frequency],['Next date',dv.nextDate]].map(([l,v])=>`<div class="position-row"><span class="pos-label">${l}</span><span class="pos-val">${v}</span></div>`).join('')}`;
 
   // Earnings
-  const er=document.getElementById('earningsRows');
   const maxEPS=Math.max(...s.earnings.flatMap(e=>[Math.abs(e.est),Math.abs(e.act)]));
-  er.innerHTML=s.earnings.map(e=>{
-    const estH=Math.max((Math.abs(e.est)/maxEPS)*28,3);
-    const actH=Math.max((Math.abs(e.act)/maxEPS)*28,3);
-    return`
+  document.getElementById('earningsRows').innerHTML=s.earnings.map(e=>`
     <div class="earnings-row">
       <div class="earnings-q">${e.q}</div>
       <div class="earnings-bars">
-        <div class="earnings-bar" style="height:${estH}px;background:#c7d2f0;" title="Est: $${e.est}"></div>
-        <div class="earnings-bar" style="height:${actH}px;background:${e.beat?'var(--accent)':'#ef4444'};" title="Act: $${e.act}"></div>
+        <div class="earnings-bar" style="height:${Math.max((Math.abs(e.est)/maxEPS)*28,3)}px;background:#c7d2f0;"></div>
+        <div class="earnings-bar" style="height:${Math.max((Math.abs(e.act)/maxEPS)*28,3)}px;background:${e.beat?'var(--accent)':'#ef4444'};"></div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;min-width:60px;">
+      <div style="display:flex;flex-direction:column;align-items:flex-end;min-width:64px;">
         <span style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text2);">$${e.act}</span>
-        <span style="font-size:9px;padding:1px 6px;border-radius:6px;margin-top:2px;background:${e.beat?'#dcfce7':'#fee2e2'};color:${e.beat?'#166534':'#991b1b'};">${e.beat?'BEAT':'MISS'}</span>
+        <span style="font-size:8px;padding:1px 6px;border-radius:6px;margin-top:2px;background:${e.beat?'#dcfce7':'#fee2e2'};color:${e.beat?'#166534':'#991b1b'};">${e.beat?'BEAT':'MISS'}</span>
       </div>
-    </div>`;
-  }).join('');
+    </div>`).join('');
 
   // News
-  const ni=document.getElementById('newsItems');
-  ni.innerHTML=s.news.map(n=>`
+  document.getElementById('newsItems').innerHTML=s.news.map(n=>`
     <div class="news-item">
-      <div class="news-source">${n.source}
-        <span class="news-sentiment" style="background:${n.sentiment==='positive'?'#dcfce7':n.sentiment==='negative'?'#fee2e2':'#f3f4f6'};color:${n.sentiment==='positive'?'#166534':n.sentiment==='negative'?'#991b1b':'#6b7280'};">
-          ${n.sentiment==='positive'?'▲ Bullish':n.sentiment==='negative'?'▼ Bearish':'● Neutral'}
-        </span>
-      </div>
+      <div class="news-source">${n.source}<span class="news-sentiment" style="background:${n.sentiment==='positive'?'#dcfce7':n.sentiment==='negative'?'#fee2e2':'#f3f4f6'};color:${n.sentiment==='positive'?'#166534':n.sentiment==='negative'?'#991b1b':'#6b7280'};">${n.sentiment==='positive'?'▲ Bullish':n.sentiment==='negative'?'▼ Bearish':'● Neutral'}</span></div>
       <div class="news-title">${n.title}</div>
       <div class="news-time">${n.time}</div>
     </div>`).join('');
 }
 
-render();
+// ── INIT ─────────────────────────────────────────────────
+async function init(){
+  const t=getParam();
+  currentTicker=t;
+  const s=STOCKS[t];
+  if(!s){document.body.innerHTML='<div style="padding:40px;text-align:center;font-family:DM Sans,sans-serif;">Stock not found. <a href="index.html">Go back</a></div>';return;}
+  renderStatic(t,s);
+
+  // Chart tab listeners
+  document.querySelectorAll('.chart-tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.chart-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      loadChart(btn.dataset.range);
+    });
+  });
+
+  // Load chart
+  await loadChart('1mo');
+}
+
+init();
 </script>
 </body>
 </html>
