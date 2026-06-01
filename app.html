@@ -53,6 +53,13 @@ button:hover{filter:brightness(1.05);}
 /* bars that grow from left */
 .anim-bar{transform-origin:left center;animation:barGrow 0.8s cubic-bezier(0.34,1.56,0.64,1);}
 .tab-active-pulse{animation:countPop 0.35s cubic-bezier(0.34,1.56,0.64,1);}
+.donut-seg{animation:donutDraw 0.9s cubic-bezier(0.4,0,0.2,1) backwards;animation-delay:var(--delay,0s);}
+@keyframes donutDraw{from{stroke-dasharray:0 calc(var(--seg) + var(--gap));}to{stroke-dasharray:var(--seg) var(--gap);}}
+.hchip{font-size:9px;font-weight:600;padding:3px 9px;border-radius:9px;letter-spacing:0.2px;white-space:nowrap;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) backwards;}
+.hchip:nth-child(1){animation-delay:0.15s;}
+.hchip:nth-child(2){animation-delay:0.22s;}
+.hchip:nth-child(3){animation-delay:0.29s;}
+.hchip:nth-child(4){animation-delay:0.36s;}
 input{font-family:'Georgia',serif;outline:none;}
 
 /* ── DARK ── */
@@ -224,8 +231,12 @@ function donut(holdings,total,size,dark){
   const bg=dark?"#1a2640":"#e2e8f8";
   const r=size*0.37,cx=size/2,cy=size/2,c=2*Math.PI*r;
   if(!active.length||!total)return`<svg width="${size}" height="${size}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${bg}" stroke-width="${size*0.14}"/></svg>`;
-  let off=0,sl="";
-  active.forEach(h=>{const d=(h.value/total)*c;sl+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${h.color}" stroke-width="${size*0.14}" stroke-dasharray="${d} ${c-d}" stroke-dashoffset="${-off}" style="transition:all 0.7s ease"/>`;off+=d;});
+  let off=0,sl="",di=0;
+  active.forEach(h=>{
+    const d=(h.value/total)*c;
+    sl+=`<circle class="donut-seg" cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${h.color}" stroke-width="${size*0.14}" stroke-linecap="round" stroke-dasharray="${d} ${c-d}" stroke-dashoffset="${-off}" style="--seg:${d};--gap:${c-d};--delay:${(di*0.12).toFixed(2)}s;"/>`;
+    off+=d;di++;
+  });
   return`<svg width="${size}" height="${size}" style="transform:rotate(-90deg)"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${bg}" stroke-width="${size*0.14}"/>${sl}</svg>`;
 }
 
@@ -282,11 +293,11 @@ function render(){
           <span style="background:${gl>=0?"#4ade8022":"#f8717122"};color:${gl>=0?"#4ade80":"#f87171"};padding:2px 8px;border-radius:10px;font-size:11px;font-weight:bold;">${gl>=0?"▲":"▼"} ${glPct}%</span>
           <span style="font-size:10px;" class="t3">${fmt(Math.abs(gl))} ${gl>=0?"gain":"loss"}</span>
         </div>`:""}
-        <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
-          <span style="font-size:8px;background:#a3e63514;border:1px solid #a3e63530;color:#a3e635;padding:2px 7px;border-radius:8px;">💻 ${techPct}%</span>
-          <span style="font-size:8px;background:#34d39914;border:1px solid #34d39930;color:#34d399;padding:2px 7px;border-radius:8px;">⚓ ${anchPct}%</span>
-          <span style="font-size:8px;background:${goalPct>=100?"#4ade8014":"#6366f114"};border:1px solid ${goalPct>=100?"#4ade8030":"#6366f130"};color:${goalPct>=100?"#4ade80":"#818cf8"};padding:2px 7px;border-radius:8px;">${curGoal.emoji} ${goalPct.toFixed(0)}%</span>
-          ${annDiv>0?`<span style="font-size:8px;background:#fbbf2414;border:1px solid #fbbf2430;color:#fbbf24;padding:2px 7px;border-radius:8px;">💰 ${fmt(annDiv)}/yr</span>`:""}
+        <div style="display:flex;gap:6px;margin-top:9px;flex-wrap:wrap;">
+          <span class="hchip" style="background:#a3e63516;border:1px solid #a3e63538;color:${dark?"#a3e635":"#5a8a00"};">💻 Tech ${techPct}%</span>
+          <span class="hchip" style="background:#34d39916;border:1px solid #34d39938;color:${dark?"#34d399":"#0f8a5f"};">⚓ Anchors ${anchPct}%</span>
+          <span class="hchip" style="background:${goalPct>=100?"#4ade8016":"#6366f116"};border:1px solid ${goalPct>=100?"#4ade8038":"#6366f138"};color:${goalPct>=100?(dark?"#4ade80":"#16a34a"):(dark?"#818cf8":"#4f46e5")};">${curGoal.emoji} Goal ${goalPct.toFixed(0)}%</span>
+          ${annDiv>0?`<span class="hchip" style="background:#fbbf2416;border:1px solid #fbbf2438;color:${dark?"#fbbf24":"#b45309"};">💰 ${fmt(annDiv)}/yr</span>`:""}
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:5px;">

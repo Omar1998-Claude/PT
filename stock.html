@@ -181,6 +181,8 @@ nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-
     <div class="card fade-in"><div class="clabel">Key Metrics</div><div class="metric-grid" id="metricsGrid"></div></div>
     <div class="card fade-in"><div class="clabel">Dividend</div><div id="divContent"></div></div>
     <div class="card full fade-in"><div class="clabel">Quarterly Earnings — EPS Est. vs Actual</div><div id="epsRows"></div><div style="display:flex;gap:10px;margin-top:8px;"><span><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#c7d2f0;margin-right:3px;"></span><span style="font-size:9px;color:var(--text3);">Est</span></span><span><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--acc);margin-right:3px;"></span><span style="font-size:9px;color:var(--text3);">Actual</span></span></div></div>
+    <div class="card full fade-in"><div class="clabel">Revenue &amp; Free Cash Flow — Last 4 Quarters</div><div id="finChart"></div><div style="display:flex;gap:14px;margin-top:10px;justify-content:center;"><span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--sc);"></span><span style="font-size:9px;color:var(--text3);">Revenue</span></span><span style="display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--sc);opacity:0.4;"></span><span style="font-size:9px;color:var(--text3);">Free Cash Flow</span></span></div></div>
+    <div class="card full fade-in"><div class="clabel">Market Sentiment</div><div id="sentiment"></div></div>
     <div class="card full fade-in"><div class="clabel">Company Overview</div><div id="overviewText" style="font-size:12px;color:var(--text2);line-height:1.75;margin-bottom:12px;"></div><div class="clabel" style="margin-top:4px;">Key Projects</div><div id="projList"></div></div>
     <div class="card full fade-in"><div class="clabel">Latest News</div><div id="newsItems"></div></div>
   </div>
@@ -215,6 +217,20 @@ var LOGOS = {
 // ── STOCK DATA ────────────────────────────────────────────
 var THEMES = {NVDA:"t-nvda",TSLA:"t-tsla",DELL:"t-dell",IBM:"t-ibm",SNDK:"t-sndk",ABBV:"t-abbv",XOM:"t-xom",JPM:"t-jpm",NFLX:"t-nflx",LCID:"t-lcid"};
 var COLORS = {NVDA:"#a3e635",TSLA:"#f87171",DELL:"#60a5fa",IBM:"#818cf8",SNDK:"#fb923c",ABBV:"#34d399",XOM:"#fbbf24",JPM:"#38bdf8",NFLX:"#ef4444",LCID:"#c084fc"};
+
+var FIN = {
+  NVDA:{rev:[30.0, 35.1, 39.3, 44.1],fcf:[13.5, 16.8, 15.5, 26.7],label:"Very Bullish",tone:"#16a34a",bull:["AI GPU demand far outstrips supply", "Blackwell ramp driving record margins", "Data-center revenue compounding every quarter"],bear:["Valuation priced for perfection", "Customer concentration in a few hyperscalers", "Potential China export restrictions"]},
+  TSLA:{rev:[25.5, 25.2, 25.7, 21.3],fcf:[1.3, 2.7, 2.0, 0.7],label:"Mixed / Cautious",tone:"#f59e0b",bull:["Robotaxi optionality could be huge", "Energy storage growing fast", "Brand and FSD lead in autonomy"],bear:["Auto deliveries declining YoY", "Margins compressed by price cuts", "Valuation rich vs slowing growth"]},
+  DELL:{rev:[22.2, 24.4, 23.9, 23.4],fcf:[1.0, 2.0, 2.6, 2.9],label:"Bullish",tone:"#16a34a",bull:["AI server backlog at record $14B", "Best pure-play on AI infrastructure", "Margins improving as mix shifts"],bear:["Thin hardware margins overall", "PC segment still soft", "Heavy reliance on Nvidia supply"]},
+  IBM:{rev:[15.8, 14.9, 17.6, 14.5],fcf:[2.6, 2.5, 6.2, 2.0],label:"Neutral",tone:"#6b7280",bull:["Steady software + consulting growth", "29-year dividend raiser", "WatsonX gaining enterprise traction"],bear:["Slower growth than AI peers", "Legacy mainframe drag", "FX headwinds on global revenue"]},
+  SNDK:{rev:[1.7, 1.9, 2.3, 2.9],fcf:[0.1, 0.3, 0.5, 0.8],label:"Bullish / High Risk",tone:"#16a34a",bull:["NAND pricing in a strong upcycle", "AI storage demand surging", "Densest 300-layer NAND shipping"],bear:["Highly cyclical memory pricing", "Trades at steep premium to fair value", "Capital-intensive business"]},
+  ABBV:{rev:[14.5, 14.6, 15.1, 13.3],fcf:[5.6, 5.9, 6.8, 4.2],label:"Bullish",tone:"#16a34a",bull:["Skyrizi/Rinvoq replacing Humira faster than expected", "Reliable 3.4% dividend", "Deep late-stage oncology pipeline"],bear:["Humira erosion still a headwind", "Drug pricing/regulatory risk", "Pipeline execution dependency"]},
+  XOM:{rev:[90.0, 90.0, 83.4, 83.1],fcf:[9.0, 11.3, 8.0, 8.8],label:"Bullish",tone:"#16a34a",bull:["42-year dividend growth streak", "Record Permian production at low cost", "Fortress cash flow through cycles"],bear:["Earnings tied to volatile oil prices", "Energy-transition long-term risk", "Capex-heavy growth projects"]},
+  JPM:{rev:[50.2, 43.3, 42.8, 45.3],fcf:[null, null, null, null],label:"Bullish",tone:"#16a34a",bull:["#1 investment bank, record fees", "Fortress balance sheet", "Strong net interest income"],bear:["Rate cuts pressure NII", "Credit normalization ahead", "Regulatory capital requirements"]},
+  NFLX:{rev:[9.6, 9.8, 10.2, 10.5],fcf:[2.2, 2.3, 1.4, 2.7],label:"Bullish",tone:"#16a34a",bull:["Ad tier hit 40M users", "Password crackdown lifted margins", "Live sports driving engagement"],bear:["Premium valuation (52x P/E)", "Content spend remains huge", "Streaming competition intense"]},
+  LCID:{rev:[0.2, 0.2, 0.23, 0.24],fcf:[-0.6, -0.7, -0.65, -0.7],label:"Bearish",tone:"#dc2626",bull:["Class-leading 516-mi range", "Saudi PIF funding lifeline", "Gravity SUV expands market"],bear:["Burning cash at record rate", "Repeated shareholder dilution", "Deliveries far below targets"]},
+};
+var FIN_QTRS = ["Q2'25", "Q3'25", "Q4'25", "Q1'26"];
 
 var DATA = {
   NVDA:{name:"Nvidia Corporation",sector:"Tech",anchor:false,
@@ -490,6 +506,51 @@ function render(t) {
     var aH = Math.max((Math.abs(e.a)/maxE)*28, 3);
     return '<div class="eps-row"><div class="eps-q">'+e.q+'</div><div class="eps-bars"><div class="eps-bar" style="height:'+eH+'px;background:#c7d2f0;"></div><div class="eps-bar" style="height:'+aH+'px;background:'+(e.b?"var(--acc)":"#ef4444")+'"></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;min-width:60px;"><span style="font-size:10px;font-family:DM Mono,monospace;color:var(--text2);">$'+e.a+'</span><span style="font-size:7px;padding:1px 5px;border-radius:5px;margin-top:1px;background:'+(e.b?"#dcfce7":"#fee2e2")+';color:'+(e.b?"#166534":"#991b1b")+'">'+(e.b?"BEAT":"MISS")+'</span></div></div>';
   }).join("");
+
+  // Revenue & Free Cash Flow chart
+  var fin = FIN[t];
+  var finEl = document.getElementById("finChart");
+  if (fin && finEl) {
+    var allVals = fin.rev.concat(fin.fcf.filter(function(v){return v!=null;}));
+    var maxV = Math.max.apply(null, allVals.map(Math.abs)) || 1;
+    var hasFcf = fin.fcf.some(function(v){return v!=null;});
+    var bars = "";
+    for (var i = 0; i < FIN_QTRS.length; i++) {
+      var rev = fin.rev[i];
+      var fcf = fin.fcf[i];
+      var revH = Math.max((Math.abs(rev)/maxV)*84, 4);
+      var fcfH = fcf==null ? 0 : Math.max((Math.abs(fcf)/maxV)*84, 4);
+      var fcfNeg = fcf!=null && fcf < 0;
+      bars += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;">'
+        + '<div style="display:flex;align-items:flex-end;gap:3px;height:90px;">'
+        + '<div title="Revenue" style="width:16px;height:'+revH+'px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,'+color+','+color+'aa);transition:height 0.6s;"></div>'
+        + (hasFcf ? '<div title="Free Cash Flow" style="width:16px;height:'+fcfH+'px;border-radius:4px 4px 0 0;background:'+(fcfNeg?"#ef4444":color)+';opacity:'+(fcfNeg?"0.7":"0.4")+';transition:height 0.6s;"></div>' : '')
+        + '</div>'
+        + '<div style="font-size:8px;font-family:DM Mono,monospace;color:var(--text3);">'+FIN_QTRS[i]+'</div>'
+        + '<div style="font-size:9px;font-weight:700;color:var(--text);">$'+rev+'B</div>'
+        + (hasFcf ? '<div style="font-size:7px;color:'+(fcfNeg?"#ef4444":"var(--text3)")+';">FCF '+(fcf==null?"—":(fcf<0?"-$"+Math.abs(fcf):"$"+fcf)+"B")+'</div>' : '')
+        + '</div>';
+    }
+    finEl.innerHTML = '<div style="display:flex;align-items:flex-end;gap:8px;padding-top:4px;">'+bars+'</div>';
+  } else if (finEl) {
+    finEl.innerHTML = '<div style="font-size:11px;color:var(--text3);text-align:center;padding:16px 0;">Financial data unavailable</div>';
+  }
+
+  // Market Sentiment
+  var sEl = document.getElementById("sentiment");
+  if (fin && sEl) {
+    var bull = fin.bull.map(function(x){return '<div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:6px;"><span style="color:#16a34a;font-size:11px;flex-shrink:0;">▲</span><span style="font-size:11px;line-height:1.5;color:var(--text2);">'+x+'</span></div>';}).join("");
+    var bear = fin.bear.map(function(x){return '<div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:6px;"><span style="color:#dc2626;font-size:11px;flex-shrink:0;">▼</span><span style="font-size:11px;line-height:1.5;color:var(--text2);">'+x+'</span></div>';}).join("");
+    sEl.innerHTML =
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:13px;padding:10px 12px;border-radius:11px;background:'+fin.tone+'14;border:1px solid '+fin.tone+'33;">'
+        + '<span style="font-size:9px;font-family:DM Mono,monospace;letter-spacing:1px;color:var(--text3);">THE STREET SAYS</span>'
+        + '<span style="font-size:13px;font-weight:800;color:'+fin.tone+';margin-left:auto;">'+fin.label+'</span>'
+      + '</div>'
+      + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
+        + '<div><div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#16a34a;margin-bottom:8px;">BULL CASE</div>'+bull+'</div>'
+        + '<div><div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#dc2626;margin-bottom:8px;">BEAR CASE</div>'+bear+'</div>'
+      + '</div>';
+  }
 
   // Overview & Projects
   document.getElementById("overviewText").textContent = d.overview;
