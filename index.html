@@ -104,9 +104,14 @@ h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,42px);font-weig
 footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
 .footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-.fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease;}
-.fade-up.visible{opacity:1;transform:translateY(0);}
-.d1{transition-delay:0.1s;}.d2{transition-delay:0.2s;}.d3{transition-delay:0.3s;}.d4{transition-delay:0.4s;}
+.fade-up{opacity:0;transform:translateY(34px) scale(0.97);transition:opacity 0.6s cubic-bezier(0.34,1.56,0.64,1),transform 0.6s cubic-bezier(0.34,1.56,0.64,1);}
+.fade-up.visible{opacity:1;transform:translateY(0) scale(1);}
+.d1{transition-delay:0.08s;}.d2{transition-delay:0.16s;}.d3{transition-delay:0.24s;}.d4{transition-delay:0.32s;}
+.btn-primary,.btn-secondary,.launch-btn-nav,.theme-btn{transition:transform 0.12s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s,background 0.25s,border-color 0.25s,color 0.25s;}
+.btn-primary:active,.btn-secondary:active,.launch-btn-nav:active,.theme-btn:active{transform:scale(0.93);}
+.feature-card:active,.stock-card:active{transform:scale(0.97)!important;}
+@keyframes floatBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.mockup-wrap.visible{animation:floatBob 4s ease-in-out infinite 0.6s;}
 
 .stock-card{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:20px;transition:all 0.3s;text-decoration:none;display:block;color:var(--text);}
 .stock-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px #00000033;}
@@ -148,10 +153,10 @@ footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
   </div>
 
   <div class="stats fade-up d3">
-    <div class="stat"><div class="stat-val">8</div><div class="stat-lbl">Stocks</div></div>
-    <div class="stat"><div class="stat-val">6</div><div class="stat-lbl">Smart tabs</div></div>
-    <div class="stat"><div class="stat-val">$35K</div><div class="stat-lbl">Goal roadmap</div></div>
-    <div class="stat"><div class="stat-val">100%</div><div class="stat-lbl">Free</div></div>
+    <div class="stat"><div class="stat-val"><span class="cu" data-to="8">0</span></div><div class="stat-lbl">Stocks</div></div>
+    <div class="stat"><div class="stat-val"><span class="cu" data-to="6">0</span></div><div class="stat-lbl">Smart tabs</div></div>
+    <div class="stat"><div class="stat-val">$<span class="cu" data-to="35">0</span>K</div><div class="stat-lbl">Goal roadmap</div></div>
+    <div class="stat"><div class="stat-val"><span class="cu" data-to="100">0</span>%</div><div class="stat-lbl">Free</div></div>
   </div>
 
   <!-- Phone mockup -->
@@ -396,10 +401,39 @@ function toggleTheme(){
   document.getElementById('body').className=dark?'':'light';
   document.getElementById('themeBtn').textContent=dark?'☀️ Light':'🌙 Dark';
 }
+
+// Snappy reveal — replays each time element enters view
 const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-},{threshold:0.1});
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');}
+    else{e.target.classList.remove('visible');}
+  });
+},{threshold:0.15});
 document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+
+// Count-up stats — fire when the stats row enters view
+function countUp(el){
+  const to=parseFloat(el.getAttribute('data-to'))||0;
+  const dur=900;let start=null;
+  function step(ts){
+    if(!start)start=ts;
+    const p=Math.min((ts-start)/dur,1);
+    const eased=1-Math.pow(1-p,3);
+    el.textContent=Math.round(to*eased);
+    if(p<1)requestAnimationFrame(step);else el.textContent=to;
+  }
+  requestAnimationFrame(step);
+}
+const statObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.cu').forEach(countUp);
+      statObserver.unobserve(e.target);
+    }
+  });
+},{threshold:0.4});
+const statsRow=document.querySelector('.stats');
+if(statsRow)statObserver.observe(statsRow);
 </script>
 </body>
 </html>
