@@ -69,7 +69,16 @@ h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,42px);font-weig
 
 .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:40px;}
 .feature-card{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:24px;transition:all 0.3s;cursor:pointer;text-decoration:none;display:block;color:var(--text);}
-.feature-card:hover{border-color:#6366f155;transform:translateY(-4px);box-shadow:0 12px 32px #00000033;}
+.feature-card:hover{border-color:var(--fc,#6366f1)88;transform:translateY(-6px);box-shadow:0 18px 40px #00000040;}
+.feature-card{position:relative;overflow:hidden;}
+.feature-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--fc,#6366f1);transform:scaleX(0);transform-origin:left;transition:transform 0.35s ease;}
+.feature-card:hover::before{transform:scaleX(1);}
+.feature-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--fc,#6366f1)10,transparent 70%);opacity:0;transition:opacity 0.35s ease;pointer-events:none;}
+.feature-card:hover::after{opacity:1;}
+.feature-icon-wrap{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;transition:transform 0.35s ease;}
+.feature-card:hover .feature-icon-wrap{transform:scale(1.08) rotate(-4deg);}
+.feature-go{display:flex;align-items:center;gap:6px;margin-top:14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--fc,#6366f1);opacity:0;transform:translateX(-6px);transition:all 0.3s ease;}
+.feature-card:hover .feature-go{opacity:1;transform:translateX(0);}
 .feature-icon{font-size:28px;margin-bottom:14px;display:block;}
 .feature-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;margin-bottom:8px;}
 .feature-desc{font-size:13px;color:var(--text2);line-height:1.6;}
@@ -201,12 +210,12 @@ footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
   <h2 class="fade-up">Everything you need.<br>Nothing you don't.</h2>
   <p class="section-sub fade-up d1">Built for real investors who want clarity, not complexity.</p>
   <div class="features-grid">
-    <div class="feature-card fade-up"><span class="feature-icon">📊</span><div class="feature-title">Dashboard</div><div class="feature-desc">Live portfolio overview with donut chart, allocation bars and per-stock progress rings.</div><span class="feature-tag">Real-time</span></div>
-    <div class="feature-card fade-up d1"><span class="feature-icon">💉</span><div class="feature-title">Inject Planner</div><div class="feature-desc">Choose your monthly budget ($200–$500), pick Rotation or Index mode, get exact breakdown.</div><span class="feature-tag">Monthly</span></div>
-    <div class="feature-card fade-up d2"><span class="feature-icon">💰</span><div class="feature-title">Dividend Tracker</div><div class="feature-desc">See annual and monthly dividend income across ABBV, XOM, JPM and IBM. 3-year projection included.</div><span class="feature-tag">Passive Income</span></div>
-    <div class="feature-card fade-up d3"><span class="feature-icon">🎯</span><div class="feature-title">Goal Milestones</div><div class="feature-desc">Three milestone roadmap: $5K → $15K → $35K with countdown timers and on-track indicators.</div><span class="feature-tag">$5K → $35K</span></div>
-    <div class="feature-card fade-up"><span class="feature-icon">🔍</span><div class="feature-title">Quarterly Review</div><div class="feature-desc">6-question portfolio health check covering AI demand, dividends, concentration risk and macro risks.</div><span class="feature-tag">Every 3 months</span></div>
-    <div class="feature-card fade-up d1"><span class="feature-icon">🌙</span><div class="feature-title">Dark & Light Mode</div><div class="feature-desc">Beautifully designed in both themes. Toggle instantly — your preference is saved locally on device.</div><span class="feature-tag">Your choice</span></div>
+    <a href="app.html?tab=dashboard" class="feature-card fade-up" style="--fc:#6366f1;"><div class="feature-icon-wrap" style="background:#6366f118;">📊</div><div class="feature-title">Dashboard</div><div class="feature-desc">Live portfolio overview with donut chart, allocation bars and per-stock progress rings.</div><span class="feature-tag">Real-time</span><div class="feature-go">Open Dashboard →</div></a>
+    <a href="app.html?tab=inject" class="feature-card fade-up d1" style="--fc:#4ade80;"><div class="feature-icon-wrap" style="background:#4ade8018;">💉</div><div class="feature-title">Inject Planner</div><div class="feature-desc">Choose your monthly budget ($200–$500), pick Rotation or Index mode, get exact breakdown.</div><span class="feature-tag">Monthly</span><div class="feature-go">Open Inject →</div></a>
+    <a href="app.html?tab=dividends" class="feature-card fade-up d2" style="--fc:#fbbf24;"><div class="feature-icon-wrap" style="background:#fbbf2418;">💰</div><div class="feature-title">Dividend Tracker</div><div class="feature-desc">See annual and monthly dividend income across ABBV, XOM, JPM and IBM. 3-year projection included.</div><span class="feature-tag">Passive Income</span><div class="feature-go">Open Dividends →</div></a>
+    <a href="app.html?tab=goals" class="feature-card fade-up d3" style="--fc:#f87171;"><div class="feature-icon-wrap" style="background:#f8717118;">🎯</div><div class="feature-title">Goal Milestones</div><div class="feature-desc">Three milestone roadmap: $5K → $15K → $35K with countdown timers and on-track indicators.</div><span class="feature-tag">$5K → $35K</span><div class="feature-go">Open Goals →</div></a>
+    <a href="app.html?tab=review" class="feature-card fade-up" style="--fc:#38bdf8;"><div class="feature-icon-wrap" style="background:#38bdf818;">🔍</div><div class="feature-title">Quarterly Review</div><div class="feature-desc">6-question portfolio health check covering AI demand, dividends, concentration risk and macro risks.</div><span class="feature-tag">Every 3 months</span><div class="feature-go">Open Review →</div></a>
+    <a href="app.html?tab=history" class="feature-card fade-up d1" style="--fc:#c084fc;"><div class="feature-icon-wrap" style="background:#c084fc18;">📈</div><div class="feature-title">History</div><div class="feature-desc">Every injection logged over time — track your contributions and watch your portfolio compound.</div><span class="feature-tag">Full timeline</span><div class="feature-go">Open History →</div></a>
   </div>
 </section>
 

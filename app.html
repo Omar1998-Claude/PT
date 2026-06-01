@@ -130,7 +130,7 @@ let S={
   dark:    localStorage.getItem("pt_dk")!=="false",
   mode:    localStorage.getItem("pt_mode")||"rotation",
   winner:"DELL",budget:500,
-  tab:"dashboard",
+  tab:(function(){var v=(new URLSearchParams(window.location.search)).get("tab");return ["dashboard","inject","dividends","goals","review","history"].indexOf(v)>-1?v:"dashboard";})(),
   editIdx:null,editVal:"",
   injected:false,expandedTip:null,
   month:new Date().getMonth(),year:new Date().getFullYear(),
