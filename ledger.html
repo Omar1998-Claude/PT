@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="color-scheme" content="light dark"/>
+<title>THE PORTFOLIO LEDGER — An Investor's Almanac</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --paper:#f4efe4;       /* warm newsprint */
+  --paper2:#ece4d2;
+  --ink:#1a1612;         /* near-black ink */
+  --ink2:#4a4136;
+  --faint:#9b8f7a;
+  --rule:#cbbfa6;
+  --vermillion:#d63016;  /* the single hot accent */
+  --gold:#9a7d2e;
+  --green:#3d6b35;
+  --paperedge:#dcd2bc;
+  --grain:0.05;
+}
+body.night{
+  --paper:#14110d;       /* evening ink */
+  --paper2:#1d1813;
+  --ink:#ece3d2;         /* warm cream type */
+  --ink2:#b3a892;
+  --faint:#7a705e;
+  --rule:#3a3228;
+  --vermillion:#ff5536;  /* glowing vermillion */
+  --gold:#d6b257;
+  --green:#7bbf6a;
+  --paperedge:#2a2319;
+  --grain:0.08;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Spectral',Georgia,serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  position:relative;
+  transition:background 0.5s ease,color 0.5s ease;
+}
+/* paper grain + vignette */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity:var(--grain);mix-blend-mode:multiply;
+}
+body.night::before{mix-blend-mode:screen;}
+body::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 120% 80% at 50% 0%,transparent 55%,rgba(60,45,20,0.12) 100%);
+}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 22px;}
+
+/* ===== TICKER TAPE ===== */
+.tape{position:sticky;top:0;z-index:50;background:var(--ink);color:var(--paper);overflow:hidden;border-bottom:2px solid var(--vermillion);}
+.tape-track{display:inline-flex;white-space:nowrap;padding:7px 0;animation:tape 38s linear infinite;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.5px;}
+.tape:hover .tape-track{animation-play-state:paused;}
+.tape-item{padding:0 26px;display:inline-flex;align-items:center;gap:8px;}
+.tape-item b{font-weight:700;}
+.up{color:#7bbf6a;}.down{color:#ff7a5c;}
+@keyframes tape{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ===== MASTHEAD ===== */
+.masthead{text-align:center;padding:30px 0 14px;border-bottom:3px double var(--ink);position:relative;}
+.dateline{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink2);display:flex;justify-content:space-between;padding-bottom:14px;}
+.dateline span:nth-child(2){color:var(--vermillion);}
+.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(40px,11vw,104px);line-height:0.82;letter-spacing:-2px;font-optical-sizing:144;}
+.title .amp{font-style:italic;font-weight:300;color:var(--vermillion);}
+.subtitle{font-family:'Spectral',serif;font-style:italic;font-size:clamp(13px,2.4vw,18px);color:var(--ink2);margin-top:14px;letter-spacing:0.3px;}
+.rule-thin{height:1px;background:var(--ink);margin:14px 0;opacity:0.55;}
+.rule-vermillion{height:2px;background:var(--vermillion);}
+
+/* reveal */
+.rise{opacity:0;transform:translateY(26px);transition:opacity 0.9s cubic-bezier(0.2,0.7,0.2,1),transform 0.9s cubic-bezier(0.2,0.7,0.2,1);}
+.rise.seen{opacity:1;transform:none;}
+.r1{transition-delay:0.08s;}.r2{transition-delay:0.16s;}.r3{transition-delay:0.24s;}.r4{transition-delay:0.32s;}.r5{transition-delay:0.4s;}
+
+/* ===== LEAD BLOCK ===== */
+.lead{display:grid;grid-template-columns:1.4fr 1fr;gap:0;border-bottom:3px double var(--ink);}
+.lead-left{padding:30px 28px 30px 0;border-right:1px solid var(--rule);}
+.lead-right{padding:30px 0 30px 28px;}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--vermillion);margin-bottom:12px;}
+.headline{font-family:'Fraunces',serif;font-weight:800;font-size:clamp(30px,5.6vw,52px);line-height:0.96;letter-spacing:-1px;margin-bottom:18px;}
+.bignum{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(48px,12vw,88px);line-height:0.9;letter-spacing:-2px;font-variant-numeric:tabular-nums;}
+.bignum .cents{font-size:0.45em;vertical-align:super;color:var(--vermillion);font-weight:600;}
+.drop::first-letter{font-family:'Fraunces',serif;font-weight:900;font-size:4.1em;float:left;line-height:0.66;padding:8px 12px 0 0;color:var(--vermillion);}
+.body-copy{font-size:15.5px;line-height:1.62;color:var(--ink2);text-align:justify;hyphens:auto;}
+.stat-line{display:flex;justify-content:space-between;align-items:baseline;padding:11px 0;border-bottom:1px dotted var(--rule);font-family:'JetBrains Mono',monospace;font-size:13px;}
+.stat-line .lbl{letter-spacing:1px;text-transform:uppercase;font-size:10px;color:var(--faint);}
+.stat-line .val{font-weight:700;font-size:16px;}
+
+/* ===== SECTION HEADERS ===== */
+.sec-head{display:flex;align-items:center;gap:16px;margin:48px 0 24px;}
+.sec-head h2{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(22px,4vw,34px);letter-spacing:-0.5px;white-space:nowrap;}
+.sec-head .line{flex:1;height:2px;background:var(--ink);}
+.sec-head .no{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--vermillion);letter-spacing:2px;}
+
+/* ===== HOLDINGS LEDGER ===== */
+.ledger-row{display:grid;grid-template-columns:54px 1fr auto;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid var(--rule);cursor:pointer;transition:background 0.3s,padding 0.3s;position:relative;}
+.ledger-row:hover{background:linear-gradient(90deg,rgba(214,48,22,0.05),transparent);padding-left:10px;}
+.ledger-row::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--vermillion);transition:width 0.3s;}
+.ledger-row:hover::before{width:3px;}
+.l-rank{font-family:'Fraunces',serif;font-weight:900;font-size:30px;color:var(--paperedge);line-height:1;-webkit-text-stroke:1px var(--rule);}
+.l-tk{font-family:'Fraunces',serif;font-weight:800;font-size:24px;letter-spacing:-0.5px;line-height:1;}
+.l-name{font-style:italic;font-size:13px;color:var(--faint);margin-top:3px;}
+.l-bar{height:3px;background:var(--paperedge);margin-top:9px;position:relative;overflow:hidden;max-width:320px;}
+.l-bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);transform-origin:left;transform:scaleX(0);transition:transform 1.1s cubic-bezier(0.2,0.7,0.2,1);}
+.seen .l-bar i{transform:scaleX(var(--w,0));}
+.l-val{font-family:'Fraunces',serif;font-weight:800;font-size:26px;text-align:right;font-variant-numeric:tabular-nums;line-height:1;}
+.l-pct{font-family:'JetBrains Mono',monospace;font-size:11px;text-align:right;margin-top:5px;color:var(--ink2);}
+.tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;padding:1px 6px;border:1px solid currentColor;border-radius:1px;margin-left:8px;vertical-align:middle;}
+.tag.anchor{color:var(--green);}
+.tag.warn{color:var(--vermillion);}
+
+/* ===== ALLOCATION ENGRAVING (bar column chart) ===== */
+.alloc{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;align-items:end;height:200px;border-bottom:2px solid var(--ink);padding-bottom:0;}
+.alloc-col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;}
+.alloc-bar{width:100%;background:repeating-linear-gradient(45deg,var(--ink),var(--ink) 2px,transparent 2px,transparent 5px);border:1.5px solid var(--ink);transform-origin:bottom;transform:scaleY(0);transition:transform 0.9s cubic-bezier(0.2,0.7,0.2,1);}
+.seen .alloc-bar{transform:scaleY(1);}
+.alloc-col:nth-child(1) .alloc-bar{transition-delay:0.05s;}
+.alloc-col:nth-child(2) .alloc-bar{transition-delay:0.12s;}
+.alloc-col:nth-child(3) .alloc-bar{transition-delay:0.19s;}
+.alloc-col:nth-child(4) .alloc-bar{transition-delay:0.26s;}
+.alloc-col:nth-child(5) .alloc-bar{transition-delay:0.33s;}
+.alloc-col:nth-child(6) .alloc-bar{transition-delay:0.4s;}
+.alloc-col:nth-child(7) .alloc-bar{transition-delay:0.47s;}
+.alloc-col:nth-child(8) .alloc-bar{transition-delay:0.54s;}
+.alloc-bar.hot{background:repeating-linear-gradient(45deg,var(--vermillion),var(--vermillion) 2px,transparent 2px,transparent 5px);border-color:var(--vermillion);}
+.alloc-tk{font-family:'JetBrains Mono',monospace;font-size:9px;margin-top:7px;letter-spacing:0.5px;}
+.alloc-pc{font-family:'Fraunces',serif;font-weight:700;font-size:12px;margin-bottom:5px;}
+
+/* ===== GOAL THERMOMETER ===== */
+.goalwrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+.therm{position:relative;height:30px;border:2px solid var(--ink);background:var(--paper2);overflow:hidden;}
+.therm i{position:absolute;left:0;top:0;bottom:0;background:var(--vermillion);transform-origin:left;transform:scaleX(0);transition:transform 1.4s cubic-bezier(0.2,0.7,0.2,1) 0.3s;}
+.seen .therm i{transform:scaleX(var(--g,0));}
+.therm-ticks{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faint);margin-top:6px;}
+.milestone{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:15px;}
+.milestone b{font-style:normal;font-weight:900;}
+
+/* ===== QUOTE / FOOTER ===== */
+.pullquote{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(22px,4.4vw,38px);line-height:1.25;text-align:center;padding:54px 8%;letter-spacing:-0.5px;}
+.pullquote .mark{color:var(--vermillion);font-weight:900;}
+.colophon{border-top:3px double var(--ink);padding:30px 0 60px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--faint);text-transform:uppercase;line-height:2;}
+.enter-btn{display:inline-block;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:14px 30px;border:none;cursor:pointer;text-decoration:none;transition:all 0.3s;position:relative;overflow:hidden;}
+.enter-btn:hover{background:var(--vermillion);transform:translateY(-2px);box-shadow:5px 5px 0 var(--ink);}
+.enter-btn:active{transform:translatey(0);box-shadow:2px 2px 0 var(--ink);}
+
+/* ===== EDITION TOGGLE ===== */
+.edition-toggle{position:fixed;top:46px;right:18px;z-index:60;background:var(--ink);color:var(--paper);border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 13px;display:flex;align-items:center;gap:7px;transition:all 0.3s;box-shadow:3px 3px 0 var(--vermillion);}
+.edition-toggle:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--vermillion);}
+.edition-toggle:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--vermillion);}
+
+@media(max-width:720px){
+  .lead{grid-template-columns:1fr;}
+  .lead-left{border-right:none;border-bottom:1px solid var(--rule);padding:24px 0;}
+  .lead-right{padding:24px 0;}
+  .goalwrap{grid-template-columns:1fr;gap:24px;}
+  .alloc{height:150px;gap:5px;}
+  .l-val{font-size:20px;}
+}
+</style>
+</head>
+<body>
+
+<button class="edition-toggle" id="editionToggle" onclick="toggleEdition()"><span id="edIcon">☾</span> <span id="edLabel">Evening Ed.</span></button>
+
+<!-- TICKER TAPE -->
+<div class="tape">
+  <div class="tape-track" id="tape"></div>
+</div>
+
+<div class="wrap">
+
+  <!-- MASTHEAD -->
+  <header class="masthead">
+    <div class="dateline">
+      <span id="dateL">EST. 2026</span>
+      <span>★ THE INVESTOR'S ALMANAC ★</span>
+      <span id="dateR">NO. 001</span>
+    </div>
+    <h1 class="title">The Portfolio<br><span class="amp">&amp;</span> Ledger</h1>
+    <p class="subtitle">A running account of one investor's patient march from five hundred dollars toward thirty-five thousand.</p>
+  </header>
+
+  <!-- LEAD -->
+  <section class="lead">
+    <div class="lead-left rise">
+      <div class="kicker">— Today's Position —</div>
+      <div class="bignum">$<span id="big">426</span><span class="cents">52</span></div>
+      <p class="body-copy drop" style="margin-top:20px;">Eight companies stand on the books this morning, two of them carrying the weight of the whole enterprise. The chip-maker and the car-maker have done handsomely — better than doubled and better than doubled again — while six fresh berths await their first dollars. The plan is unhurried: a fixed sum each month, routed by rule rather than by mood.</p>
+    </div>
+    <div class="lead-right rise r2">
+      <div class="kicker">— The Accounts —</div>
+      <div class="stat-line"><span class="lbl">Total Invested</span><span class="val">$426.52</span></div>
+      <div class="stat-line"><span class="lbl">Unrealised Gain</span><span class="val" style="color:var(--green);">+$224.50</span></div>
+      <div class="stat-line"><span class="lbl">Annual Dividends</span><span class="val" style="color:var(--gold);">$0.07</span></div>
+      <div class="stat-line"><span class="lbl">Holdings Active</span><span class="val">2 <span style="color:var(--faint);font-size:12px;">/ 8</span></span></div>
+      <div class="stat-line"><span class="lbl">Next Injection</span><span class="val">Jun 25</span></div>
+      <div class="stat-line" style="border:none;"><span class="lbl">Strategy</span><span class="val" style="color:var(--vermillion);">ROTATION</span></div>
+    </div>
+  </section>
+
+  <!-- HOLDINGS LEDGER -->
+  <div class="sec-head rise"><span class="no">§ I</span><h2>The Holdings</h2><div class="line"></div></div>
+  <div id="ledger"></div>
+
+  <!-- ALLOCATION -->
+  <div class="sec-head rise"><span class="no">§ II</span><h2>Allocation, Engraved</h2><div class="line"></div></div>
+  <div class="rise"><div class="alloc" id="alloc"></div></div>
+  <p style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);letter-spacing:1px;margin-top:10px;text-align:center;">FIGURE 1 — TARGET WEIGHTS BY ENTERPRISE, HATCHED TO SCALE. THE VERMILLION COLUMN MARKS THE HOUSE FAVOURITE.</p>
+
+  <!-- GOAL -->
+  <div class="sec-head rise"><span class="no">§ III</span><h2>The Long March</h2><div class="line"></div></div>
+  <div class="goalwrap rise">
+    <div>
+      <div class="therm"><i id="therm"></i></div>
+      <div class="therm-ticks"><span>$0</span><span>$5,000</span></div>
+    </div>
+    <div>
+      <p class="milestone">First post: <b>$5,000</b> by year's end, <span style="color:var(--vermillion);">8.5%</span> of the way there.</p>
+      <p class="milestone" style="margin-top:10px;color:var(--ink2);">Then <b>$15,000</b> in '27, and <b>$35,000</b> the year after.</p>
+    </div>
+  </div>
+
+  <!-- PULLQUOTE -->
+  <blockquote class="pullquote rise">
+    <span class="mark">“</span>The market is a device for transferring money from the impatient to the patient.<span class="mark">”</span>
+  </blockquote>
+  <div class="rule-vermillion"></div>
+
+  <!-- COLOPHON -->
+  <footer class="colophon">
+    Set in Fraunces &amp; Spectral · Printed on warm stock<br>
+    The Portfolio Ledger · An Investor's Almanac · No. 001<br>
+    <a href="app.html" class="enter-btn">Enter the Terminal →</a>
+  </footer>
+
+</div>
+
+<script>
+// ── EDITION (LIGHT/DARK) TOGGLE ───────────────────────────
+function applyEdition(night){
+  document.body.classList.toggle("night",night);
+  document.getElementById("edIcon").textContent=night?"☀":"☾";
+  document.getElementById("edLabel").textContent=night?"Morning Ed.":"Evening Ed.";
+}
+function toggleEdition(){
+  var night=!document.body.classList.contains("night");
+  applyEdition(night);
+}
+// default: follow the phone's setting on first load
+applyEdition(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+// ── TICKER TAPE DATA ──────────────────────────────────────
+var TAPE=[
+  ["NVDA",131.38,2.4],["TSLA",315.82,-1.2],["DELL",145.22,34.2],["IBM",271.44,0.8],
+  ["SNDK",1684.22,5.1],["ABBV",198.42,0.3],["XOM",112.84,1.1],["JPM",262.18,0.6],
+  ["NFLX",1185.43,0.9],["LCID",2.14,-1.8]
+];
+(function(){
+  var html="";
+  for(var pass=0;pass<2;pass++){
+    TAPE.forEach(function(t){
+      var up=t[2]>=0;
+      html+='<span class="tape-item"><b>'+t[0]+'</b> '+t[1].toFixed(2)
+        +' <span class="'+(up?'up':'down')+'">'+(up?'▲':'▼')+' '+Math.abs(t[2]).toFixed(1)+'%</span></span>'
+        +'<span style="opacity:0.3">·</span>';
+    });
+  }
+  document.getElementById("tape").innerHTML=html;
+})();
+
+// ── DATELINE ──────────────────────────────────────────────
+(function(){
+  var d=new Date();
+  var months=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+  document.getElementById("dateL").textContent=d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear();
+})();
+
+// ── HOLDINGS ──────────────────────────────────────────────
+var H=[
+  {tk:"NVDA",name:"Nvidia Corp.",val:224.14,target:25,anchor:false},
+  {tk:"TSLA",name:"Tesla, Inc.",val:194.97,target:13,anchor:false},
+  {tk:"DELL",name:"Dell Technologies",val:0,target:20,anchor:false},
+  {tk:"IBM",name:"Int'l Business Mach.",val:0,target:17,anchor:false},
+  {tk:"SNDK",name:"SanDisk Corp.",val:0,target:10,anchor:false},
+  {tk:"ABBV",name:"AbbVie Inc.",val:0,target:8,anchor:true},
+  {tk:"XOM",name:"Exxon Mobil",val:0,target:5,anchor:true},
+  {tk:"JPM",name:"JPMorgan Chase",val:0,target:2,anchor:true}
+];
+var TV=H.reduce(function(s,h){return s+h.val;},0);
+var maxVal=Math.max.apply(null,H.map(function(h){return h.val;}))||1;
+
+var led=document.getElementById("ledger");
+led.innerHTML=H.map(function(h,i){
+  var pct=TV>0?(h.val/TV*100):0;
+  var w=(h.val/maxVal);
+  var rank=String(i+1).padStart(2,"0");
+  var tags=(h.anchor?'<span class="tag anchor">ANCHOR</span>':'')+(h.tk==="LCID"?'<span class="tag warn">REVIEW</span>':'');
+  return '<div class="ledger-row" onclick="window.location.href=\'stock.html?t='+h.tk+'\'">'
+    +'<div class="l-rank">'+rank+'</div>'
+    +'<div><div><span class="l-tk">'+h.tk+'</span>'+tags+'</div>'
+    +'<div class="l-name">'+h.name+'</div>'
+    +'<div class="l-bar"><i style="--w:'+w.toFixed(3)+'"></i></div></div>'
+    +'<div><div class="l-val">$'+h.val.toFixed(2)+'</div>'
+    +'<div class="l-pct">'+pct.toFixed(1)+'% of book</div></div>'
+    +'</div>';
+}).join("");
+
+// ── ALLOCATION ENGRAVING ──────────────────────────────────
+var maxT=Math.max.apply(null,H.map(function(h){return h.target;}));
+document.getElementById("alloc").innerHTML=H.map(function(h){
+  var hgt=(h.target/maxT*100);
+  var hot=h.target===maxT;
+  return '<div class="alloc-col">'
+    +'<div class="alloc-pc">'+h.target+'%</div>'
+    +'<div class="alloc-bar'+(hot?' hot':'')+'" style="height:'+hgt+'%"></div>'
+    +'<div class="alloc-tk">'+h.tk+'</div>'
+    +'</div>';
+}).join("");
+
+// ── GOAL ──────────────────────────────────────────────────
+document.getElementById("therm").style.setProperty("--g",(426.52/5000).toFixed(4));
+
+// ── COUNT-UP BIG NUMBER ───────────────────────────────────
+function countTo(el,target,dur){
+  var start=null;
+  function step(ts){
+    if(!start)start=ts;
+    var p=Math.min((ts-start)/dur,1);
+    var e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(target*e);
+    if(p<1)requestAnimationFrame(step);else el.textContent=target;
+  }
+  requestAnimationFrame(step);
+}
+
+// ── SCROLL REVEAL ─────────────────────────────────────────
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.add("seen");
+      if(e.target.querySelector("#big"))countTo(document.getElementById("big"),426,900);
+    }
+  });
+},{threshold:0.18});
+document.querySelectorAll(".rise").forEach(function(el){io.observe(el);});
+document.querySelectorAll(".ledger-row").forEach(function(r){io.observe(r);});
+var allocEl=document.getElementById("alloc");
+if(allocEl)io.observe(allocEl);
+</script>
+</body>
+</html>

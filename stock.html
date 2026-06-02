@@ -60,6 +60,13 @@ nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-
 .price-val{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--text);}
 .price-change{font-size:11px;font-weight:600;margin-top:3px;}
 .live-pill{display:inline-flex;align-items:center;gap:3px;font-size:8px;font-family:'DM Mono',monospace;color:#16a34a;background:#dcfce7;padding:2px 6px;border-radius:6px;margin-top:4px;}
+.timing{display:flex;align-items:center;gap:14px;padding:15px 18px;border-radius:18px;margin-bottom:12px;border:1.5px solid;position:relative;overflow:hidden;animation:fadeIn 0.4s ease;}
+.timing-icon{font-size:30px;flex-shrink:0;}
+.timing-verdict{font-family:'Playfair Display',serif;font-weight:900;font-size:21px;letter-spacing:-0.3px;line-height:1;}
+.timing-reason{font-size:11.5px;line-height:1.5;margin-top:4px;}
+.timing-upside{margin-left:auto;text-align:right;flex-shrink:0;}
+.timing-upside .u-val{font-family:'Playfair Display',serif;font-weight:900;font-size:24px;line-height:1;}
+.timing-upside .u-lbl{font-size:8px;font-family:'DM Mono',monospace;letter-spacing:1px;opacity:0.7;margin-top:2px;}
 .live-dot{width:5px;height:5px;border-radius:50%;background:#16a34a;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
 
@@ -153,6 +160,8 @@ nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-
     </div>
   </div>
 </div>
+
+<div class="wrap"><div id="timingBanner"></div></div>
 
 <div class="wrap">
   <div class="chart-card fade-in">
@@ -485,6 +494,34 @@ function render(t) {
     + '<div style="font-size:9px;color:var(--text2);margin:8px 0 4px;">Target: '+an.tLow+' → <strong style="color:var(--acc);">'+an.tgt+'</strong> → '+an.tHigh+'</div>'
     + '<div class="target-track"><div class="target-fill" style="width:'+tPos.toFixed(0)+'%;background:linear-gradient(90deg,'+color+'66,'+color+');"></div><div class="target-dot" style="left:'+tPos.toFixed(0)+'%;background:'+color+';box-shadow:0 0 6px '+color+'55;"></div></div>'
     + '<div style="font-size:8px;color:var(--text3);font-family:DM Mono,monospace;">Current: $'+an.cur+'</div>';
+
+  // Buy-timing banner (upside = analyst target vs current price)
+  var tgtNum = parseFloat(an.tgt.replace(/[$,]/g,""));
+  var curNum = an.cur;
+  var tEl = document.getElementById("timingBanner");
+  if (tEl && tgtNum && curNum) {
+    var upside = ((tgtNum - curNum) / curNum) * 100;
+    var verdict, icon, vcol, bg, bd, reason;
+    if (upside >= 12) {
+      verdict = "BUY ZONE"; icon = "🟢"; vcol = "#15803d"; bg = "#f0fdf4"; bd = "#86efac";
+      reason = "Trading about " + Math.abs(upside).toFixed(0) + "% below the average analyst target of " + an.tgt + " — room to run if the thesis holds.";
+    } else if (upside >= -5) {
+      verdict = "FAIR VALUE"; icon = "🟡"; vcol = "#b45309"; bg = "#fffbeb"; bd = "#fcd34d";
+      reason = "Sitting close to the analyst target of " + an.tgt + ". Reasonable to accumulate steadily, but limited near-term upside.";
+    } else {
+      verdict = "EXPENSIVE"; icon = "🔴"; vcol = "#b91c1c"; bg = "#fef2f2"; bd = "#fca5a5";
+      reason = "Trading about " + Math.abs(upside).toFixed(0) + "% above the analyst target of " + an.tgt + ". The market may be ahead of fundamentals — consider waiting.";
+    }
+    var sign = upside >= 0 ? "+" : "";
+    tEl.innerHTML = '<div class="timing" style="background:'+bg+';border-color:'+bd+';color:'+vcol+';">'
+      + '<div class="timing-icon">'+icon+'</div>'
+      + '<div style="flex:1;min-width:0;"><div class="timing-verdict">'+verdict+'</div>'
+      + '<div class="timing-reason" style="color:var(--text2);">'+reason+'</div></div>'
+      + '<div class="timing-upside"><div class="u-val">'+sign+upside.toFixed(0)+'%</div><div class="u-lbl">VS TARGET</div></div>'
+      + '</div>';
+  } else if (tEl) {
+    tEl.innerHTML = "";
+  }
 
   // Metrics
   document.getElementById("metricsGrid").innerHTML = Object.keys(d.metrics).map(function(k){
