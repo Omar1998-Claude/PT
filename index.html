@@ -132,13 +132,13 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
     <!-- LEFT -->
     <div class="col rise">
       <div class="side-title">Market Report</div>
-      <div class="report-row"><span class="t">NVDA</span><span class="up">131.38 ▲</span></div>
-      <div class="report-row"><span class="t">TSLA</span><span class="down">315.82 ▼</span></div>
-      <div class="report-row"><span class="t">DELL</span><span class="up">145.22 ▲</span></div>
-      <div class="report-row"><span class="t">IBM</span><span class="up">271.44 ▲</span></div>
-      <div class="report-row"><span class="t">SNDK</span><span class="up">1684 ▲</span></div>
-      <div class="report-row"><span class="t">ABBV</span><span class="up">198.42 ▲</span></div>
-      <div class="report-row" style="border:none;"><span class="t">XOM</span><span class="up">112.84 ▲</span></div>
+      <div class="report-row"><span class="t">NVDA</span><span class="up">226.80 ▲</span></div>
+      <div class="report-row"><span class="t">TSLA</span><span class="up">417.43 ▲</span></div>
+      <div class="report-row"><span class="t">DELL</span><span class="up">435.25 ▲</span></div>
+      <div class="report-row"><span class="t">IBM</span><span class="up">318.73 ▲</span></div>
+      <div class="report-row"><span class="t">SNDK</span><span class="up">1734 ▲</span></div>
+      <div class="report-row"><span class="t">ABBV</span><span class="up">205.07 ▲</span></div>
+      <div class="report-row" style="border:none;"><span class="t">XOM</span><span class="up">149.64 ▲</span></div>
       <div class="col-rule"></div>
       <div class="kicker">Weather</div>
       <p class="body-copy" style="font-size:13px;">Bullish winds across AI infrastructure. Scattered volatility in autos. Dividends steady through the season.</p>
@@ -193,7 +193,7 @@ function applyEdition(n){document.body.classList.toggle("night",n);document.getE
 function toggleEdition(){applyEdition(!document.body.classList.contains("night"));}
 applyEdition(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-var TAPE=[["NVDA",131.38,2.4],["TSLA",315.82,-1.2],["DELL",145.22,34.2],["IBM",271.44,0.8],["SNDK",1684.22,5.1],["ABBV",198.42,0.3],["XOM",112.84,1.1],["JPM",262.18,0.6],["NFLX",1185.43,0.9],["LCID",2.14,-1.8]];
+var TAPE=[["NVDA",226.80,1.1],["TSLA",417.43,0.4],["DELL",435.25,3.4],["IBM",318.73,1.2],["SNDK",1734.00,2.3],["ABBV",205.07,0.6],["XOM",149.64,2.5],["JPM",296.58,0.4],["NFLX",84.02,-0.4],["LCID",6.55,-0.9]];
 (function(){var h="";for(var p=0;p<2;p++){TAPE.forEach(function(t){var u=t[2]>=0;h+='<span class="tape-item"><b>'+t[0]+'</b> '+t[1].toFixed(2)+' <span class="'+(u?'up':'down')+'">'+(u?'▲':'▼')+' '+Math.abs(t[2]).toFixed(1)+'%</span></span><span style="opacity:0.3">·</span>';});}document.getElementById("tape").innerHTML=h;})();
 
 (function(){var d=new Date();var m=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];document.getElementById("dateL").textContent=d.getDate()+" "+m[d.getMonth()]+" "+d.getFullYear();})();
