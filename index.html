@@ -3,437 +3,204 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PortfolioOS — Your Personal Investment Command Center</title>
+<meta name="color-scheme" content="light dark"/>
+<title>THE PORTFOLIO TIMES — Front Page</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
+a{color:inherit;text-decoration:none;}
 :root{
-  --bg:#070b14;--surf:#0f1623;--surf2:#141e2e;
-  --text:#e8eaf0;--text2:#8892aa;--text3:#4a5568;
-  --accent:#6366f1;--accent2:#818cf8;--green:#4ade80;--gold:#fbbf24;
-  --border:#1a2640;
+  --paper:#f4efe4;--paper2:#ece4d2;--ink:#1a1612;--ink2:#4a4136;--faint:#9b8f7a;
+  --rule:#cbbfa6;--vermillion:#d63016;--gold:#9a7d2e;--green:#3d6b35;--paperedge:#dcd2bc;--grain:0.05;
 }
-.light{
-  --bg:#f0f4ff;--surf:#ffffff;--surf2:#f8faff;
-  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
-  --accent:#4f46e5;--accent2:#6366f1;--green:#16a34a;--gold:#d97706;
-  --border:#e2e8f0;
+body.night{
+  --paper:#14110d;--paper2:#1d1813;--ink:#ece3d2;--ink2:#b3a892;--faint:#7a705e;
+  --rule:#3a3228;--vermillion:#ff5536;--gold:#d6b257;--green:#7bbf6a;--paperedge:#2a2319;--grain:0.08;
 }
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;transition:background 0.4s,color 0.4s;overflow-x:hidden;}
+body{background:var(--paper);color:var(--ink);font-family:'Spectral',Georgia,serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;transition:background 0.5s,color 0.5s;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");opacity:var(--grain);mix-blend-mode:multiply;}
+body.night::before{mix-blend-mode:screen;}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 120% 80% at 50% 0%,transparent 55%,rgba(60,45,20,0.12) 100%);}
+.wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:0 24px;}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:var(--bg);border-bottom:1px solid var(--border);transition:all 0.4s;}
-.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.nav-right{display:flex;align-items:center;gap:12px;}
-.theme-btn{background:var(--surf2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;color:var(--text2);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-.launch-btn-nav{background:linear-gradient(135deg,#6366f1,#818cf8);border:none;border-radius:20px;padding:8px 18px;color:#fff;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+/* toggle */
+.edition-toggle{position:fixed;top:18px;right:18px;z-index:60;background:var(--ink);color:var(--paper);border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 13px;display:flex;align-items:center;gap:7px;transition:all 0.3s;box-shadow:3px 3px 0 var(--vermillion);}
+.edition-toggle:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--vermillion);}
+.edition-toggle:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--vermillion);}
 
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 24px 60px;text-align:center;position:relative;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;pointer-events:none;}
-.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;animation:float 8s ease-in-out infinite;}
-.orb1{width:400px;height:400px;background:#6366f1;top:-100px;left:-100px;}
-.orb2{width:300px;height:300px;background:#34d399;bottom:-50px;right:-50px;animation-delay:3s;}
-.orb3{width:200px;height:200px;background:#fbbf24;top:50%;left:50%;animation-delay:6s;}
-@keyframes float{0%,100%{transform:translate(0,0);}50%{transform:translate(20px,-20px);}}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-@keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
-@keyframes slideUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+/* ticker */
+.tape{position:sticky;top:0;z-index:50;background:var(--ink);color:var(--paper);overflow:hidden;border-bottom:2px solid var(--vermillion);}
+.tape-track{display:inline-flex;white-space:nowrap;padding:7px 0;animation:tape 40s linear infinite;font-family:'JetBrains Mono',monospace;font-size:12px;}
+.tape:hover .tape-track{animation-play-state:paused;}
+.tape-item{padding:0 26px;display:inline-flex;gap:8px;}
+.up{color:#7bbf6a;}.down{color:#ff7a5c;}
+@keyframes tape{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-.hero-tag{display:inline-flex;align-items:center;gap:6px;background:#6366f118;border:1px solid #6366f144;border-radius:20px;padding:5px 14px;font-size:11px;color:#818cf8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;font-family:'DM Mono',monospace;}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
-h1{font-family:'Playfair Display',serif;font-size:clamp(36px,8vw,72px);font-weight:900;line-height:1.05;letter-spacing:-1px;margin-bottom:20px;max-width:700px;}
-.gradient-text{background:linear-gradient(135deg,#6366f1,#a78bfa,#4ade80);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite;}
-.hero-sub{font-size:clamp(15px,2.5vw,18px);color:var(--text2);max-width:480px;line-height:1.7;margin-bottom:36px;font-weight:300;}
-.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px;}
-.btn-primary{background:linear-gradient(135deg,#6366f1,#818cf8);border:none;border-radius:14px;padding:14px 28px;color:#fff;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.3s;display:flex;align-items:center;gap:8px;}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px #6366f155;}
-.btn-secondary{background:transparent;border:1.5px solid var(--border);border-radius:14px;padding:14px 28px;color:var(--text2);font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.3s;}
-.btn-secondary:hover{border-color:#6366f1;color:#6366f1;}
+/* masthead */
+.masthead{text-align:center;padding:26px 0 12px;border-bottom:3px double var(--ink);}
+.dateline{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink2);display:flex;justify-content:space-between;padding-bottom:12px;}
+.dateline span:nth-child(2){color:var(--vermillion);}
+.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(40px,12vw,118px);line-height:0.82;letter-spacing:-3px;}
+.title .amp{font-style:italic;font-weight:300;color:var(--vermillion);}
+.ornament{display:flex;align-items:center;justify-content:center;gap:14px;margin:14px 0 0;color:var(--vermillion);font-size:11px;letter-spacing:4px;}
+.ornament .o-line{height:1px;width:60px;background:var(--vermillion);opacity:0.5;}
+.motto{font-style:italic;font-size:clamp(12px,2.2vw,16px);color:var(--ink2);margin-top:12px;letter-spacing:0.3px;}
+.price-strip{display:flex;justify-content:center;gap:22px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--faint);margin-top:12px;padding-top:10px;border-top:1px solid var(--rule);flex-wrap:wrap;}
 
-.stats{display:flex;justify-content:center;border:1px solid var(--border);border-radius:16px;overflow:hidden;max-width:480px;width:100%;margin-bottom:48px;}
-.stat{flex:1;padding:16px 12px;text-align:center;border-right:1px solid var(--border);}
-.stat:last-child{border-right:none;}
-.stat-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
-.stat-lbl{font-size:9px;color:var(--text3);margin-top:3px;letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+/* reveal */
+.rise{opacity:0;transform:translateY(26px);transition:opacity 0.9s cubic-bezier(0.2,0.7,0.2,1),transform 0.9s cubic-bezier(0.2,0.7,0.2,1);}
+.rise.seen{opacity:1;transform:none;}
+.r1{transition-delay:.08s;}.r2{transition-delay:.16s;}.r3{transition-delay:.24s;}.r4{transition-delay:.32s;}
 
-.mockup-wrap{width:100%;max-width:300px;margin:0 auto;}
-.phone-frame{background:var(--surf);border:1.5px solid var(--border);border-radius:36px;overflow:hidden;box-shadow:0 40px 80px #00000066,0 0 0 8px var(--surf2),0 0 0 9px var(--border);position:relative;}
-.phone-notch{width:80px;height:20px;background:var(--bg);border-radius:0 0 14px 14px;margin:0 auto;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:2;}
-.phone-screen{padding:28px 12px 12px;background:var(--bg);}
+/* FRONT PAGE GRID */
+.front{display:grid;grid-template-columns:1fr 2.2fr 1fr;gap:0;border-bottom:3px double var(--ink);}
+.col{padding:24px 22px;}
+.col.center{border-left:1px solid var(--rule);border-right:1px solid var(--rule);}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--vermillion);margin-bottom:12px;}
+.lead-head{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(34px,6vw,62px);line-height:0.94;letter-spacing:-1.5px;margin-bottom:16px;}
+.byline{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--faint);text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--rule);}
+.body-copy{font-size:15px;line-height:1.65;color:var(--ink2);text-align:justify;hyphens:auto;}
+.drop::first-letter{font-family:'Fraunces',serif;font-weight:900;font-size:4em;float:left;line-height:0.66;padding:8px 12px 0 0;color:var(--vermillion);}
+.sub-head{font-family:'Fraunces',serif;font-weight:800;font-size:19px;margin:18px 0 8px;letter-spacing:-0.3px;}
+.col-rule{height:1px;background:var(--rule);margin:18px 0;}
+.side-title{font-family:'Fraunces',serif;font-weight:900;font-size:15px;text-transform:uppercase;letter-spacing:0.5px;padding-bottom:8px;border-bottom:2px solid var(--ink);margin-bottom:12px;}
+.report-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dotted var(--rule);font-family:'JetBrains Mono',monospace;font-size:12px;}
+.report-row .t{font-weight:700;}
+.bignum{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(40px,9vw,68px);line-height:0.9;letter-spacing:-2px;font-variant-numeric:tabular-nums;}
+.bignum .c{font-size:.45em;vertical-align:super;color:var(--vermillion);}
 
-section{padding:80px 24px;max-width:900px;margin:0 auto;}
-.section-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#818cf8;margin-bottom:12px;}
-h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,42px);font-weight:900;line-height:1.1;margin-bottom:16px;}
-.section-sub{font-size:16px;color:var(--text2);line-height:1.7;max-width:520px;font-weight:300;}
+/* subscribe / CTA box */
+.subscribe{border:2px solid var(--ink);padding:22px;text-align:center;margin-top:18px;background:var(--paper2);}
+.subscribe h3{font-family:'Fraunces',serif;font-weight:900;font-size:22px;margin-bottom:6px;}
+.subscribe p{font-size:12px;color:var(--ink2);font-style:italic;margin-bottom:16px;}
+.btn{display:block;width:100%;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:14px;border:none;cursor:pointer;text-decoration:none;transition:all 0.3s;margin-bottom:9px;}
+.btn-ink{background:var(--ink);color:var(--paper);}
+.btn-ink:hover{background:var(--vermillion);transform:translateY(-2px);box-shadow:4px 4px 0 var(--ink);}
+.btn-out{background:transparent;color:var(--ink);border:1.5px solid var(--ink)!important;}
+.btn-out:hover{background:var(--ink);color:var(--paper);}
+.btn:active{transform:translateY(0)!important;box-shadow:1px 1px 0 var(--ink)!important;}
 
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:40px;}
-.feature-card{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:24px;transition:all 0.3s;cursor:pointer;text-decoration:none;display:block;color:var(--text);}
-.feature-card:hover{border-color:var(--fc,#6366f1)88;transform:translateY(-6px);box-shadow:0 18px 40px #00000040;}
-.feature-card{position:relative;overflow:hidden;}
-.feature-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--fc,#6366f1);transform:scaleX(0);transform-origin:left;transition:transform 0.35s ease;}
-.feature-card:hover::before{transform:scaleX(1);}
-.feature-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--fc,#6366f1)10,transparent 70%);opacity:0;transition:opacity 0.35s ease;pointer-events:none;}
-.feature-card:hover::after{opacity:1;}
-.feature-icon-wrap{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;transition:transform 0.35s ease;}
-.feature-card:hover .feature-icon-wrap{transform:scale(1.08) rotate(-4deg);}
-.feature-go{display:flex;align-items:center;gap:6px;margin-top:14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--fc,#6366f1);opacity:0;transform:translateX(-6px);transition:all 0.3s ease;}
-.feature-card:hover .feature-go{opacity:1;transform:translateX(0);}
-.feature-icon{font-size:28px;margin-bottom:14px;display:block;}
-.feature-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;margin-bottom:8px;}
-.feature-desc{font-size:13px;color:var(--text2);line-height:1.6;}
-.feature-tag{display:inline-block;margin-top:10px;font-size:9px;font-family:'DM Mono',monospace;letter-spacing:1px;color:#818cf8;background:#6366f115;padding:2px 8px;border-radius:8px;}
-.feature-arrow{font-size:11px;color:#6366f1;margin-top:8px;display:block;font-family:'DM Mono',monospace;}
+/* features as articles */
+.sec-head{display:flex;align-items:center;gap:16px;margin:40px 0 22px;}
+.sec-head h2{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(20px,4vw,30px);white-space:nowrap;}
+.sec-head .line{flex:1;height:2px;background:var(--ink);}
+.sec-head .no{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--vermillion);letter-spacing:2px;}
+.articles{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--rule);}
+.article{padding:24px 22px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);cursor:pointer;transition:background 0.35s;position:relative;overflow:hidden;}
+.article:nth-child(3n){border-right:none;}
+.article::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(214,48,22,0.07),transparent 70%);opacity:0;transition:opacity 0.35s;pointer-events:none;}
+.article:hover::after{opacity:1;}
+.article::before{content:"";position:absolute;left:0;top:0;bottom:0;width:0;background:var(--vermillion);transition:width 0.3s;z-index:2;}
+.article:hover::before{width:4px;}
+.article .num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--vermillion);letter-spacing:2px;padding-bottom:9px;margin-bottom:11px;border-bottom:1px solid var(--rule);display:block;}
+.article h4{font-family:'Fraunces',serif;font-weight:900;font-size:23px;margin:0 0 9px;line-height:1.02;letter-spacing:-0.5px;color:var(--ink);transition:color 0.3s;}
+.article:hover h4{color:var(--vermillion);}
+.article p{font-size:13.5px;line-height:1.6;color:var(--ink2);}
+.article .more{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--vermillion);margin-top:14px;display:inline-flex;align-items:center;gap:5px;opacity:0;transform:translateX(-6px);transition:all 0.35s;}
+.article:hover .more{opacity:1;transform:translateX(0);}
 
-.steps{display:flex;flex-direction:column;gap:0;margin-top:40px;position:relative;}
-.steps::before{content:'';position:absolute;left:27px;top:40px;bottom:40px;width:1px;background:linear-gradient(180deg,#6366f1,#34d399,#fbbf24);opacity:0.3;}
-.step{display:flex;gap:20px;align-items:flex-start;padding:24px 0;}
-.step-num{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#818cf8);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:900;color:#fff;flex-shrink:0;}
-.step-content{padding-top:10px;}
-.step-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:6px;}
-.step-desc{font-size:14px;color:var(--text2);line-height:1.6;}
+.pullquote{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(22px,4.4vw,40px);line-height:1.25;text-align:center;padding:50px 8%;}
+.pullquote .mark{color:var(--vermillion);font-weight:900;}
+.rule-vermillion{height:2px;background:var(--vermillion);}
+.colophon{border-top:3px double var(--ink);padding:28px 0 56px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--faint);text-transform:uppercase;line-height:2;}
 
-.cta-section{text-align:center;padding:80px 24px;}
-.cta-card{background:var(--surf);border:1px solid var(--border);border-radius:32px;padding:60px 32px;max-width:600px;margin:0 auto;}
-.cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,40px);font-weight:900;margin-bottom:16px;line-height:1.1;}
-.cta-sub{font-size:15px;color:var(--text2);margin-bottom:32px;line-height:1.7;}
-.cta-metrics{display:flex;justify-content:center;gap:24px;margin-bottom:32px;flex-wrap:wrap;}
-.cta-metric-val{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:#818cf8;}
-.cta-metric-lbl{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;font-family:'DM Mono',monospace;}
-
-footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
-.footer-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-
-.fade-up{opacity:0;transform:translateY(34px) scale(0.97);transition:opacity 0.6s cubic-bezier(0.34,1.56,0.64,1),transform 0.6s cubic-bezier(0.34,1.56,0.64,1);}
-.fade-up.visible{opacity:1;transform:translateY(0) scale(1);}
-.d1{transition-delay:0.08s;}.d2{transition-delay:0.16s;}.d3{transition-delay:0.24s;}.d4{transition-delay:0.32s;}
-.btn-primary,.btn-secondary,.launch-btn-nav,.theme-btn{transition:transform 0.12s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.25s,background 0.25s,border-color 0.25s,color 0.25s;}
-.btn-primary:active,.btn-secondary:active,.launch-btn-nav:active,.theme-btn:active{transform:scale(0.93);}
-.feature-card:active,.stock-card:active{transform:scale(0.97)!important;}
-@keyframes floatBob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-.mockup-wrap.visible{animation:floatBob 4s ease-in-out infinite 0.6s;}
-
-.stock-card{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:20px;transition:all 0.3s;text-decoration:none;display:block;color:var(--text);}
-.stock-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px #00000033;}
-
-@media(max-width:600px){
-  .stats{flex-direction:column;}
-  .stat{border-right:none;border-bottom:1px solid var(--border);}
-  .stat:last-child{border-bottom:none;}
-  .steps::before{display:none;}
+@media(max-width:860px){
+  .front{grid-template-columns:1fr;}
+  .col.center{border-left:none;border-right:none;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+  .articles{grid-template-columns:1fr;}
+  .article{border-right:none;}
 }
 </style>
 </head>
-<body id="body">
+<body>
+<button class="edition-toggle" id="editionToggle" onclick="toggleEdition()"><span id="edIcon">☾</span> <span id="edLabel">Evening Ed.</span></button>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">PortfolioOS</div>
-  <div class="nav-right">
-    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️ Light</button>
-    <button class="launch-btn-nav" onclick="window.location.href='app.html'">Launch App →</button>
-  </div>
-</nav>
+<div class="tape"><div class="tape-track" id="tape"></div></div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-bg">
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-  </div>
+<div class="wrap">
+  <header class="masthead">
+    <div class="dateline"><span id="dateL">EST. 2026</span><span>★ MORNING EDITION ★</span><span>VOL. I — NO. 1</span></div>
+    <h1 class="title">The Portfolio <span class="amp">Times</span></h1>
+    <div class="ornament"><span class="o-line"></span>★<span class="o-line"></span></div>
+    <p class="motto">"All The Holdings Fit To Print" · A Patient Investor's Daily</p>
+    <div class="price-strip"><span>Founded $500</span><span>·</span><span>8 Enterprises</span><span>·</span><span>Goal $35,000</span><span>·</span><span>Dividends Reinvested</span><span>·</span><span>Free Forever</span></div>
+  </header>
 
-  <div class="hero-tag fade-up"><div class="live-dot"></div> Live · Free · No signup needed</div>
-  <h1 class="fade-up d1">Your Personal<br><span class="gradient-text">Investment Command</span><br>Center</h1>
-  <p class="hero-sub fade-up d2">Track stocks, plan monthly injections, watch dividends grow, and hit your financial goals — all from one beautiful app.</p>
+  <section class="front">
+    <!-- LEFT -->
+    <div class="col rise">
+      <div class="side-title">Market Report</div>
+      <div class="report-row"><span class="t">NVDA</span><span class="up">131.38 ▲</span></div>
+      <div class="report-row"><span class="t">TSLA</span><span class="down">315.82 ▼</span></div>
+      <div class="report-row"><span class="t">DELL</span><span class="up">145.22 ▲</span></div>
+      <div class="report-row"><span class="t">IBM</span><span class="up">271.44 ▲</span></div>
+      <div class="report-row"><span class="t">SNDK</span><span class="up">1684 ▲</span></div>
+      <div class="report-row"><span class="t">ABBV</span><span class="up">198.42 ▲</span></div>
+      <div class="report-row" style="border:none;"><span class="t">XOM</span><span class="up">112.84 ▲</span></div>
+      <div class="col-rule"></div>
+      <div class="kicker">Weather</div>
+      <p class="body-copy" style="font-size:13px;">Bullish winds across AI infrastructure. Scattered volatility in autos. Dividends steady through the season.</p>
+    </div>
 
-  <div class="hero-btns fade-up d3">
-    <button class="btn-primary" onclick="window.location.href='app.html'">🚀 Launch App Free</button>
-    <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">See Features ↓</button>
-  </div>
+    <!-- CENTER -->
+    <div class="col center rise r2">
+      <div class="kicker">— Lead Story —</div>
+      <h1 class="lead-head">A $500 Stake Sets Out On A Quiet, Disciplined Climb</h1>
+      <div class="byline">By The Desk · Personal Finance · Filed Today</div>
+      <p class="body-copy drop">Eight companies stand on the books, two of them — a chip-maker and a car-maker — already better than doubled. Rather than chase the next hot tip, this portfolio follows a single rule: a fixed sum invested every month, routed by a plan, not a mood. The remaining six positions await their first dollars, a deliberate spread across technology, pharma, energy and finance.</p>
+      <div class="sub-head">The Method Behind The Patience</div>
+      <p class="body-copy">Two strategies govern the flows. "Rotation" tips fresh capital toward the strongest performer; "Index" rebalances toward target weights. Anchors — AbbVie, Exxon, JPMorgan — supply dividends and ballast while the growth names do the heavy lifting. The roadmap is plain: $5,000 by year's end, $15,000 the year after, $35,000 the year after that.</p>
+    </div>
 
-  <div class="stats fade-up d3">
-    <div class="stat"><div class="stat-val"><span class="cu" data-to="8">0</span></div><div class="stat-lbl">Stocks</div></div>
-    <div class="stat"><div class="stat-val"><span class="cu" data-to="6">0</span></div><div class="stat-lbl">Smart tabs</div></div>
-    <div class="stat"><div class="stat-val">$<span class="cu" data-to="35">0</span>K</div><div class="stat-lbl">Goal roadmap</div></div>
-    <div class="stat"><div class="stat-val"><span class="cu" data-to="100">0</span>%</div><div class="stat-lbl">Free</div></div>
-  </div>
+    <!-- RIGHT -->
+    <div class="col rise r3">
+      <div class="kicker">— The Ledger Today —</div>
+      <div class="bignum">$<span id="big">426</span><span class="c">52</span></div>
+      <div class="report-row" style="margin-top:14px;"><span>Unrealised Gain</span><span class="up">+$224.50</span></div>
+      <div class="report-row"><span>Active Holdings</span><span>2 / 8</span></div>
+      <div class="report-row"><span>Next Injection</span><span>Jun 25</span></div>
+      <div class="report-row" style="border:none;"><span>Strategy</span><span style="color:var(--vermillion);">ROTATION</span></div>
 
-  <!-- Phone mockup -->
-  <div class="mockup-wrap fade-up d4">
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-          <div style="width:50px;height:50px;border-radius:50%;background:conic-gradient(#a3e635 190deg,#f87171 190deg 270deg,#1a2640 270deg);display:flex;align-items:center;justify-content:center;">
-            <div style="width:36px;height:36px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;">
-              <div style="font-size:5px;color:#475569;">TOTAL</div>
-              <div style="font-size:8px;font-weight:bold;font-family:'Playfair Display',serif;">$426</div>
-            </div>
-          </div>
-          <div>
-            <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;">$426.52</div>
-            <div style="font-size:10px;color:#4ade80;">▲ 12.4% gain</div>
-          </div>
-        </div>
-        <div style="display:flex;height:4px;border-radius:2px;overflow:hidden;gap:1px;margin-bottom:8px;">
-          <div style="width:52%;background:#a3e635;"></div>
-          <div style="width:45%;background:#f87171;"></div>
-          <div style="width:3%;background:#818cf8;"></div>
-        </div>
-        <div style="background:#141e2e;border-radius:8px;padding:8px;margin-bottom:8px;">
-          <div style="font-size:8px;color:#475569;font-family:'DM Mono',monospace;margin-bottom:4px;">🎯 Goal: $5,000 by 2026 — 8.5%</div>
-          <div style="height:5px;background:#0f1623;border-radius:3px;overflow:hidden;">
-            <div style="height:100%;width:8.5%;background:linear-gradient(90deg,#6366f1,#818cf8);border-radius:3px;"></div>
-          </div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:5px;">
-          <div style="background:#0f1623;border:1px solid #1a2640;border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
-            <div style="width:26px;height:26px;border-radius:50%;background:#a3e63522;border:1px solid #a3e63544;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;color:#a3e635;">NVDA</div>
-            <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">NVDA</div><div style="height:3px;background:#1a2640;border-radius:2px;margin-top:4px;"><div style="height:100%;width:52%;background:#a3e635;border-radius:2px;"></div></div></div>
-            <div style="font-size:11px;font-weight:bold;">$224.14</div>
-          </div>
-          <div style="background:#0f1623;border:1px solid #1a2640;border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
-            <div style="width:26px;height:26px;border-radius:50%;background:#f8717122;border:1px solid #f8717144;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;color:#f87171;">TSLA</div>
-            <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">TSLA</div><div style="height:3px;background:#1a2640;border-radius:2px;margin-top:4px;"><div style="height:100%;width:45%;background:#f87171;border-radius:2px;"></div></div></div>
-            <div style="font-size:11px;font-weight:bold;">$194.97</div>
-          </div>
-          <div style="background:#0f1623;border:1px solid #1a2640;border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:8px;">
-            <div style="width:26px;height:26px;border-radius:50%;background:#60a5fa22;border:1px solid #60a5fa44;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:bold;color:#60a5fa;">DELL</div>
-            <div style="flex:1;"><div style="font-size:11px;font-weight:bold;">DELL</div><div style="height:3px;background:#1a2640;border-radius:2px;margin-top:4px;"><div style="height:100%;width:0%;background:#60a5fa;border-radius:2px;"></div></div></div>
-            <div style="font-size:11px;font-weight:bold;">$0.00</div>
-          </div>
-        </div>
+      <div class="subscribe">
+        <h3>Read On</h3>
+        <p>Choose your edition of the record.</p>
+        <a href="app.html" class="btn btn-ink">Open The Terminal →</a>
+        <a href="ledger.html" class="btn btn-out">Read The Ledger →</a>
       </div>
     </div>
+  </section>
+
+  <!-- FEATURES AS ARTICLES -->
+  <div class="sec-head rise"><span class="no">SECTION B</span><h2>Inside This Issue</h2><div class="line"></div></div>
+  <div class="articles rise">
+    <a class="article" href="app.html?tab=dashboard"><div class="num">B1</div><h4>The Dashboard, At A Glance</h4><p>A live ledger of every position with allocation rings, targets and dividend income — your whole book on one page.</p><span class="more">Open →</span></a>
+    <a class="article" href="app.html?tab=inject"><div class="num">B2</div><h4>Planning The Monthly Injection</h4><p>Set a budget between $200 and $500, pick a strategy, and receive an exact buy-by-buy breakdown.</p><span class="more">Open →</span></a>
+    <a class="article" href="app.html?tab=dividends"><div class="num">B3</div><h4>Counting The Dividends</h4><p>Track passive income from AbbVie, Exxon, JPMorgan and IBM, with a three-year projection.</p><span class="more">Open →</span></a>
+    <a class="article" href="app.html?tab=goals"><div class="num">B4</div><h4>The Road To Thirty-Five Thousand</h4><p>Three milestones, countdowns, and on-track indicators that mark the long climb.</p><span class="more">Open →</span></a>
+    <a class="article" href="app.html?tab=review"><div class="num">B5</div><h4>The Quarterly Review</h4><p>A six-question health check on concentration, dividends, AI demand and macro risk.</p><span class="more">Open →</span></a>
+    <a class="article" href="ledger.html"><div class="num">B6</div><h4>The Almanac Edition</h4><p>The same portfolio, rendered as a printed broadsheet — for the reader who prefers the long form.</p><span class="more">Read →</span></a>
   </div>
+
+  <blockquote class="pullquote rise"><span class="mark">"</span>The market is a device for transferring money from the impatient to the patient.<span class="mark">"</span></blockquote>
+  <div class="rule-vermillion"></div>
+  <footer class="colophon">The Portfolio Times · Morning Edition · No. 1<br>Set in Fraunces &amp; Spectral · Printed on warm stock<br>Not investment advice · For one reader only</footer>
 </div>
-
-<!-- FEATURES -->
-<section id="features">
-  <div class="section-tag fade-up">What's inside</div>
-  <h2 class="fade-up">Everything you need.<br>Nothing you don't.</h2>
-  <p class="section-sub fade-up d1">Built for real investors who want clarity, not complexity.</p>
-  <div class="features-grid">
-    <a href="app.html?tab=dashboard" class="feature-card fade-up" style="--fc:#6366f1;"><div class="feature-icon-wrap" style="background:#6366f118;">📊</div><div class="feature-title">Dashboard</div><div class="feature-desc">Live portfolio overview with donut chart, allocation bars and per-stock progress rings.</div><span class="feature-tag">Real-time</span><div class="feature-go">Open Dashboard →</div></a>
-    <a href="app.html?tab=inject" class="feature-card fade-up d1" style="--fc:#4ade80;"><div class="feature-icon-wrap" style="background:#4ade8018;">💉</div><div class="feature-title">Inject Planner</div><div class="feature-desc">Choose your monthly budget ($200–$500), pick Rotation or Index mode, get exact breakdown.</div><span class="feature-tag">Monthly</span><div class="feature-go">Open Inject →</div></a>
-    <a href="app.html?tab=dividends" class="feature-card fade-up d2" style="--fc:#fbbf24;"><div class="feature-icon-wrap" style="background:#fbbf2418;">💰</div><div class="feature-title">Dividend Tracker</div><div class="feature-desc">See annual and monthly dividend income across ABBV, XOM, JPM and IBM. 3-year projection included.</div><span class="feature-tag">Passive Income</span><div class="feature-go">Open Dividends →</div></a>
-    <a href="app.html?tab=goals" class="feature-card fade-up d3" style="--fc:#f87171;"><div class="feature-icon-wrap" style="background:#f8717118;">🎯</div><div class="feature-title">Goal Milestones</div><div class="feature-desc">Three milestone roadmap: $5K → $15K → $35K with countdown timers and on-track indicators.</div><span class="feature-tag">$5K → $35K</span><div class="feature-go">Open Goals →</div></a>
-    <a href="app.html?tab=review" class="feature-card fade-up" style="--fc:#38bdf8;"><div class="feature-icon-wrap" style="background:#38bdf818;">🔍</div><div class="feature-title">Quarterly Review</div><div class="feature-desc">6-question portfolio health check covering AI demand, dividends, concentration risk and macro risks.</div><span class="feature-tag">Every 3 months</span><div class="feature-go">Open Review →</div></a>
-    <a href="app.html?tab=history" class="feature-card fade-up d1" style="--fc:#c084fc;"><div class="feature-icon-wrap" style="background:#c084fc18;">📈</div><div class="feature-title">History</div><div class="feature-desc">Every injection logged over time — track your contributions and watch your portfolio compound.</div><span class="feature-tag">Full timeline</span><div class="feature-go">Open History →</div></a>
-  </div>
-</section>
-
-<!-- STOCKS -->
-<section id="stocks">
-  <div class="section-tag fade-up">Your Holdings</div>
-  <h2 class="fade-up">Every stock.<br>Fully analyzed.</h2>
-  <p class="section-sub fade-up d1">Tap any stock for a full deep dive — price chart, earnings, analyst ratings, news and your position.</p>
-  <div class="features-grid" style="margin-top:32px;">
-
-    <a href="stock.html?t=NVDA" class="stock-card fade-up" style="border-left:3px solid #a3e635;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#a3e63522;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#a3e635;font-family:'Playfair Display',serif;">NVD</div>
-        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">NVDA</div><div style="font-size:10px;color:var(--text3);">Nvidia</div></div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">AI chip leader — your highest conviction pick</div>
-      <div style="margin-top:8px;font-size:10px;color:#a3e635;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=TSLA" class="stock-card fade-up d1" style="border-left:3px solid #f87171;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#f8717122;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#f87171;font-family:'Playfair Display',serif;">TSL</div>
-        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">TSLA</div><div style="font-size:10px;color:var(--text3);">Tesla</div></div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">EV & energy — volatile but high upside</div>
-      <div style="margin-top:8px;font-size:10px;color:#f87171;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=DELL" class="stock-card fade-up d2" style="border-left:3px solid #60a5fa;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#60a5fa22;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#60a5fa;font-family:'Playfair Display',serif;">DEL</div>
-        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">DELL</div><div style="font-size:10px;color:var(--text3);">Dell Technologies</div></div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">AI server infrastructure — explosive growth</div>
-      <div style="margin-top:8px;font-size:10px;color:#60a5fa;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=IBM" class="stock-card fade-up" style="border-left:3px solid #818cf8;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#818cf822;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#818cf8;font-family:'Playfair Display',serif;">IBM</div>
-        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">IBM</div><div style="font-size:10px;color:var(--text3);">IBM Corporation</div></div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Stable tech — your ballast + 2.5% dividend</div>
-      <div style="margin-top:8px;font-size:10px;color:#818cf8;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=SNDK" class="stock-card fade-up d1" style="border-left:3px solid #fb923c;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#fb923c22;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fb923c;font-family:'Playfair Display',serif;">SNK</div>
-        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">SNDK</div><div style="font-size:10px;color:var(--text3);">SanDisk</div></div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">NAND memory — high risk, high reward AI play</div>
-      <div style="margin-top:8px;font-size:10px;color:#fb923c;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=ABBV" class="stock-card fade-up d2" style="border-left:3px solid #34d399;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#34d39922;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#34d399;font-family:'Playfair Display',serif;">ABB</div>
-        <div>
-          <div style="display:flex;align-items:center;gap:6px;"><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">ABBV</div><span style="font-size:7px;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;">⚓ ANCHOR</span></div>
-          <div style="font-size:10px;color:var(--text3);">AbbVie</div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Pharma anchor — 3.4% dividend, recession-proof</div>
-      <div style="margin-top:8px;font-size:10px;color:#34d399;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=XOM" class="stock-card fade-up" style="border-left:3px solid #fbbf24;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#fbbf2422;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fbbf24;font-family:'Playfair Display',serif;">XOM</div>
-        <div>
-          <div style="display:flex;align-items:center;gap:6px;"><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">XOM</div><span style="font-size:7px;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;">⚓ ANCHOR</span></div>
-          <div style="font-size:10px;color:var(--text3);">ExxonMobil</div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Energy anchor — 42 years of dividend growth</div>
-      <div style="margin-top:8px;font-size:10px;color:#fbbf24;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=JPM" class="stock-card fade-up d1" style="border-left:3px solid #38bdf8;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#38bdf822;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#38bdf8;font-family:'Playfair Display',serif;">JPM</div>
-        <div>
-          <div style="display:flex;align-items:center;gap:6px;"><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">JPM</div><span style="font-size:7px;background:#d1fae5;color:#065f46;padding:1px 6px;border-radius:8px;">⚓ ANCHOR</span></div>
-          <div style="font-size:10px;color:var(--text3);">JPMorgan Chase</div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Financial anchor — largest US bank, 2.2% dividend</div>
-      <div style="margin-top:8px;font-size:10px;color:#38bdf8;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=NFLX" class="stock-card fade-up d2" style="border-left:3px solid #ef4444;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#ef444422;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#ef4444;font-family:'Playfair Display',serif;">NFX</div>
-        <div><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">NFLX</div><div style="font-size:10px;color:var(--text3);">Netflix</div></div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Small position — consider adding or consolidating</div>
-      <div style="margin-top:8px;font-size:10px;color:#ef4444;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-    <a href="stock.html?t=LCID" class="stock-card fade-up" style="border-left:3px solid #c084fc;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#c084fc22;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#c084fc;font-family:'Playfair Display',serif;">LCI</div>
-        <div>
-          <div style="display:flex;align-items:center;gap:6px;"><div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;">LCID</div><span style="font-size:7px;background:#fef2f2;color:#991b1b;padding:1px 6px;border-radius:8px;">⚠ REVIEW</span></div>
-          <div style="font-size:10px;color:var(--text3);">Lucid Group</div>
-        </div>
-      </div>
-      <div style="font-size:11px;color:var(--text2);line-height:1.5;">Down 78% — consider selling, redeploy into anchors</div>
-      <div style="margin-top:8px;font-size:10px;color:#c084fc;font-family:'DM Mono',monospace;">View deep dive →</div>
-    </a>
-
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section>
-  <div class="section-tag fade-up">How it works</div>
-  <h2 class="fade-up">Three steps.<br>Every month.</h2>
-  <p class="section-sub fade-up d1">Takes less than 60 seconds. No finance degree required.</p>
-  <div class="steps">
-    <div class="step fade-up">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <div class="step-title">Check the market</div>
-        <div class="step-desc">Come back every 25th and ask Claude for a market update. See who's winning and what's moving in your portfolio this month.</div>
-      </div>
-    </div>
-    <div class="step fade-up d1">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <div class="step-title">Pick your strategy</div>
-        <div class="step-desc">Choose Rotation mode to back the winner, or Index mode to auto-rebalance. The app shows you exactly where every dollar goes.</div>
-      </div>
-    </div>
-    <div class="step fade-up d2">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <div class="step-title">Inject & grow</div>
-        <div class="step-desc">Hit inject. Your portfolio updates instantly. Watch your goal bar move. Repeat next month and let compounding do the work.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<div class="cta-section">
-  <div class="cta-card fade-up">
-    <div class="cta-title">Ready to take<br>control of your<br><span class="gradient-text">investments?</span></div>
-    <p class="cta-sub">Free. No login. No ads. Your data stays on your device. Install it as an app on your phone in 30 seconds.</p>
-    <div class="cta-metrics">
-      <div style="text-align:center;"><div class="cta-metric-val">100%</div><div class="cta-metric-lbl">Private</div></div>
-      <div style="text-align:center;"><div class="cta-metric-val">$0</div><div class="cta-metric-lbl">Forever free</div></div>
-      <div style="text-align:center;"><div class="cta-metric-val">Offline</div><div class="cta-metric-lbl">Works anywhere</div></div>
-    </div>
-    <button class="btn-primary" style="width:100%;justify-content:center;font-size:16px;padding:16px;" onclick="window.location.href='app.html'">
-      🚀 Launch PortfolioOS Free
-    </button>
-    <div style="margin-top:14px;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;">No signup · No credit card · Installs on iPhone & Android</div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">PortfolioOS</div>
-  <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:6px;letter-spacing:1px;">Built with 🤍 and Claude AI · Your data never leaves your device</div>
-  <div style="margin-top:16px;display:flex;justify-content:center;gap:16px;">
-    <a href="app.html" style="font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;">Launch App</a>
-    <span style="color:var(--border);">·</span>
-    <a href="https://github.com/Omar1998-Claude/PT" style="font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;">GitHub</a>
-  </div>
-</footer>
 
 <script>
-let dark=true;
-function toggleTheme(){
-  dark=!dark;
-  document.getElementById('body').className=dark?'':'light';
-  document.getElementById('themeBtn').textContent=dark?'☀️ Light':'🌙 Dark';
-}
+function applyEdition(n){document.body.classList.toggle("night",n);document.getElementById("edIcon").textContent=n?"☀":"☾";document.getElementById("edLabel").textContent=n?"Morning Ed.":"Evening Ed.";}
+function toggleEdition(){applyEdition(!document.body.classList.contains("night"));}
+applyEdition(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-// Snappy reveal — replays each time element enters view
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add('visible');}
-    else{e.target.classList.remove('visible');}
-  });
-},{threshold:0.15});
-document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+var TAPE=[["NVDA",131.38,2.4],["TSLA",315.82,-1.2],["DELL",145.22,34.2],["IBM",271.44,0.8],["SNDK",1684.22,5.1],["ABBV",198.42,0.3],["XOM",112.84,1.1],["JPM",262.18,0.6],["NFLX",1185.43,0.9],["LCID",2.14,-1.8]];
+(function(){var h="";for(var p=0;p<2;p++){TAPE.forEach(function(t){var u=t[2]>=0;h+='<span class="tape-item"><b>'+t[0]+'</b> '+t[1].toFixed(2)+' <span class="'+(u?'up':'down')+'">'+(u?'▲':'▼')+' '+Math.abs(t[2]).toFixed(1)+'%</span></span><span style="opacity:0.3">·</span>';});}document.getElementById("tape").innerHTML=h;})();
 
-// Count-up stats — fire when the stats row enters view
-function countUp(el){
-  const to=parseFloat(el.getAttribute('data-to'))||0;
-  const dur=900;let start=null;
-  function step(ts){
-    if(!start)start=ts;
-    const p=Math.min((ts-start)/dur,1);
-    const eased=1-Math.pow(1-p,3);
-    el.textContent=Math.round(to*eased);
-    if(p<1)requestAnimationFrame(step);else el.textContent=to;
-  }
-  requestAnimationFrame(step);
-}
-const statObserver=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.querySelectorAll('.cu').forEach(countUp);
-      statObserver.unobserve(e.target);
-    }
-  });
-},{threshold:0.4});
-const statsRow=document.querySelector('.stats');
-if(statsRow)statObserver.observe(statsRow);
+(function(){var d=new Date();var m=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];document.getElementById("dateL").textContent=d.getDate()+" "+m[d.getMonth()]+" "+d.getFullYear();})();
+
+function countTo(el,t,dur){var s=null;function step(ts){if(!s)s=ts;var p=Math.min((ts-s)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(t*e);if(p<1)requestAnimationFrame(step);else el.textContent=t;}requestAnimationFrame(step);}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("seen");if(e.target.querySelector&&e.target.querySelector("#big"))countTo(document.getElementById("big"),426,900);}});},{threshold:0.15});
+document.querySelectorAll(".rise").forEach(function(el){io.observe(el);});
 </script>
 </body>
 </html>
