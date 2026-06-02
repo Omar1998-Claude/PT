@@ -371,6 +371,31 @@ function fetchChart(ticker, range, cb) {
   tryNext();
 }
 
+function renderTiming(curNum) {
+  var tEl = document.getElementById("timingBanner");
+  var tgtNum = window._tgtNum, tgtStr = window._tgtStr;
+  if (!tEl || !tgtNum || !curNum) { if (tEl) tEl.innerHTML = ""; return; }
+  var upside = ((tgtNum - curNum) / curNum) * 100;
+  var verdict, icon, vcol, bg, bd, reason;
+  if (upside >= 12) {
+    verdict = "BUY ZONE"; icon = "🟢"; vcol = "#15803d"; bg = "#f0fdf4"; bd = "#86efac";
+    reason = "Trading about " + Math.abs(upside).toFixed(0) + "% below the average analyst target of " + tgtStr + " — room to run if the thesis holds.";
+  } else if (upside >= -5) {
+    verdict = "FAIR VALUE"; icon = "🟡"; vcol = "#b45309"; bg = "#fffbeb"; bd = "#fcd34d";
+    reason = "Sitting close to the analyst target of " + tgtStr + ". Reasonable to accumulate steadily, but limited near-term upside.";
+  } else {
+    verdict = "EXPENSIVE"; icon = "🔴"; vcol = "#b91c1c"; bg = "#fef2f2"; bd = "#fca5a5";
+    reason = "Trading about " + Math.abs(upside).toFixed(0) + "% above the analyst target of " + tgtStr + ". The market may be ahead of fundamentals — consider waiting.";
+  }
+  var sign = upside >= 0 ? "+" : "";
+  tEl.innerHTML = '<div class="timing" style="background:'+bg+';border-color:'+bd+';color:'+vcol+';">'
+    + '<div class="timing-icon">'+icon+'</div>'
+    + '<div style="flex:1;min-width:0;"><div class="timing-verdict">'+verdict+'</div>'
+    + '<div class="timing-reason" style="color:var(--text2);">'+reason+'</div></div>'
+    + '<div class="timing-upside"><div class="u-val">'+sign+upside.toFixed(0)+'%</div><div class="u-lbl">VS TARGET</div></div>'
+    + '</div>';
+}
+
 function drawChart(pts, color) {
   if (!pts || pts.length < 2) {
     document.getElementById("chartArea").innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="font-size:20px;">📡</div><div style="font-size:10px;color:var(--text3);font-family:DM Mono,monospace;">Live data unavailable</div><a href="https://finance.yahoo.com/quote/'+currentTicker+'" target="_blank" style="font-size:10px;color:var(--acc);padding:5px 12px;border:1px solid var(--border);border-radius:8px;">View on Yahoo Finance ↗</a></div>';
@@ -413,6 +438,19 @@ function drawChart(pts, color) {
     + '<span style="display:inline-flex;align-items:center;gap:3px;font-size:8px;font-family:DM Mono,monospace;color:#16a34a;background:#dcfce7;padding:2px 6px;border-radius:6px;margin-left:6px;"><span style="width:4px;height:4px;border-radius:50%;background:#16a34a;animation:blink 1.5s infinite;"></span>LIVE</span>';
   document.getElementById("priceVal").textContent = "$" + last.p.toFixed(2);
   document.getElementById("livePill").innerHTML = '<span class="live-pill"><span class="live-dot"></span>Live price</span>';
+  // sync analyst-consensus "Current" + slider to the live price
+  var curEl = document.getElementById("curLabel");
+  if (curEl) curEl.textContent = "Current: $" + last.p.toFixed(2);
+  if (window._tRange) {
+    var rng = window._tRange;
+    var pos = Math.min(Math.max(((last.p - rng.lo) / (rng.hi - rng.lo)) * 100, 2), 98);
+    var fillEl = document.getElementById("tFill");
+    var dotEl = document.getElementById("tDot");
+    if (fillEl) fillEl.style.width = pos.toFixed(0) + "%";
+    if (dotEl) dotEl.style.left = pos.toFixed(0) + "%";
+  }
+  // refresh buy-timing verdict against the live price
+  renderTiming(last.p);
 }
 
 function loadChart(range) {
@@ -485,6 +523,7 @@ function render(t) {
   var rc_col = rc[an.rating] || "#6366f1";
   var tL = parseFloat(an.tLow.replace(/[$,]/g,"")), tH = parseFloat(an.tHigh.replace(/[$,]/g,""));
   var tPos = Math.min(Math.max(((an.cur-tL)/(tH-tL))*100,2),98);
+  window._tRange = {lo:tL, hi:tH, color:color};
   document.getElementById("analystContent").innerHTML =
     '<div class="rating-c" style="background:'+rc_col+'15;border:2px solid '+rc_col+'33;">'
     + '<div class="rating-v" style="color:'+rc_col+';">'+an.score+'</div>'
@@ -492,36 +531,13 @@ function render(t) {
     + '<div class="analyst-bar"><div class="a-seg" style="width:'+(an.buy/tot*100).toFixed(0)+'%;background:#22c55e;"></div><div class="a-seg" style="width:'+(an.hold/tot*100).toFixed(0)+'%;background:#f59e0b;"></div><div class="a-seg" style="width:'+(an.sell/tot*100).toFixed(0)+'%;background:#ef4444;"></div></div>'
     + '<div class="a-labels"><span style="color:#22c55e;">Buy '+an.buy+'</span><span style="color:#f59e0b;">Hold '+an.hold+'</span><span style="color:#ef4444;">Sell '+an.sell+'</span></div>'
     + '<div style="font-size:9px;color:var(--text2);margin:8px 0 4px;">Target: '+an.tLow+' → <strong style="color:var(--acc);">'+an.tgt+'</strong> → '+an.tHigh+'</div>'
-    + '<div class="target-track"><div class="target-fill" style="width:'+tPos.toFixed(0)+'%;background:linear-gradient(90deg,'+color+'66,'+color+');"></div><div class="target-dot" style="left:'+tPos.toFixed(0)+'%;background:'+color+';box-shadow:0 0 6px '+color+'55;"></div></div>'
-    + '<div style="font-size:8px;color:var(--text3);font-family:DM Mono,monospace;">Current: $'+an.cur+'</div>';
+    + '<div class="target-track"><div id="tFill" class="target-fill" style="width:'+tPos.toFixed(0)+'%;background:linear-gradient(90deg,'+color+'66,'+color+');"></div><div id="tDot" class="target-dot" style="left:'+tPos.toFixed(0)+'%;background:'+color+';box-shadow:0 0 6px '+color+'55;"></div></div>'
+    + '<div id="curLabel" style="font-size:8px;color:var(--text3);font-family:DM Mono,monospace;">Current: $'+an.cur+'</div>';
 
   // Buy-timing banner (upside = analyst target vs current price)
-  var tgtNum = parseFloat(an.tgt.replace(/[$,]/g,""));
-  var curNum = an.cur;
-  var tEl = document.getElementById("timingBanner");
-  if (tEl && tgtNum && curNum) {
-    var upside = ((tgtNum - curNum) / curNum) * 100;
-    var verdict, icon, vcol, bg, bd, reason;
-    if (upside >= 12) {
-      verdict = "BUY ZONE"; icon = "🟢"; vcol = "#15803d"; bg = "#f0fdf4"; bd = "#86efac";
-      reason = "Trading about " + Math.abs(upside).toFixed(0) + "% below the average analyst target of " + an.tgt + " — room to run if the thesis holds.";
-    } else if (upside >= -5) {
-      verdict = "FAIR VALUE"; icon = "🟡"; vcol = "#b45309"; bg = "#fffbeb"; bd = "#fcd34d";
-      reason = "Sitting close to the analyst target of " + an.tgt + ". Reasonable to accumulate steadily, but limited near-term upside.";
-    } else {
-      verdict = "EXPENSIVE"; icon = "🔴"; vcol = "#b91c1c"; bg = "#fef2f2"; bd = "#fca5a5";
-      reason = "Trading about " + Math.abs(upside).toFixed(0) + "% above the analyst target of " + an.tgt + ". The market may be ahead of fundamentals — consider waiting.";
-    }
-    var sign = upside >= 0 ? "+" : "";
-    tEl.innerHTML = '<div class="timing" style="background:'+bg+';border-color:'+bd+';color:'+vcol+';">'
-      + '<div class="timing-icon">'+icon+'</div>'
-      + '<div style="flex:1;min-width:0;"><div class="timing-verdict">'+verdict+'</div>'
-      + '<div class="timing-reason" style="color:var(--text2);">'+reason+'</div></div>'
-      + '<div class="timing-upside"><div class="u-val">'+sign+upside.toFixed(0)+'%</div><div class="u-lbl">VS TARGET</div></div>'
-      + '</div>';
-  } else if (tEl) {
-    tEl.innerHTML = "";
-  }
+  window._tgtNum = parseFloat(an.tgt.replace(/[$,]/g,""));
+  window._tgtStr = an.tgt;
+  renderTiming(an.cur);
 
   // Metrics
   document.getElementById("metricsGrid").innerHTML = Object.keys(d.metrics).map(function(k){
