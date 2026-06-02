@@ -1,4 +1,4 @@
-const CACHE = "portfolio-v3";
+const CACHE = "portfolio-v4";
 const ASSETS = ["/", "/index.html", "/app.html", "/stock.html", "/manifest.json", "/icon-192.png", "/icon-512.png"];
 
 self.addEventListener("install", e => {

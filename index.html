@@ -131,14 +131,14 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
   <section class="front">
     <!-- LEFT -->
     <div class="col rise">
-      <div class="side-title">Market Report</div>
-      <div class="report-row"><span class="t">NVDA</span><span class="up">226.80 ▲</span></div>
-      <div class="report-row"><span class="t">TSLA</span><span class="up">417.43 ▲</span></div>
-      <div class="report-row"><span class="t">DELL</span><span class="up">435.25 ▲</span></div>
-      <div class="report-row"><span class="t">IBM</span><span class="up">318.73 ▲</span></div>
-      <div class="report-row"><span class="t">SNDK</span><span class="up">1734 ▲</span></div>
-      <div class="report-row"><span class="t">ABBV</span><span class="up">205.07 ▲</span></div>
-      <div class="report-row" style="border:none;"><span class="t">XOM</span><span class="up">149.64 ▲</span></div>
+      <div class="side-title" style="display:flex;align-items:center;justify-content:space-between;">Market Report <span id="liveStatus" style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--faint);font-weight:400;text-transform:uppercase;">○ snapshot</span></div>
+      <div class="report-row" data-tk="NVDA"><span class="t">NVDA</span><span class="up">226.80 ▲</span></div>
+      <div class="report-row" data-tk="TSLA"><span class="t">TSLA</span><span class="up">417.43 ▲</span></div>
+      <div class="report-row" data-tk="DELL"><span class="t">DELL</span><span class="up">435.25 ▲</span></div>
+      <div class="report-row" data-tk="IBM"><span class="t">IBM</span><span class="up">318.73 ▲</span></div>
+      <div class="report-row" data-tk="SNDK"><span class="t">SNDK</span><span class="up">1734 ▲</span></div>
+      <div class="report-row" data-tk="ABBV"><span class="t">ABBV</span><span class="up">205.07 ▲</span></div>
+      <div class="report-row" data-tk="XOM" style="border:none;"><span class="t">XOM</span><span class="up">149.64 ▲</span></div>
       <div class="col-rule"></div>
       <div class="kicker">Weather</div>
       <p class="body-copy" style="font-size:13px;">Bullish winds across AI infrastructure. Scattered volatility in autos. Dividends steady through the season.</p>
@@ -194,7 +194,93 @@ function toggleEdition(){applyEdition(!document.body.classList.contains("night")
 applyEdition(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
 
 var TAPE=[["NVDA",226.80,1.1],["TSLA",417.43,0.4],["DELL",435.25,3.4],["IBM",318.73,1.2],["SNDK",1734.00,2.3],["ABBV",205.07,0.6],["XOM",149.64,2.5],["JPM",296.58,0.4],["NFLX",84.02,-0.4],["LCID",6.55,-0.9]];
-(function(){var h="";for(var p=0;p<2;p++){TAPE.forEach(function(t){var u=t[2]>=0;h+='<span class="tape-item"><b>'+t[0]+'</b> '+t[1].toFixed(2)+' <span class="'+(u?'up':'down')+'">'+(u?'▲':'▼')+' '+Math.abs(t[2]).toFixed(1)+'%</span></span><span style="opacity:0.3">·</span>';});}document.getElementById("tape").innerHTML=h;})();
+
+// render the ticker tape from the current TAPE array
+function renderTape(){
+  var h="";
+  for(var p=0;p<2;p++){
+    TAPE.forEach(function(t){
+      var u=t[2]>=0;
+      h+='<span class="tape-item"><b>'+t[0]+'</b> '+t[1].toFixed(2)+' <span class="'+(u?'up':'down')+'">'+(u?'▲':'▼')+' '+Math.abs(t[2]).toFixed(1)+'%</span></span><span style="opacity:0.3">·</span>';
+    });
+  }
+  document.getElementById("tape").innerHTML=h;
+}
+renderTape();
+
+// ── LIVE PRICES (Yahoo Finance via CORS proxy) ────────────
+function fetchQuote(ticker, cb){
+  var base = "https://query1.finance.yahoo.com/v8/finance/chart/" + ticker + "?range=1d&interval=1d";
+  var proxies = [
+    "https://corsproxy.io/?" + encodeURIComponent(base),
+    "https://api.allorigins.win/raw?url=" + encodeURIComponent(base)
+  ];
+  var idx = 0;
+  function tryNext(){
+    if (idx >= proxies.length){ cb(null); return; }
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", proxies[idx++], true);
+    xhr.timeout = 8000;
+    xhr.onload = function(){
+      if (xhr.status === 200){
+        try{
+          var d = JSON.parse(xhr.responseText);
+          var m = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
+          if (m && m.regularMarketPrice != null){
+            var price = m.regularMarketPrice;
+            var prev = (m.chartPreviousClose != null ? m.chartPreviousClose : m.previousClose);
+            var pct = (prev && prev !== 0) ? ((price - prev) / prev) * 100 : 0;
+            cb({price:price, pct:pct});
+            return;
+          }
+        }catch(e){}
+      }
+      tryNext();
+    };
+    xhr.onerror = function(){ tryNext(); };
+    xhr.ontimeout = function(){ tryNext(); };
+    xhr.send();
+  }
+  tryNext();
+}
+
+function updateReportRow(ticker, price, pct){
+  var row = document.querySelector('.report-row[data-tk="'+ticker+'"]');
+  if(!row) return;
+  var span = row.querySelector('span:last-child');
+  if(!span) return;
+  var up = pct >= 0;
+  var shown = price >= 1000 ? Math.round(price).toString() : price.toFixed(2);
+  span.className = up ? "up" : "down";
+  span.textContent = shown + " " + (up ? "▲" : "▼");
+}
+
+function goLive(){
+  var got = 0, tried = 0;
+  TAPE.forEach(function(t, i){
+    var ticker = t[0];
+    fetchQuote(ticker, function(q){
+      tried++;
+      if(q){
+        got++;
+        TAPE[i][1] = q.price;
+        TAPE[i][2] = Math.round(q.pct*10)/10;
+        updateReportRow(ticker, q.price, q.pct);
+      }
+      // once all attempts are back, refresh tape + status
+      if(tried === TAPE.length){
+        renderTape();
+        var s = document.getElementById("liveStatus");
+        if(s){
+          if(got>0){ s.textContent = "● live"; s.style.color = "#3d8b40"; }
+          else { s.textContent = "○ snapshot"; }
+        }
+      }
+    });
+  });
+}
+// kick off live fetch shortly after load
+setTimeout(goLive, 400);
 
 (function(){var d=new Date();var m=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];document.getElementById("dateL").textContent=d.getDate()+" "+m[d.getMonth()]+" "+d.getFullYear();})();
 
