@@ -149,14 +149,14 @@ input{font-family:'Georgia',serif;outline:none;}
 <script>
 // ── CONSTANTS ─────────────────────────────────────────────
 const CORE=["NVDA","TSLA","DELL","IBM","SNDK","JTEK","GOOGL","NFLX","LCID"];
-const ANCHORS=["ABBV","XOM","JPM"];
-const PLAN=["NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","JPM"];
+const ANCHORS=["ABBV","XOM","PG"];
+const PLAN=["NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","PG"];
 const ALL_ACTIVE=[...PLAN];
 const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const BUDGETS=[200,300,400,500];
 
 // Annual dividend yield % per share (approximate 2026)
-const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,JPM:2.2,NVDA:0.03,TSLA:0,DELL:1.8,SNDK:0,NFLX:0,LCID:0,JTEK:0.3,GOOGL:0.5};
+const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,PG:2.9,NVDA:0.03,TSLA:0,DELL:1.8,SNDK:0,NFLX:0,LCID:0,JTEK:0.3,GOOGL:0.5};
 
 // Annual goals milestones
 const GOALS=[
@@ -168,7 +168,7 @@ const GOALS=[
 // Quarterly review questions
 const QUARTERLY_CHECKS=[
   "Is AI infrastructure demand still growing? (impacts NVDA, DELL, SNDK)",
-  "Are your anchors still paying dividends? (ABBV, XOM, JPM)",
+  "Are your anchors still paying dividends? (ABBV, XOM, PG)",
   "Has any stock become >35% of portfolio? (concentration risk)",
   "Did any holding miss earnings 2+ quarters in a row?",
   "Is your monthly injection on track to hit your annual goal?",
@@ -187,12 +187,12 @@ const DEFAULT_HOLDINGS=[
   {ticker:"GOOGL",name:"Alphabet",     value:34.11, basePct:0,   target:0, color:"#ea4335",anchor:false,tip:"Search/cloud/AI giant — quality compounder, up nicely"},
   {ticker:"NFLX",name:"Netflix",       value:6.44,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating"},
   {ticker:"LCID",name:"Lucid",         value:0.55,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down ~80% — consider selling. Loss offsets capital gains tax"},
-  {ticker:"JPM", name:"JPMorgan Chase",value:0,     basePct:0.10,target:2, color:"#38bdf8",anchor:true, tip:"Financial anchor — your only empty anchor. 2% dividend, largest US bank"},
+  {ticker:"PG",  name:"Procter & Gamble",value:0,    basePct:0.10,target:2, color:"#2563eb",anchor:true, tip:"Recession-proof anchor — people buy P&G staples in any economy. 2.9% dividend, 70 straight years of raises"},
 ];
 
 // ── STATE ─────────────────────────────────────────────────
 let S={
-  holdings:JSON.parse(localStorage.getItem("pt_h4")||"null")||DEFAULT_HOLDINGS,
+  holdings:JSON.parse(localStorage.getItem("pt_h5")||"null")||DEFAULT_HOLDINGS,
   history: JSON.parse(localStorage.getItem("pt_his")||"[]"),
   dark:    localStorage.getItem("pt_dk")!=="false",
   mode:    localStorage.getItem("pt_mode")||"rotation",
@@ -205,7 +205,7 @@ let S={
   divReinvest:true,
 };
 function save(){
-  localStorage.setItem("pt_h4",JSON.stringify(S.holdings));
+  localStorage.setItem("pt_h5",JSON.stringify(S.holdings));
   localStorage.setItem("pt_his",JSON.stringify(S.history));
   localStorage.setItem("pt_dk",S.dark);
   localStorage.setItem("pt_mode",S.mode);
@@ -522,7 +522,7 @@ function render(){
       <div style="font-size:28px;font-weight:bold;color:#fbbf24;margin-top:6px;" class="${totalAnnDiv>0?"shimmer":""}">${fmt(totalAnnDiv)}</div>
       <div style="font-size:11px;margin-top:4px;" class="t2">Estimated annual dividend income</div>
       <div style="font-size:12px;color:#4ade80;margin-top:4px;">${fmt(monthlyDiv)} / month</div>
-      ${totalAnnDiv===0?`<div style="font-size:10px;margin-top:8px;color:#fbbf24;opacity:0.7;">Dividends start flowing once you inject into IBM, ABBV, XOM, JPM</div>`:""}
+      ${totalAnnDiv===0?`<div style="font-size:10px;margin-top:8px;color:#fbbf24;opacity:0.7;">Dividends start flowing once you inject into IBM, ABBV, XOM, PG</div>`:""}
     </div>
 
     <!-- Per stock -->

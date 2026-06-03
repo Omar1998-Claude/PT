@@ -151,7 +151,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
       <div class="byline">By The Desk · Personal Finance · Filed Today</div>
       <p class="body-copy drop">Eleven positions now stand on the books, led by a chip-maker and a car-maker that have each better than doubled. Rather than chase the next hot tip, this portfolio follows a single rule: a fixed sum invested every month, routed by a plan, not a mood. What started at $500 has grown past a thousand — a deliberate spread across technology, energy, pharma, and a broad tech fund, with a banking anchor still to come.</p>
       <div class="sub-head">The Method Behind The Patience</div>
-      <p class="body-copy">Two strategies govern the flows. "Rotation" tips fresh capital toward the strongest performer; "Index" rebalances toward target weights. Anchors — AbbVie, Exxon, JPMorgan — supply dividends and ballast while the growth names do the heavy lifting. The roadmap is plain: $5,000 by year's end, $15,000 the year after, $35,000 the year after that.</p>
+      <p class="body-copy">Two strategies govern the flows. "Rotation" tips fresh capital toward the strongest performer; "Index" rebalances toward target weights. Anchors — AbbVie, Exxon, Procter &amp; Gamble — supply dividends and ballast while the growth names do the heavy lifting. The roadmap is plain: $5,000 by year's end, $15,000 the year after, $35,000 the year after that.</p>
     </div>
 
     <!-- RIGHT -->
@@ -177,7 +177,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
   <div class="articles rise">
     <a class="article" href="app.html?tab=dashboard"><div class="num">B1</div><h4>The Dashboard, At A Glance</h4><p>A live ledger of every position with allocation rings, targets and dividend income — your whole book on one page.</p><span class="more">Open →</span></a>
     <a class="article" href="app.html?tab=inject"><div class="num">B2</div><h4>Planning The Monthly Injection</h4><p>Set a budget between $200 and $500, pick a strategy, and receive an exact buy-by-buy breakdown.</p><span class="more">Open →</span></a>
-    <a class="article" href="app.html?tab=dividends"><div class="num">B3</div><h4>Counting The Dividends</h4><p>Track passive income from AbbVie, Exxon, JPMorgan and IBM, with a three-year projection.</p><span class="more">Open →</span></a>
+    <a class="article" href="app.html?tab=dividends"><div class="num">B3</div><h4>Counting The Dividends</h4><p>Track passive income from AbbVie, Exxon, Procter &amp; Gamble and IBM, with a three-year projection.</p><span class="more">Open →</span></a>
     <a class="article" href="app.html?tab=goals"><div class="num">B4</div><h4>The Road To Thirty-Five Thousand</h4><p>Three milestones, countdowns, and on-track indicators that mark the long climb.</p><span class="more">Open →</span></a>
     <a class="article" href="app.html?tab=review"><div class="num">B5</div><h4>The Quarterly Review</h4><p>A six-question health check on concentration, dividends, AI demand and macro risk.</p><span class="more">Open →</span></a>
     <a class="article" href="ledger.html"><div class="num">B6</div><h4>The Almanac Edition</h4><p>The same portfolio, rendered as a printed broadsheet — for the reader who prefers the long form.</p><span class="more">Read →</span></a>
@@ -193,7 +193,7 @@ function applyEdition(n){document.body.classList.toggle("night",n);document.getE
 function toggleEdition(){applyEdition(!document.body.classList.contains("night"));}
 applyEdition(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-var TAPE=[["NVDA",226.80,1.1],["TSLA",417.43,0.4],["DELL",435.25,3.4],["IBM",318.73,1.2],["SNDK",1734.00,2.3],["ABBV",205.07,0.6],["XOM",149.64,2.5],["JPM",296.58,0.4],["NFLX",84.02,-0.4],["LCID",6.55,-0.9]];
+var TAPE=[["NVDA",226.80,1.1],["TSLA",417.43,0.4],["DELL",435.25,3.4],["IBM",318.73,1.2],["SNDK",1734.00,2.3],["ABBV",205.07,0.6],["XOM",149.64,2.5],["PG",143.12,0.5],["NFLX",84.02,-0.4],["LCID",6.55,-0.9]];
 
 // render the ticker tape from the current TAPE array
 function renderTape(){

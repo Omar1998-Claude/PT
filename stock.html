@@ -17,7 +17,7 @@ body{--bg:#f8faff;--surf:#fff;--surf2:#f1f5ff;--text:#0a0f1e;--text2:#475569;--t
 .t-sndk{--bg:#fff7ed;--surf:#fff;--surf2:#ffedd5;--sc:#fb923c;}
 .t-abbv{--bg:#f0fdf9;--surf:#fff;--surf2:#ecfdf5;--sc:#34d399;}
 .t-xom{--bg:#fffbeb;--surf:#fff;--surf2:#fef9c3;--sc:#fbbf24;}
-.t-jpm{--bg:#f0f9ff;--surf:#fff;--surf2:#e0f2fe;--sc:#38bdf8;}
+.t-pg{--bg:#eff6ff;--surf:#fff;--surf2:#dbeafe;--sc:#2563eb;}
 .t-nflx{--bg:#fff5f5;--surf:#fff;--surf2:#fef2f2;--sc:#ef4444;}
 .t-lcid{--bg:#faf5ff;--surf:#fff;--surf2:#f3e8ff;--sc:#c084fc;}
 
@@ -205,7 +205,7 @@ nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-
 </div>
 
 <script>
-var ORDER = ["NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","JPM","NFLX","LCID"];
+var ORDER = ["NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","PG","NFLX","LCID"];
 var currentTicker = "NVDA";
 var currentRange = "1mo";
 
@@ -218,14 +218,14 @@ var LOGOS = {
   SNDK: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#fb923c"/><text x="32" y="38" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="16" fill="white">SNDK</text></svg>',
   ABBV: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#34d399"/><text x="32" y="38" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="16" fill="white">ABBV</text></svg>',
   XOM:  '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#fbbf24"/><text x="32" y="38" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="16" fill="white">XOM</text></svg>',
-  JPM:  '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#38bdf8"/><text x="32" y="38" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="16" fill="white">JPM</text></svg>',
+  PG:  '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#2563eb"/><text x="32" y="38" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="18" fill="white">PG</text></svg>',
   NFLX: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#ef4444"/><text x="32" y="38" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="16" fill="white">NFLX</text></svg>',
   LCID: '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="64" rx="14" fill="#c084fc"/><text x="32" y="38" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="16" fill="white">LCID</text></svg>',
 };
 
 // ── STOCK DATA ────────────────────────────────────────────
-var THEMES = {NVDA:"t-nvda",TSLA:"t-tsla",DELL:"t-dell",IBM:"t-ibm",SNDK:"t-sndk",ABBV:"t-abbv",XOM:"t-xom",JPM:"t-jpm",NFLX:"t-nflx",LCID:"t-lcid"};
-var COLORS = {NVDA:"#a3e635",TSLA:"#f87171",DELL:"#60a5fa",IBM:"#818cf8",SNDK:"#fb923c",ABBV:"#34d399",XOM:"#fbbf24",JPM:"#38bdf8",NFLX:"#ef4444",LCID:"#c084fc"};
+var THEMES = {NVDA:"t-nvda",TSLA:"t-tsla",DELL:"t-dell",IBM:"t-ibm",SNDK:"t-sndk",ABBV:"t-abbv",XOM:"t-xom",PG:"t-pg",NFLX:"t-nflx",LCID:"t-lcid"};
+var COLORS = {NVDA:"#a3e635",TSLA:"#f87171",DELL:"#60a5fa",IBM:"#818cf8",SNDK:"#fb923c",ABBV:"#34d399",XOM:"#fbbf24",PG:"#2563eb",NFLX:"#ef4444",LCID:"#c084fc"};
 
 var FIN = {
   NVDA:{rev:[30.0, 35.1, 39.3, 44.1],fcf:[13.5, 16.8, 15.5, 26.7],label:"Very Bullish",tone:"#16a34a",bull:["AI GPU demand far outstrips supply", "Blackwell ramp driving record margins", "Data-center revenue compounding every quarter"],bear:["Valuation priced for perfection", "Customer concentration in a few hyperscalers", "Potential China export restrictions"]},
@@ -235,7 +235,7 @@ var FIN = {
   SNDK:{rev:[1.7, 1.9, 2.3, 2.9],fcf:[0.1, 0.3, 0.5, 0.8],label:"Bullish / High Risk",tone:"#16a34a",bull:["NAND pricing in a strong upcycle", "AI storage demand surging", "Densest 300-layer NAND shipping"],bear:["Highly cyclical memory pricing", "Trades at steep premium to fair value", "Capital-intensive business"]},
   ABBV:{rev:[14.5, 14.6, 15.1, 13.3],fcf:[5.6, 5.9, 6.8, 4.2],label:"Bullish",tone:"#16a34a",bull:["Skyrizi/Rinvoq replacing Humira faster than expected", "Reliable 3.4% dividend", "Deep late-stage oncology pipeline"],bear:["Humira erosion still a headwind", "Drug pricing/regulatory risk", "Pipeline execution dependency"]},
   XOM:{rev:[90.0, 90.0, 83.4, 83.1],fcf:[9.0, 11.3, 8.0, 8.8],label:"Bullish",tone:"#16a34a",bull:["42-year dividend growth streak", "Record Permian production at low cost", "Fortress cash flow through cycles"],bear:["Earnings tied to volatile oil prices", "Energy-transition long-term risk", "Capex-heavy growth projects"]},
-  JPM:{rev:[50.2, 43.3, 42.8, 45.3],fcf:[null, null, null, null],label:"Bullish",tone:"#16a34a",bull:["#1 investment bank, record fees", "Fortress balance sheet", "Strong net interest income"],bear:["Rate cuts pressure NII", "Credit normalization ahead", "Regulatory capital requirements"]},
+  PG:{rev:[21.9, 21.7, 20.8, 21.4],fcf:[3.8, 4.5, 3.6, 4.2],label:"Defensive",tone:"#2563eb",bull:["70 straight years of dividend raises", "Low beta 0.40 — holds up in downturns", "Essential staples, pricing power"],bear:["Tariff costs ~$400M in FY26", "Soft volume trends (-1% units)", "Elevated valuation at 22.7x P/E"]},
   NFLX:{rev:[9.6, 9.8, 10.2, 10.5],fcf:[2.2, 2.3, 1.4, 2.7],label:"Bullish",tone:"#16a34a",bull:["Ad tier hit 40M users", "Password crackdown lifted margins", "Live sports driving engagement"],bear:["Premium valuation (52x P/E)", "Content spend remains huge", "Streaming competition intense"]},
   LCID:{rev:[0.2, 0.2, 0.23, 0.24],fcf:[-0.6, -0.7, -0.65, -0.7],label:"Bearish",tone:"#dc2626",bull:["Class-leading 516-mi range", "Saudi PIF funding lifeline", "Gravity SUV expands market"],bear:["Burning cash at record rate", "Repeated shareholder dilution", "Deliveries far below targets"]},
 };
@@ -305,15 +305,15 @@ var DATA = {
     news:[{src:"BLOOMBERG",t:"ExxonMobil raises dividend for 42nd consecutive year",tm:"1d ago",s:"positive"},{src:"REUTERS",t:"XOM Q1 earnings beat as Permian Basin production hits record high",tm:"2d ago",s:"positive"},{src:"FT",t:"ExxonMobil accelerates LNG expansion amid surging global energy demand",tm:"3d ago",s:"positive"}],
     overview:"ExxonMobil is the world's largest publicly traded oil company. Despite energy transition pressures, XOM generates enormous free cash flow and has raised its dividend 42 consecutive years.",
     projects:[{i:"⛽",t:"Permian Basin",d:"Most prolific oil basin — XOM producing at industry-low costs.",tag:"NOW",tc:"#16a34a"},{i:"🌊",t:"LNG Expansion",d:"15 MTPA buildout to supply Europe and Asia.",tag:"2030",tc:"#2563eb"},{i:"♻️",t:"Carbon Capture",d:"World's largest CCS — capturing 9M tonnes CO2/year.",tag:"GROWING",tc:"#7c3aed"},{i:"⚗️",t:"Proxxima Resins",d:"Advanced materials for EVs and wind turbines.",tag:"2028",tc:"#d97706"}]},
-  JPM:{name:"JPMorgan Chase & Co.",sector:"Financial",anchor:true,
+  PG:{name:"Procter & Gamble Co.",sector:"Consumer Staples",anchor:true,
     pos:{shares:"0.00",val:"$0.00",cost:"—",gl:"—",pct:"—",mo:"$50",tgt:"2%"},
-    analyst:{rating:"BUY",score:8.2,buy:18,hold:8,sell:1,tgt:"$290",tLow:"$230",tHigh:"$320",cur:262},
-    metrics:{"P/E":"12.4x","Mkt Cap":"$740B","52W Hi":"$280","52W Lo":"$185","Rev Gr":"+11.2%","Margin":"28.6%"},
-    div:{yield:"2.2%",annual:"$5.60",freq:"Quarterly",next:"Jul 2026"},
-    eps:[{q:"Q1'26",e:4.61,a:5.07,b:true},{q:"Q4'25",e:4.09,a:4.81,b:true},{q:"Q3'25",e:4.00,a:4.37,b:true},{q:"Q2'25",e:4.19,a:4.26,b:true}],
-    news:[{src:"WSJ",t:"JPMorgan Q1 profit surges 9% as investment banking fees hit record",tm:"3h ago",s:"positive"},{src:"BLOOMBERG",t:"Jamie Dimon warns of geopolitical risks while touting fortress balance sheet",tm:"1d ago",s:"neutral"},{src:"FT",t:"JPMorgan raises dividend 9% to $1.40/quarter",tm:"2d ago",s:"positive"}],
-    overview:"JPMorgan Chase is the world's largest bank by market cap with $3.9 trillion in assets. Under Jamie Dimon it has consistently outperformed through every financial crisis.",
-    projects:[{i:"🤖",t:"AI Suite",d:"LLM tools used by 60,000 employees — automating deal analysis.",tag:"NOW",tc:"#16a34a"},{i:"💳",t:"Chase Digital",d:"80M active digital customers — fastest growing US digital bank.",tag:"NOW",tc:"#16a34a"},{i:"🌐",t:"Kinexys Blockchain",d:"Processes $1B+ in daily institutional transactions.",tag:"GROWING",tc:"#7c3aed"},{i:"🏦",t:"Investment Banking",d:"#1 globally — record Q1 fees on M&A and IPO surge.",tag:"GROWING",tc:"#7c3aed"}]},
+    analyst:{rating:"BUY",score:7.4,buy:14,hold:9,sell:1,tgt:"$161",tLow:"$142",tHigh:"$174",cur:143},
+    metrics:{"P/E":"22.7x","Mkt Cap":"$336B","52W Hi":"$180","52W Lo":"$138","Rev Gr":"+2.1%","Beta":"0.40"},
+    div:{yield:"2.9%",annual:"$4.23",freq:"Quarterly",next:"Aug 2026"},
+    eps:[{q:"Q3'26",e:1.80,a:1.86,b:true},{q:"Q2'26",e:1.88,a:1.88,b:false},{q:"Q1'26",e:1.90,a:1.93,b:true},{q:"Q4'25",e:1.42,a:1.48,b:true}],
+    news:[{src:"SEC",t:"P&G raises dividend 3% — 70th consecutive year of increases",tm:"6w ago",s:"positive"},{src:"24/7 WALL ST",t:"Beauty and Health Care segments grow 5% organically in Q2",tm:"8w ago",s:"positive"},{src:"DRIP",t:"Dividend streak hits 70 years as yield holds near 2.9%",tm:"6w ago",s:"positive"}],
+    overview:"Procter & Gamble makes the everyday staples people buy in any economy — Tide, Pampers, Gillette, Olay, Head & Shoulders, Charmin. A low-beta (0.40) defensive anchor with 70 straight years of dividend raises since 1890.",
+    projects:[{i:"🧴",t:"Beauty & Grooming",d:"Olay, SK-II, Gillette, Venus — premium personal care driving organic growth.",tag:"NOW",tc:"#16a34a"},{i:"🍼",t:"Baby & Family Care",d:"Pampers, Luvs, Charmin, Bounty — household essentials, steady demand.",tag:"NOW",tc:"#16a34a"},{i:"🧼",t:"Fabric & Home",d:"Tide, Ariel, Febreze, Swiffer — category leaders worldwide.",tag:"STABLE",tc:"#7c3aed"},{i:"💵",t:"Dividend Machine",d:"~$10B/yr in dividends, $5B buybacks — 82% free-cash-flow productivity.",tag:"GROWING",tc:"#7c3aed"}]},
   NFLX:{name:"Netflix, Inc.",sector:"Streaming",anchor:false,
     pos:{shares:"0.0791",val:"$6.44",cost:"$4.91",gl:"+$1.53",pct:"+31.0%",mo:"$0",tgt:"0%"},
     analyst:{rating:"BUY",score:7.9,buy:20,hold:10,sell:3,tgt:"$1,250",tLow:"$950",tHigh:"$1,600",cur:1185},
