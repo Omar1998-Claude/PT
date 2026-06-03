@@ -125,7 +125,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
     <h1 class="title">The Portfolio <span class="amp">Times</span></h1>
     <div class="ornament"><span class="o-line"></span>★<span class="o-line"></span></div>
     <p class="motto">"All The Holdings Fit To Print" · A Patient Investor's Daily</p>
-    <div class="price-strip"><span>Founded $500</span><span>·</span><span>8 Enterprises</span><span>·</span><span>Goal $35,000</span><span>·</span><span>Dividends Reinvested</span><span>·</span><span>Free Forever</span></div>
+    <div class="price-strip"><span>Founded $500</span><span>·</span><span>11 Holdings</span><span>·</span><span>Goal $35,000</span><span>·</span><span>Dividends Reinvested</span><span>·</span><span>Free Forever</span></div>
   </header>
 
   <section class="front">
@@ -149,7 +149,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
       <div class="kicker">— Lead Story —</div>
       <h1 class="lead-head">A $500 Stake Sets Out On A Quiet, Disciplined Climb</h1>
       <div class="byline">By The Desk · Personal Finance · Filed Today</div>
-      <p class="body-copy drop">Eight companies stand on the books, two of them — a chip-maker and a car-maker — already better than doubled. Rather than chase the next hot tip, this portfolio follows a single rule: a fixed sum invested every month, routed by a plan, not a mood. The remaining six positions await their first dollars, a deliberate spread across technology, pharma, energy and finance.</p>
+      <p class="body-copy drop">Eleven positions now stand on the books, led by a chip-maker and a car-maker that have each better than doubled. Rather than chase the next hot tip, this portfolio follows a single rule: a fixed sum invested every month, routed by a plan, not a mood. What started at $500 has grown past a thousand — a deliberate spread across technology, energy, pharma, and a broad tech fund, with a banking anchor still to come.</p>
       <div class="sub-head">The Method Behind The Patience</div>
       <p class="body-copy">Two strategies govern the flows. "Rotation" tips fresh capital toward the strongest performer; "Index" rebalances toward target weights. Anchors — AbbVie, Exxon, JPMorgan — supply dividends and ballast while the growth names do the heavy lifting. The roadmap is plain: $5,000 by year's end, $15,000 the year after, $35,000 the year after that.</p>
     </div>
@@ -157,9 +157,9 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
     <!-- RIGHT -->
     <div class="col rise r3">
       <div class="kicker">— The Ledger Today —</div>
-      <div class="bignum">$<span id="big">426</span><span class="c">52</span></div>
-      <div class="report-row" style="margin-top:14px;"><span>Unrealised Gain</span><span class="up">+$224.50</span></div>
-      <div class="report-row"><span>Active Holdings</span><span>2 / 8</span></div>
+      <div class="bignum">$<span id="big">1,072</span><span class="c">04</span></div>
+      <div class="report-row" style="margin-top:14px;"><span>Unrealised Gain</span><span class="up">+$233.33</span></div>
+      <div class="report-row"><span>Active Holdings</span><span>11 held</span></div>
       <div class="report-row"><span>Next Injection</span><span>Jun 25</span></div>
       <div class="report-row" style="border:none;"><span>Strategy</span><span style="color:var(--vermillion);">ROTATION</span></div>
 
@@ -284,8 +284,8 @@ setTimeout(goLive, 400);
 
 (function(){var d=new Date();var m=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];document.getElementById("dateL").textContent=d.getDate()+" "+m[d.getMonth()]+" "+d.getFullYear();})();
 
-function countTo(el,t,dur){var s=null;function step(ts){if(!s)s=ts;var p=Math.min((ts-s)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(t*e);if(p<1)requestAnimationFrame(step);else el.textContent=t;}requestAnimationFrame(step);}
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("seen");if(e.target.querySelector&&e.target.querySelector("#big"))countTo(document.getElementById("big"),426,900);}});},{threshold:0.15});
+function countTo(el,t,dur){var s=null;function step(ts){if(!s)s=ts;var p=Math.min((ts-s)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(t*e).toLocaleString("en-US");if(p<1)requestAnimationFrame(step);else el.textContent=t.toLocaleString("en-US");}requestAnimationFrame(step);}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("seen");if(e.target.querySelector&&e.target.querySelector("#big"))countTo(document.getElementById("big"),1072,900);}});},{threshold:0.15});
 document.querySelectorAll(".rise").forEach(function(el){io.observe(el);});
 </script>
 </body>
