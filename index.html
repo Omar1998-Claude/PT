@@ -138,7 +138,12 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
       <div class="report-row" data-tk="IBM"><span class="t">IBM</span><span class="up">318.73 ▲</span></div>
       <div class="report-row" data-tk="SNDK"><span class="t">SNDK</span><span class="up">1734 ▲</span></div>
       <div class="report-row" data-tk="ABBV"><span class="t">ABBV</span><span class="up">205.07 ▲</span></div>
-      <div class="report-row" data-tk="XOM" style="border:none;"><span class="t">XOM</span><span class="up">149.64 ▲</span></div>
+      <div class="report-row" data-tk="XOM"><span class="t">XOM</span><span class="up">149.64 ▲</span></div>
+      <div class="report-row" data-tk="PG"><span class="t">PG <span style="font-size:8px;color:var(--vermillion);">⚓ watch</span></span><span class="up">143.12 ▲</span></div>
+      <div class="report-row" data-tk="JTEK"><span class="t">JTEK</span><span class="up">110.00 ▲</span></div>
+      <div class="report-row" data-tk="GOOGL"><span class="t">GOOGL</span><span class="up">195.00 ▲</span></div>
+      <div class="report-row" data-tk="NFLX"><span class="t">NFLX</span><span class="up">84.02 ▲</span></div>
+      <div class="report-row" data-tk="LCID" style="border:none;"><span class="t">LCID</span><span class="down">6.55 ▼</span></div>
       <div class="col-rule"></div>
       <div class="kicker">Weather</div>
       <p class="body-copy" style="font-size:13px;">Bullish winds across AI infrastructure. Scattered volatility in autos. Dividends steady through the season.</p>
@@ -193,7 +198,7 @@ function applyEdition(n){document.body.classList.toggle("night",n);document.getE
 function toggleEdition(){applyEdition(!document.body.classList.contains("night"));}
 applyEdition(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-var TAPE=[["NVDA",226.80,1.1],["TSLA",417.43,0.4],["DELL",435.25,3.4],["IBM",318.73,1.2],["SNDK",1734.00,2.3],["ABBV",205.07,0.6],["XOM",149.64,2.5],["PG",143.12,0.5],["NFLX",84.02,-0.4],["LCID",6.55,-0.9]];
+var TAPE=[["NVDA",226.80,1.1],["TSLA",417.43,0.4],["DELL",435.25,3.4],["IBM",318.73,1.2],["SNDK",1734.00,2.3],["ABBV",205.07,0.6],["XOM",149.64,2.5],["JTEK",110.00,0.3],["GOOGL",195.00,1.0],["PG",143.12,0.5],["NFLX",84.02,-0.4],["LCID",6.55,-0.9]];
 
 // render the ticker tape from the current TAPE array
 function renderTape(){
