@@ -148,14 +148,15 @@ input{font-family:'Georgia',serif;outline:none;}
 <div id="root"></div>
 <script>
 // ── CONSTANTS ─────────────────────────────────────────────
-const CORE=["NVDA","TSLA","DELL","IBM","SNDK"];
+const CORE=["NVDA","TSLA","DELL","IBM","SNDK","JTEK","GOOGL","NFLX","LCID"];
 const ANCHORS=["ABBV","XOM","JPM"];
-const ALL_ACTIVE=[...CORE,...ANCHORS];
+const PLAN=["NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","JPM"];
+const ALL_ACTIVE=[...PLAN];
 const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const BUDGETS=[200,300,400,500];
 
 // Annual dividend yield % per share (approximate 2026)
-const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,JPM:2.2,NVDA:0.03,TSLA:0,DELL:0,SNDK:0,NFLX:0,LCID:0};
+const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,JPM:2.2,NVDA:0.03,TSLA:0,DELL:1.8,SNDK:0,NFLX:0,LCID:0,JTEK:0.3,GOOGL:0.5};
 
 // Annual goals milestones
 const GOALS=[
@@ -175,21 +176,23 @@ const QUARTERLY_CHECKS=[
 ];
 
 const DEFAULT_HOLDINGS=[
-  {ticker:"NVDA",name:"Nvidia",        value:224.14,basePct:0.20,target:25,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick"},
-  {ticker:"TSLA",name:"Tesla",         value:194.97,basePct:0.13,target:13,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside"},
-  {ticker:"DELL",name:"Dell",          value:0,     basePct:0.24,target:20,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth"},
-  {ticker:"IBM", name:"IBM",           value:0,     basePct:0.18,target:17,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend"},
-  {ticker:"SNDK",name:"SanDisk",       value:0,     basePct:0.10,target:10,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play"},
-  {ticker:"ABBV",name:"AbbVie",        value:0,     basePct:0.15,target:8, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof"},
-  {ticker:"XOM", name:"ExxonMobil",    value:0,     basePct:0.10,target:5, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth"},
-  {ticker:"JPM", name:"JPMorgan Chase",value:0,     basePct:0.10,target:2, color:"#38bdf8",anchor:true, tip:"Financial anchor — 2.2% dividend, largest US bank"},
-  {ticker:"NFLX",name:"Netflix",       value:6.80,  basePct:0,   target:0, color:"#ef4444",anchor:false,tip:"Small position — consider adding or consolidating"},
-  {ticker:"LCID",name:"Lucid",         value:0.61,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down 78% — consider selling. Loss offsets capital gains tax"},
+  {ticker:"NVDA",name:"Nvidia",        value:228.47,basePct:0.20,target:25,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick"},
+  {ticker:"TSLA",name:"Tesla",         value:187.53,basePct:0.13,target:13,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside"},
+  {ticker:"IBM", name:"IBM",           value:135.32,basePct:0.18,target:17,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend"},
+  {ticker:"XOM", name:"ExxonMobil",    value:110.28,basePct:0.10,target:5, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth"},
+  {ticker:"JTEK",name:"JPM Tech Leaders ETF",value:109.87,basePct:0,target:0,color:"#94a3b8",anchor:false,tip:"Tech ETF (~70 names). Note: top holdings are NVDA/TSLA/GOOGL — deepens your tech tilt rather than diversifying it"},
+  {ticker:"DELL",name:"Dell",          value:98.86, basePct:0.24,target:20,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth"},
+  {ticker:"SNDK",name:"SanDisk",       value:80.46, basePct:0.10,target:10,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play"},
+  {ticker:"ABBV",name:"AbbVie",        value:80.15, basePct:0.15,target:8, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof"},
+  {ticker:"GOOGL",name:"Alphabet",     value:34.11, basePct:0,   target:0, color:"#ea4335",anchor:false,tip:"Search/cloud/AI giant — quality compounder, up nicely"},
+  {ticker:"NFLX",name:"Netflix",       value:6.44,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating"},
+  {ticker:"LCID",name:"Lucid",         value:0.55,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down ~80% — consider selling. Loss offsets capital gains tax"},
+  {ticker:"JPM", name:"JPMorgan Chase",value:0,     basePct:0.10,target:2, color:"#38bdf8",anchor:true, tip:"Financial anchor — your only empty anchor. 2% dividend, largest US bank"},
 ];
 
 // ── STATE ─────────────────────────────────────────────────
 let S={
-  holdings:JSON.parse(localStorage.getItem("pt_h")||"null")||DEFAULT_HOLDINGS,
+  holdings:JSON.parse(localStorage.getItem("pt_h4")||"null")||DEFAULT_HOLDINGS,
   history: JSON.parse(localStorage.getItem("pt_his")||"[]"),
   dark:    localStorage.getItem("pt_dk")!=="false",
   mode:    localStorage.getItem("pt_mode")||"rotation",
@@ -202,7 +205,7 @@ let S={
   divReinvest:true,
 };
 function save(){
-  localStorage.setItem("pt_h",JSON.stringify(S.holdings));
+  localStorage.setItem("pt_h4",JSON.stringify(S.holdings));
   localStorage.setItem("pt_his",JSON.stringify(S.history));
   localStorage.setItem("pt_dk",S.dark);
   localStorage.setItem("pt_mode",S.mode);
