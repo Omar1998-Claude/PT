@@ -199,10 +199,10 @@ body::after{
     </div>
     <div class="lead-right rise r2">
       <div class="kicker">— The Accounts —</div>
-      <div class="stat-line"><span class="lbl">Total Invested</span><span class="val">$1,072.04</span></div>
+      <div class="stat-line"><span class="lbl">Total Invested</span><span class="val" id="stTotal">$1,072.04</span></div>
       <div class="stat-line"><span class="lbl">Unrealised Gain</span><span class="val" style="color:var(--green);">+$233.33</span></div>
       <div class="stat-line"><span class="lbl">Annual Dividends</span><span class="val" style="color:var(--gold);">$12.32</span></div>
-      <div class="stat-line"><span class="lbl">Holdings Active</span><span class="val">11 <span style="color:var(--faint);font-size:12px;">held</span></span></div>
+      <div class="stat-line"><span class="lbl">Holdings Active</span><span class="val" id="stHeld">11 <span style="color:var(--faint);font-size:12px;">held</span></span></div>
       <div class="stat-line"><span class="lbl">Next Injection</span><span class="val">Jun 25</span></div>
       <div class="stat-line" style="border:none;"><span class="lbl">Strategy</span><span class="val" style="color:var(--vermillion);">ROTATION</span></div>
     </div>
@@ -225,7 +225,7 @@ body::after{
       <div class="therm-ticks"><span>$0</span><span>$5,000</span></div>
     </div>
     <div>
-      <p class="milestone">First post: <b>$5,000</b> by year's end, <span style="color:var(--vermillion);">21%</span> of the way there.</p>
+      <p class="milestone">First post: <b>$5,000</b> by year's end, <span style="color:var(--vermillion);" id="stGoalPct">21%</span> of the way there.</p>
       <p class="milestone" style="margin-top:10px;color:var(--ink2);">Then <b>$15,000</b> in '27, and <b>$35,000</b> the year after.</p>
     </div>
   </div>
@@ -344,8 +344,34 @@ var H=[
   {tk:"ABBV",name:"AbbVie Inc.",val:80.15,target:8,anchor:true},
   {tk:"GOOGL",name:"Alphabet Inc.",val:34.11,target:0,anchor:false},
   {tk:"NFLX",name:"Netflix, Inc.",val:6.44,target:0,anchor:false},
-  {tk:"LCID",name:"Lucid Group",val:0.55,target:0,anchor:false}
+  {tk:"LCID",name:"Lucid Group",val:0.55,target:0,anchor:false},
+  {tk:"PG",name:"Procter & Gamble",val:0,target:2,anchor:true}
 ];
+var GOAL=5000;
+
+// ── SHARED SOURCE: try to load holdings.json, else use fallback H above ──
+function loadHoldings(cb){
+  var xhr=new XMLHttpRequest();
+  xhr.open("GET","holdings.json?v="+Date.now(),true);
+  xhr.timeout=5000;
+  xhr.onload=function(){
+    if(xhr.status===200){
+      try{
+        var d=JSON.parse(xhr.responseText);
+        if(d&&d.holdings&&d.holdings.length){
+          H=d.holdings.map(function(x){return {tk:x.ticker,name:x.name,val:x.value,target:x.target,anchor:x.anchor};});
+          if(d.goal)GOAL=d.goal;
+        }
+      }catch(e){}
+    }
+    cb();
+  };
+  xhr.onerror=function(){cb();};
+  xhr.ontimeout=function(){cb();};
+  xhr.send();
+}
+
+function renderLedger(){
 var TV=H.reduce(function(s,h){return s+h.val;},0);
 var maxVal=Math.max.apply(null,H.map(function(h){return h.val;}))||1;
 
@@ -367,7 +393,7 @@ led.innerHTML=H.map(function(h,i){
 
 // ── ALLOCATION ENGRAVING ──────────────────────────────────
 var maxT=Math.max.apply(null,H.map(function(h){return h.target;}));
-document.getElementById("alloc").innerHTML=H.map(function(h){
+document.getElementById("alloc").innerHTML=H.filter(function(h){return h.target>0;}).map(function(h){
   var hgt=(h.target/maxT*100);
   var hot=h.target===maxT;
   return '<div class="alloc-col">'
@@ -378,7 +404,18 @@ document.getElementById("alloc").innerHTML=H.map(function(h){
 }).join("");
 
 // ── GOAL ──────────────────────────────────────────────────
-document.getElementById("therm").style.setProperty("--g",(1072.04/5000).toFixed(4));
+document.getElementById("therm").style.setProperty("--g",(TV/GOAL).toFixed(4));
+
+// update lead stats from real data
+var heldCount=H.filter(function(h){return h.val>0;}).length;
+var bigEl=document.getElementById("big");
+if(bigEl){countTo(bigEl,Math.round(TV),900);}
+var stTotal=document.getElementById("stTotal");if(stTotal)stTotal.textContent="$"+TV.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+var stHeld=document.getElementById("stHeld");if(stHeld)stHeld.innerHTML=heldCount+' <span style="color:var(--faint);font-size:12px;">held</span>';
+var stGoalPct=document.getElementById("stGoalPct");if(stGoalPct)stGoalPct.textContent=Math.round(TV/GOAL*100)+"%";
+}
+
+loadHoldings(renderLedger);
 
 // ── COUNT-UP BIG NUMBER ───────────────────────────────────
 function countTo(el,target,dur){
@@ -398,7 +435,6 @@ var io=new IntersectionObserver(function(entries){
   entries.forEach(function(e){
     if(e.isIntersecting){
       e.target.classList.add("seen");
-      if(e.target.querySelector("#big"))countTo(document.getElementById("big"),1072,900);
     }
   });
 },{threshold:0.18});
