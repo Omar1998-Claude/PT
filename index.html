@@ -166,7 +166,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
       <div class="report-row" data-tk="LCID" style="border:none;"><span class="t">LCID</span><span class="down">6.55 ▼</span></div>
       <div class="col-rule"></div>
       <div class="kicker">Weather</div>
-      <p class="body-copy" style="font-size:13px;">Bullish winds across AI infrastructure. Scattered volatility in autos. Dividends steady through the season.</p>
+      <p class="body-copy" style="font-size:13px;" id="weather">Reading the tape…</p>
     </div>
 
     <!-- CENTER -->
@@ -292,7 +292,7 @@ function goLive(){
         TAPE[i][2] = Math.round(q.pct*10)/10;
         updateReportRow(ticker, q.price, q.pct);
       }
-      // once all attempts are back, refresh tape + status
+      // once all attempts are back, refresh tape + status + weather
       if(tried === TAPE.length){
         renderTape();
         var s = document.getElementById("liveStatus");
@@ -300,9 +300,39 @@ function goLive(){
           if(got>0){ s.textContent = "● live"; s.style.color = "#3d8b40"; }
           else { s.textContent = "○ snapshot"; }
         }
+        if(got>0) writeWeather();
       }
     });
   });
+}
+// ── daily market weather, derived from live moves ──
+var TECH_W=["NVDA","TSLA","DELL","IBM","SNDK","JTEK","GOOGL","NFLX","LCID"];
+var ANCH_W=["XOM","ABBV","PG"];
+function writeWeather(){
+  var el=document.getElementById("weather"); if(!el) return;
+  var moves=TAPE.map(function(t){return {tk:t[0],pct:t[2]};});
+  var avg=moves.reduce(function(s,m){return s+m.pct;},0)/moves.length;
+  var techMoves=moves.filter(function(m){return TECH_W.indexOf(m.tk)>-1;});
+  var anchMoves=moves.filter(function(m){return ANCH_W.indexOf(m.tk)>-1;});
+  var techAvg=techMoves.length?techMoves.reduce(function(s,m){return s+m.pct;},0)/techMoves.length:0;
+  var anchAvg=anchMoves.length?anchMoves.reduce(function(s,m){return s+m.pct;},0)/anchMoves.length:0;
+  var up=moves.filter(function(m){return m.pct>0;}).length;
+  var down=moves.filter(function(m){return m.pct<0;}).length;
+  // headline by overall average
+  var head;
+  if(avg>=1.5) head="Clear skies and a strong tailwind across the book.";
+  else if(avg>=0.4) head="Sunny with a gentle breeze — green on most tickers.";
+  else if(avg>-0.4) head="Mixed and mild — patchy sun, the odd passing cloud.";
+  else if(avg>-1.5) head="Overcast with scattered showers across the holdings.";
+  else head="Stormy session — heavy rain on the tape, umbrellas out.";
+  // sector nuance
+  var nuance;
+  if(techAvg<-0.3 && anchAvg>0.1) nuance=" Tech caught the rain while the anchors held dry — exactly the ballast they're for.";
+  else if(techAvg>0.3 && anchAvg<-0.1) nuance=" Tech rode the warm front; the anchors drifted a touch.";
+  else if(techAvg>0.3 && anchAvg>0.3) nuance=" Fair weather across both growth and ballast.";
+  else if(techAvg<-0.3 && anchAvg<-0.3) nuance=" Both sides damp today — a broad-market drizzle, not a you problem.";
+  else nuance=" Dividends steady through the season regardless.";
+  el.textContent=head+nuance+" ("+up+" up, "+down+" down)";
 }
 // kick off live fetch shortly after load
 setTimeout(goLive, 400);
