@@ -152,18 +152,21 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
     <!-- LEFT -->
     <div class="col rise">
       <div class="side-title" style="display:flex;align-items:center;justify-content:space-between;">Market Report <span id="liveStatus" style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--faint);font-weight:400;text-transform:uppercase;">○ snapshot</span></div>
-      <div class="report-row" data-tk="NVDA"><span class="t">NVDA</span><span class="up">226.80 ▲</span></div>
-      <div class="report-row" data-tk="TSLA"><span class="t">TSLA</span><span class="up">417.43 ▲</span></div>
-      <div class="report-row" data-tk="DELL"><span class="t">DELL</span><span class="up">435.25 ▲</span></div>
-      <div class="report-row" data-tk="IBM"><span class="t">IBM</span><span class="up">318.73 ▲</span></div>
-      <div class="report-row" data-tk="SNDK"><span class="t">SNDK</span><span class="up">1734 ▲</span></div>
-      <div class="report-row" data-tk="ABBV"><span class="t">ABBV</span><span class="up">205.07 ▲</span></div>
-      <div class="report-row" data-tk="XOM"><span class="t">XOM</span><span class="up">149.64 ▲</span></div>
+      <div class="report-row" data-tk="XAUUSD"><span class="t">GOLD <span style="font-size:8px;color:#d4af37;">🥇</span></span><span class="up">4165.00 ▲</span></div>
+      <div class="report-row" data-tk="SNDK"><span class="t">SNDK</span><span class="up">1980 ▲</span></div>
+      <div class="report-row" data-tk="TSLA"><span class="t">TSLA</span><span class="up">406.43 ▲</span></div>
+      <div class="report-row" data-tk="DELL"><span class="t">DELL</span><span class="up">395.57 ▲</span></div>
+      <div class="report-row" data-tk="GOOGL"><span class="t">GOOGL</span><span class="up">359.68 ▲</span></div>
+      <div class="report-row" data-tk="IBM"><span class="t">IBM</span><span class="down">272.24 ▼</span></div>
+      <div class="report-row" data-tk="ABBV"><span class="t">ABBV <span style="font-size:8px;color:var(--vermillion);">⚓</span></span><span class="up">227.73 ▲</span></div>
+      <div class="report-row" data-tk="NVDA"><span class="t">NVDA</span><span class="up">205.19 ▲</span></div>
+      <div class="report-row" data-tk="SPCX"><span class="t">SPCX <span style="font-size:8px;color:var(--vermillion);">🛰️</span></span><span class="up">166.85 ▲</span></div>
+      <div class="report-row" data-tk="XOM"><span class="t">XOM <span style="font-size:8px;color:var(--vermillion);">⚓</span></span><span class="up">147.01 ▲</span></div>
       <div class="report-row" data-tk="PG"><span class="t">PG <span style="font-size:8px;color:var(--vermillion);">⚓ watch</span></span><span class="up">143.12 ▲</span></div>
-      <div class="report-row" data-tk="JTEK"><span class="t">JTEK</span><span class="up">110.00 ▲</span></div>
-      <div class="report-row" data-tk="GOOGL"><span class="t">GOOGL</span><span class="up">195.00 ▲</span></div>
-      <div class="report-row" data-tk="NFLX"><span class="t">NFLX</span><span class="up">84.02 ▲</span></div>
-      <div class="report-row" data-tk="LCID" style="border:none;"><span class="t">LCID</span><span class="down">6.55 ▼</span></div>
+      <div class="report-row" data-tk="RIO"><span class="t">RIO <span style="font-size:8px;color:var(--vermillion);">⚓ watch</span></span><span class="up">100.68 ▲</span></div>
+      <div class="report-row" data-tk="NFLX"><span class="t">NFLX</span><span class="down">80.34 ▼</span></div>
+      <div class="report-row" data-tk="SI=F"><span class="t">SILVER <span style="font-size:8px;color:#c0c0c0;">🪙</span></span><span class="down">64.50 ▼</span></div>
+      <div class="report-row" data-tk="LCID" style="border:none;"><span class="t">LCID</span><span class="up">5.20 ▲</span></div>
       <div class="col-rule"></div>
       <div class="kicker">Weather</div>
       <p class="body-copy" style="font-size:13px;" id="weather">Reading the tape…</p>
@@ -218,7 +221,7 @@ function applyEdition(n){document.body.classList.toggle("night",n);document.getE
 function toggleEdition(){applyEdition(!document.body.classList.contains("night"));}
 applyEdition(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-var TAPE=[["NVDA",226.80,1.1],["TSLA",417.43,0.4],["DELL",435.25,3.4],["IBM",318.73,1.2],["SNDK",1734.00,2.3],["ABBV",205.07,0.6],["XOM",149.64,2.5],["JTEK",110.00,0.3],["GOOGL",195.00,1.0],["PG",143.12,0.5],["NFLX",84.02,-0.4],["LCID",6.55,-0.9]];
+var TAPE=[["NVDA",205.19,1.2],["TSLA",406.43,0.8],["DELL",395.57,1.1],["IBM",272.24,-0.9],["SNDK",1980.00,2.1],["ABBV",227.73,1.4],["XOM",147.01,0.8],["PG",143.12,0.5],["SPCX",166.85,2.3],["GOOGL",359.68,1.1],["NFLX",80.34,-0.6],["RIO",100.68,0.4],["LCID",5.20,0.3],["GOLD",4165.00,-1.2],["SILVER",64.50,-2.1]];
 
 // render the ticker tape from the current TAPE array
 function renderTape(){
@@ -306,8 +309,8 @@ function goLive(){
   });
 }
 // ── daily market weather, derived from live moves ──
-var TECH_W=["NVDA","TSLA","DELL","IBM","SNDK","JTEK","GOOGL","NFLX","LCID"];
-var ANCH_W=["XOM","ABBV","PG"];
+var TECH_W=["NVDA","TSLA","DELL","IBM","SNDK","SPCX","GOOGL","NFLX","LCID"];
+var ANCH_W=["XOM","ABBV","PG","RIO","GOLD","SILVER"];
 function writeWeather(){
   var el=document.getElementById("weather"); if(!el) return;
   var moves=TAPE.map(function(t){return {tk:t[0],pct:t[2]};});
