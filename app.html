@@ -107,13 +107,13 @@ input{font-family:inherit;outline:none;}
 </a>
 <div id="root"></div>
 <script>
-const CORE=["NVDA","TSLA","DELL","IBM","SNDK","JTEK","GOOGL","NFLX","LCID"];
-const ANCHORS=["ABBV","XOM","PG"];
-const PLAN=["NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","PG"];
+const CORE=["NVDA","TSLA","DELL","IBM","SNDK","GOOGL","NFLX","LCID"];
+const ANCHORS=["ABBV","XOM","PG","RIO"];
+const PLAN=["NVDA","TSLA","DELL","IBM","SNDK","GOOGL","ABBV","XOM","PG","RIO"];
 const ALL_ACTIVE=[...PLAN];
 const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const BUDGETS=[200,300,400,500];
-const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,PG:2.9,NVDA:0.03,TSLA:0,DELL:1.8,SNDK:0,NFLX:0,LCID:0,JTEK:0.3,GOOGL:0.5};
+const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,PG:2.9,NVDA:0.03,TSLA:0,DELL:1.8,SNDK:0,NFLX:0,LCID:0,JTEK:0.3,GOOGL:0.5,RIO:3.8};
 const GOALS=[{year:2026,amount:5000,emoji:"🎯"},{year:2027,amount:15000,emoji:"🚀"},{year:2028,amount:35000,emoji:"🌟"}];
 const QUARTERLY_CHECKS=[
   "Is AI infrastructure demand still growing? (impacts NVDA, DELL, SNDK)",
@@ -124,21 +124,24 @@ const QUARTERLY_CHECKS=[
   "Any macro risks? (rate hikes, oil price swings, tech regulation)",
 ];
 const DEFAULT_HOLDINGS=[
-  {ticker:"NVDA",name:"Nvidia",        value:228.47,basePct:0.20,target:25,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick."},
-  {ticker:"TSLA",name:"Tesla",         value:187.53,basePct:0.13,target:13,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside."},
-  {ticker:"IBM", name:"IBM",           value:135.32,basePct:0.18,target:17,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend."},
-  {ticker:"XOM", name:"ExxonMobil",    value:110.28,basePct:0.10,target:5, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth."},
-  {ticker:"JTEK",name:"JPM Tech Leaders ETF",value:109.87,basePct:0,target:0,color:"#94a3b8",anchor:false,tip:"Tech ETF (~70 names). Top holdings are NVDA/TSLA/GOOGL — deepens your tech tilt rather than diversifying it."},
-  {ticker:"DELL",name:"Dell",          value:98.86, basePct:0.24,target:20,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth."},
-  {ticker:"SNDK",name:"SanDisk",       value:80.46, basePct:0.10,target:10,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play."},
-  {ticker:"ABBV",name:"AbbVie",        value:80.15, basePct:0.15,target:8, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof."},
-  {ticker:"GOOGL",name:"Alphabet",     value:34.11, basePct:0,   target:0, color:"#ea4335",anchor:false,tip:"Search/cloud/AI giant — quality compounder, up nicely."},
-  {ticker:"NFLX",name:"Netflix",       value:6.44,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating."},
-  {ticker:"LCID",name:"Lucid",         value:0.55,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down ~80% — consider selling. Loss offsets capital gains tax."},
-  {ticker:"PG",  name:"Procter & Gamble",value:0,   basePct:0.10,target:2, color:"#2563eb",anchor:true, tip:"Recession-proof anchor — people buy P&G staples in any economy. 2.9% dividend, 70 straight years of raises."},
+  {ticker:"NVDA",name:"Nvidia",        value:217.82,basePct:0.20,target:20,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick."},
+  {ticker:"TSLA",name:"Tesla",         value:181.84,basePct:0.13,target:7,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside."},
+  {ticker:"IBM", name:"IBM",           value:120.74,basePct:0.10,target:7,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend."},
+  {ticker:"XOM", name:"ExxonMobil",    value:104.83,basePct:0.15,target:11, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth."},
+  {ticker:"SPCX",name:"SpaceX",value:333.70,basePct:0,target:0,color:"#1a1a2e",anchor:false,satellite:true,tip:"🛰️ SATELLITE / HIGH-RISK — 2 shares bought at $135 (IPO). Kept OUT of your 65/35 plan. EXIT PLAN: hold both by default · sell 1 share if it hits $600 (banks more than your whole stake, the other rides free) · reassess in ~1 year once lock-ups & hype settle. No panic selling."},
+  {ticker:"DELL",name:"Dell",          value:95.01, basePct:0.15,target:12,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth."},
+  {ticker:"SNDK",name:"SanDisk",       value:88.63, basePct:0.06,target:5,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play."},
+  {ticker:"ABBV",name:"AbbVie",        value:83.19, basePct:0.14,target:10, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof."},
+  {ticker:"GOOGL",name:"Alphabet",     value:33.96, basePct:0.10,target:9, color:"#ea4335",anchor:false,tip:"Search/cloud/AI giant — quality compounder, up nicely."},
+  {ticker:"RIO", name:"Rio Tinto",     value:0,     basePct:0.10,target:5, color:"#d97706",anchor:true, tip:"THESIS: backdoor AI-infrastructure play — copper wires every data center & lithium feeds electrification. The 'picks & shovels' of the AI era, in finite real assets. Copper is the engine; iron ore (most of revenue) is the ballast; lithium is the long-wait option. ~3.8% dividend pays you to hold. Conviction, not just diversification."},
+  {ticker:"NFLX",name:"Netflix",       value:6.36,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating."},
+  {ticker:"LCID",name:"Lucid",         value:0.47,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down ~80% — consider selling. Loss offsets capital gains tax."},
+  {ticker:"PG",  name:"Procter & Gamble",value:0,   basePct:0.14,target:14, color:"#2563eb",anchor:true, tip:"Recession-proof anchor — people buy P&G staples in any economy. 2.9% dividend, 70 straight years of raises."},
+  {ticker:"GOLD",name:"Gold (Physical)",  value:295.50,basePct:0,target:0,color:"#d4af37",anchor:false,satellite:true,tip:"🥇 PHYSICAL METALS — $150/mo DCA. Hedge against inflation, currency risk & geopolitical uncertainty. Uncorrelated with stocks. Buy & hold long-term, don't trade it."},
+  {ticker:"SILV",name:"Silver (Physical)", value:295.50,basePct:0,target:0,color:"#c0c0c0",anchor:false,satellite:true,tip:"🪙 PHYSICAL METALS — $150/mo DCA. Industrial demand (solar, EVs, AI electronics) + monetary hedge. More volatile than gold but higher upside. Buy & hold."},
 ];
 let S={
-  holdings:JSON.parse(localStorage.getItem("pt_h5")||"null")||DEFAULT_HOLDINGS,
+  holdings:JSON.parse(localStorage.getItem("pt_h7")||"null")||DEFAULT_HOLDINGS,
   history: JSON.parse(localStorage.getItem("pt_his")||"[]"),
   dark:    localStorage.getItem("pt_dk")!=="false",
   mode:    localStorage.getItem("pt_mode")||"rotation",
@@ -153,10 +156,10 @@ let S={
   editDep:false, depVal:"",
   adding:false, addTk:"", addNm:"", addVal:"", addAnchor:false,
   prices:{}, pricesStatus:"idle", // live price cache
-  qChecks:{}, goalSub:"track",
+  qChecks:{}, goalSub:"track", projRate:300,
 };
 function save(){
-  localStorage.setItem("pt_h5",JSON.stringify(S.holdings));
+  localStorage.setItem("pt_h7",JSON.stringify(S.holdings));
   localStorage.setItem("pt_his",JSON.stringify(S.history));
   localStorage.setItem("pt_dk",S.dark);
   localStorage.setItem("pt_mode",S.mode);
@@ -251,12 +254,14 @@ function render(){
   const {holdings,history,dark,mode,winner,budget,tab,expanded,editIdx,editVal,injected,month,year,qChecks,goalSub}=S;
   document.getElementById("app").className=dark?"dark":"light";
   const tv=holdings.reduce((s,h)=>s+h.value,0);
+  const coreTv=holdings.filter(h=>!h.satellite).reduce((s,h)=>s+h.value,0);
   const techV=holdings.filter(h=>CORE.includes(h.ticker)).reduce((s,h)=>s+h.value,0);
   const anchV=holdings.filter(h=>ANCHORS.includes(h.ticker)).reduce((s,h)=>s+h.value,0);
+  const metalsV=holdings.filter(h=>h.ticker==="GOLD"||h.ticker==="SILV").reduce((s,h)=>s+h.value,0);
   const invested=S.deposited>0?S.deposited:history.reduce((s,h)=>s+h.budget,0);
   const gl=tv-invested, glPct=invested>0?((gl/invested)*100).toFixed(1):0;
   const annDiv=annualDividends(holdings);
-  const techPct=tv>0?(techV/tv*100).toFixed(0):0, anchPct=tv>0?(anchV/tv*100).toFixed(0):0;
+  const techPct=coreTv>0?(techV/coreTv*100).toFixed(0):0, anchPct=coreTv>0?(anchV/coreTv*100).toFixed(0):0;
   const now=new Date();
   const curGoal=GOALS.find(g=>g.year>=now.getFullYear())||GOALS[GOALS.length-1];
   const goalPct=Math.min((tv/curGoal.amount)*100,100);
@@ -270,8 +275,10 @@ function render(){
     const techN=parseFloat(techPct), anchN=parseFloat(anchPct);
     const emptyAnchors=ANCHORS.filter(t=>{const x=holdings.find(v=>v.ticker===t);return x&&x.value<=0;});
     const over=holdings.filter(h=>h.target>0&&h.value>0).map(h=>({tk:h.ticker,d:(h.value/tv*100)-h.target})).sort((a,b)=>b.d-a.d)[0];
-    if(emptyAnchors.length) return {txt:`Your ${emptyAnchors.join(" & ")} anchor${emptyAnchors.length>1?"s are":" is"} still unfunded — adding ballast would balance your tech tilt.`,tone:"gold"};
-    if(techN>=80) return {txt:`Tech is ${techN}% of the book — heavy. Future buys leaning to anchors (XOM, ABBV, PG) would steady the ride.`,tone:"gold"};
+    // 🎯 35% diversification milestone — highest priority once reached
+    if(anchN>=35) return {txt:`🎯 Goal reached — anchors are ${anchN}% of your book (target was 35%). Time to stop the anchors-only tilt and go back to feeding the whole plan, or switch to Index mode which auto-balances. Keep adding to anchors and your NVDA/GOOGL core will start drifting underweight.`,tone:"green"};
+    if(emptyAnchors.length) return {txt:`Your ${emptyAnchors.join(" & ")} anchor${emptyAnchors.length>1?"s are":" is"} still unfunded — anchors are ${anchN}% now, aiming for 35%. Keep directing injections here.`,tone:"gold"};
+    if(anchN<35) return {txt:`Anchors are ${anchN}% of the book — keep funneling new money to XOM, ABBV, PG & RIO until you hit your 35% target. ${(35-anchN).toFixed(0)} points to go.`,tone:"gold"};
     if(over&&over.d>8) return {txt:`${over.tk} is ~${over.d.toFixed(0)}% above its target weight — it's carrying a lot. Consider directing new money elsewhere.`,tone:"gold"};
     return {txt:`Allocation looks balanced against your targets. Keep injecting on schedule.`,tone:"green"};
   })();
@@ -282,7 +289,7 @@ function render(){
     <div class="ov-kicker">The Ledger — ${MONTHS[new Date().getMonth()]} ${new Date().getFullYear()}</div>
     <div class="ov-total">$<span class="count-up" data-count="${dollars}">${dollars.toLocaleString("en-US")}</span><span class="cents">.${cents}</span></div>
     <div class="ov-sub">${invested>0
-      ? `<span class="${gl>=0?"pos":"neg"}">${gl>=0?"▲":"▼"} ${fmt0(Math.abs(gl))} (${glPct}%)</span> vs ${fmt0(invested)} deposited`
+      ? `<span class="${gl>=0?"pos":"neg"}">${gl>=0?"▲":"▼"} ${fmt0(Math.abs(gl))} (${glPct}%)</span> vs ${fmt0(invested)} deposited · <span style="color:var(--gold);">${fmt0(tv)} total incl. metals</span>`
       : `<span style="border-bottom:1px dashed var(--muted);cursor:pointer;" onclick="S.tab='portfolio';S.editDep=true;render();">set amount deposited to track gains →</span>`}</div>
     <div class="thread">${threadBar||`<div style="width:100%;background:var(--surf-line);"></div>`}</div>
     <div class="ov-rule"></div>
@@ -290,7 +297,7 @@ function render(){
       <div class="ov-stat"><div class="v">${techPct}%</div><div class="l">Tech</div></div>
       <div class="ov-stat"><div class="v">${anchPct}%</div><div class="l">Anchors</div></div>
       <div class="ov-stat"><div class="v">${goalPct.toFixed(0)}%</div><div class="l">Goal</div></div>
-      <div class="ov-stat"><div class="v">${annDiv>0?fmt0(annDiv):"—"}</div><div class="l">Div/yr</div></div>
+      <div class="ov-stat"><div class="v" style="color:var(--gold);">${fmt0(metalsV)}</div><div class="l">Metals</div></div>
     </div>
     <div style="margin:16px 4px 0;padding:11px 13px;border-radius:10px;background:var(--surf);border:1px solid var(--surf-line);border-left:3px solid ${insight.tone==="gold"?"var(--gold)":"var(--green)"};font-size:12px;line-height:1.55;text-align:left;color:var(--ink);opacity:0.9;">
       <span style="font-family:'Courier New',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">Insight</span><br>${insight.txt}
@@ -474,7 +481,41 @@ function render(){
           <div style="flex:1;"><div style="font-size:13px;font-weight:600;color:${mNeed<=500?"var(--green)":"var(--vermillion)"};">${fmt0(mNeed)}</div><div style="font-size:9px;color:var(--muted);margin-top:2px;">per month</div></div>
         </div>`:""}
       </div>`;
-    }).join("")}`;
+    }).join("")}
+
+    <div class="sec" style="margin-top:8px;">Deposit projection</div>
+    <div class="card">
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px;">The honest engine of your goal is consistent deposits. Pick a monthly amount to see where you'd land — assumes a modest 6%/yr growth on what you hold.</div>
+      <div class="chips" style="margin-bottom:16px;">
+        ${[200,300,400,500].map(r=>`<button class="chip ${S.projRate===r?"on":""}" onclick="S.projRate=${r};render();">$${r}/mo</button>`).join("")}
+      </div>
+      ${(()=>{
+        const rate=S.projRate, monthlyGrowth=Math.pow(1.06,1/12)-1;
+        const endOfYear=new Date(now.getFullYear(),11,31);
+        let monthsToEoY=(endOfYear.getFullYear()-now.getFullYear())*12+(endOfYear.getMonth()-now.getMonth());
+        if(monthsToEoY<0)monthsToEoY=0;
+        // project forward month by month
+        function project(months){let v=tv;for(let m=0;m<months;m++){v=v*(1+monthlyGrowth)+rate;}return v;}
+        const eoyVal=project(monthsToEoY);
+        const depositsByEoY=rate*monthsToEoY;
+        // months until $5,000
+        let v=tv,mTo5k=0;while(v<5000&&mTo5k<120){v=v*(1+monthlyGrowth)+rate;mTo5k++;}
+        const hit5kDate=new Date(now.getFullYear(),now.getMonth()+mTo5k,1);
+        const eoyHits=eoyVal>=5000;
+        return `
+        <div style="display:flex;gap:12px;text-align:center;margin-bottom:14px;">
+          <div style="flex:1;"><div style="font-size:18px;font-weight:600;">${fmt0(eoyVal)}</div><div style="font-size:9px;color:var(--muted);margin-top:3px;">by Dec ${now.getFullYear()}</div></div>
+          <div style="flex:1;"><div style="font-size:18px;font-weight:600;">${monthsToEoY}</div><div style="font-size:9px;color:var(--muted);margin-top:3px;">deposits left this yr</div></div>
+          <div style="flex:1;"><div style="font-size:18px;font-weight:600;color:${eoyHits?"var(--green)":"var(--gold)"};">${(eoyVal/5000*100).toFixed(0)}%</div><div style="font-size:9px;color:var(--muted);margin-top:3px;">of $5k goal</div></div>
+        </div>
+        <div style="padding:11px 13px;border-radius:10px;background:var(--paper);border:1px solid var(--surf-line);font-size:12px;line-height:1.55;">
+          ${eoyHits
+            ? `🎯 At <b>$${rate}/mo</b> you'd <b style="color:var(--green);">hit $5,000 around ${hit5kDate.toLocaleString("en-US",{month:"short"})} ${hit5kDate.getFullYear()}</b> — before year-end. The deposits do the heavy lifting: ${fmt0(depositsByEoY)} added, the rest is growth.`
+            : `At <b>$${rate}/mo</b> you'd reach <b>${fmt0(eoyVal)}</b> by December — about ${(eoyVal/5000*100).toFixed(0)}% of the goal. You'd cross <b style="color:var(--gold);">$5,000 around ${hit5kDate.toLocaleString("en-US",{month:"short"})} ${hit5kDate.getFullYear()}</b>. ${rate<500?`Bumping to $500/mo would pull that closer.`:`This is the fastest realistic path at your range.`}`}
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:10px;line-height:1.5;text-align:center;">Deposits by Dec: <b>${fmt0(depositsByEoY)}</b> · the number climbs whether the market is up or down — that's the point.</div>`;
+      })()}
+    </div>`;
 
   const qScore=QUARTERLY_CHECKS.filter((_,i)=>qChecks[i]==="yes").length;
   const goalsReview=`

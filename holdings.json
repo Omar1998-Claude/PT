@@ -1,19 +1,127 @@
 {
-  "_comment": "SINGLE SOURCE OF TRUTH. Edit values here once and all pages (app, ledger, landing) read from it. 'value' = your cost basis (amount invested). After buying, update the matching value and commit.",
-  "updated": "2026-06-05",
+  "_comment": "SINGLE SOURCE OF TRUTH. Edit values here once and all pages read from it.",
+  "updated": "2026-06-13",
   "goal": 5000,
   "holdings": [
-    { "ticker": "NVDA",  "name": "Nvidia",             "value": 228.47, "target": 25, "anchor": false, "color": "#a3e635" },
-    { "ticker": "TSLA",  "name": "Tesla",              "value": 187.53, "target": 13, "anchor": false, "color": "#f87171" },
-    { "ticker": "IBM",   "name": "IBM",                "value": 135.32, "target": 17, "anchor": false, "color": "#818cf8" },
-    { "ticker": "XOM",   "name": "ExxonMobil",         "value": 110.28, "target": 5,  "anchor": true,  "color": "#fbbf24" },
-    { "ticker": "JTEK",  "name": "JPM Tech Leaders ETF","value": 109.87, "target": 0,  "anchor": false, "color": "#94a3b8" },
-    { "ticker": "DELL",  "name": "Dell",               "value": 98.86,  "target": 20, "anchor": false, "color": "#60a5fa" },
-    { "ticker": "SNDK",  "name": "SanDisk",            "value": 80.46,  "target": 10, "anchor": false, "color": "#fb923c" },
-    { "ticker": "ABBV",  "name": "AbbVie",             "value": 80.15,  "target": 8,  "anchor": true,  "color": "#34d399" },
-    { "ticker": "GOOGL", "name": "Alphabet",           "value": 34.11,  "target": 0,  "anchor": false, "color": "#ea4335" },
-    { "ticker": "NFLX",  "name": "Netflix",            "value": 6.44,   "target": 0,  "anchor": false, "color": "#e50914" },
-    { "ticker": "LCID",  "name": "Lucid",              "value": 0.55,   "target": 0,  "anchor": false, "color": "#c084fc" },
-    { "ticker": "PG",    "name": "Procter & Gamble",   "value": 0,      "target": 2,  "anchor": true,  "color": "#2563eb" }
+    {
+      "ticker": "SPCX",
+      "name": "SpaceX",
+      "value": 333.7,
+      "target": 0,
+      "anchor": false,
+      "color": "#1a1a2e"
+    },
+    {
+      "ticker": "NVDA",
+      "name": "Nvidia",
+      "value": 217.82,
+      "target": 20,
+      "anchor": false,
+      "color": "#a3e635"
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla",
+      "value": 181.84,
+      "target": 7,
+      "anchor": false,
+      "color": "#f87171"
+    },
+    {
+      "ticker": "IBM",
+      "name": "IBM",
+      "value": 120.74,
+      "target": 7,
+      "anchor": false,
+      "color": "#818cf8"
+    },
+    {
+      "ticker": "XOM",
+      "name": "ExxonMobil",
+      "value": 104.83,
+      "target": 11,
+      "anchor": true,
+      "color": "#fbbf24"
+    },
+    {
+      "ticker": "DELL",
+      "name": "Dell",
+      "value": 95.01,
+      "target": 12,
+      "anchor": false,
+      "color": "#60a5fa"
+    },
+    {
+      "ticker": "SNDK",
+      "name": "SanDisk",
+      "value": 88.63,
+      "target": 5,
+      "anchor": false,
+      "color": "#fb923c"
+    },
+    {
+      "ticker": "ABBV",
+      "name": "AbbVie",
+      "value": 83.19,
+      "target": 10,
+      "anchor": true,
+      "color": "#34d399"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "value": 33.96,
+      "target": 9,
+      "anchor": false,
+      "color": "#ea4335"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix",
+      "value": 6.36,
+      "target": 0,
+      "anchor": false,
+      "color": "#e50914"
+    },
+    {
+      "ticker": "LCID",
+      "name": "Lucid",
+      "value": 0.47,
+      "target": 0,
+      "anchor": false,
+      "color": "#c084fc"
+    },
+    {
+      "ticker": "PG",
+      "name": "Procter & Gamble",
+      "value": 0,
+      "target": 14,
+      "anchor": true,
+      "color": "#2563eb"
+    },
+    {
+      "ticker": "RIO",
+      "name": "Rio Tinto",
+      "value": 0,
+      "target": 5,
+      "anchor": true,
+      "color": "#d97706"
+    },
+    {
+      "ticker": "GOLD",
+      "name": "Gold (Physical)",
+      "value": 295.5,
+      "target": 0,
+      "anchor": false,
+      "color": "#d4af37"
+    },
+    {
+      "ticker": "SILV",
+      "name": "Silver (Physical)",
+      "value": 295.5,
+      "target": 0,
+      "anchor": false,
+      "color": "#c0c0c0"
+    }
   ]
 }

@@ -194,15 +194,15 @@ body::after{
   <section class="lead">
     <div class="lead-left rise">
       <div class="kicker">— Today's Position —</div>
-      <div class="bignum">$<span id="big">1,072</span><span class="cents">04</span></div>
-      <p class="body-copy drop" style="margin-top:20px;">Eleven positions now stand on the books, led by a chip-maker and a car-maker that have each better than doubled. What began as a single $500 stake has grown past a thousand, spread across technology, an energy major, a pharma name, and a broad tech fund. The plan stays unhurried: a fixed sum each month, routed by rule rather than by mood — with a banking anchor still to be filled.</p>
+      <div class="bignum">$<span id="big">1,857</span><span class="cents">55</span></div>
+      <p class="body-copy drop" style="margin-top:20px;">Fifteen positions now stand on the books — eleven stocks, a SpaceX stake, and a growing metals sleeve in gold and silver. What began as a single $500 investment has crossed $1,800, spread deliberately across technology, energy, pharma, materials, and precious metals. The plan stays unhurried: a fixed sum each month, anchors first until 35%, then the full plan resumes.</p>
     </div>
     <div class="lead-right rise r2">
       <div class="kicker">— The Accounts —</div>
-      <div class="stat-line"><span class="lbl">Total Invested</span><span class="val" id="stTotal">$1,072.04</span></div>
-      <div class="stat-line"><span class="lbl">Unrealised Gain</span><span class="val" style="color:var(--green);">+$233.33</span></div>
+      <div class="stat-line"><span class="lbl">Total Invested</span><span class="val" id="stTotal">$1,857.55</span></div>
+      <div class="stat-line"><span class="lbl">Unrealised Gain</span><span class="val" style="color:var(--green);">+$453.35</span></div>
       <div class="stat-line"><span class="lbl">Annual Dividends</span><span class="val" style="color:var(--gold);">$12.32</span></div>
-      <div class="stat-line"><span class="lbl">Holdings Active</span><span class="val" id="stHeld">11 <span style="color:var(--faint);font-size:12px;">held</span></span></div>
+      <div class="stat-line"><span class="lbl">Holdings Active</span><span class="val" id="stHeld">15 <span style="color:var(--faint);font-size:12px;">held</span></span></div>
       <div class="stat-line"><span class="lbl">Next Injection</span><span class="val">Jun 25</span></div>
       <div class="stat-line" style="border:none;"><span class="lbl">Strategy</span><span class="val" style="color:var(--vermillion);">ROTATION</span></div>
     </div>
@@ -225,7 +225,7 @@ body::after{
       <div class="therm-ticks"><span>$0</span><span>$5,000</span></div>
     </div>
     <div>
-      <p class="milestone">First post: <b>$5,000</b> by year's end, <span style="color:var(--vermillion);" id="stGoalPct">21%</span> of the way there.</p>
+      <p class="milestone">First post: <b>$5,000</b> by year's end, <span style="color:var(--vermillion);" id="stGoalPct">37%</span> of the way there.</p>
       <p class="milestone" style="margin-top:10px;color:var(--ink2);">Then <b>$15,000</b> in '27, and <b>$35,000</b> the year after.</p>
     </div>
   </div>
@@ -334,18 +334,21 @@ function fetchQuote(ticker, cb){
 
 // ── HOLDINGS ──────────────────────────────────────────────
 var H=[
-  {tk:"NVDA",name:"Nvidia Corp.",val:228.47,target:25,anchor:false},
-  {tk:"TSLA",name:"Tesla, Inc.",val:187.53,target:13,anchor:false},
-  {tk:"IBM",name:"Int'l Business Mach.",val:135.32,target:17,anchor:false},
-  {tk:"XOM",name:"Exxon Mobil",val:110.28,target:5,anchor:true},
-  {tk:"JTEK",name:"JPM Tech Leaders ETF",val:109.87,target:0,anchor:false},
-  {tk:"DELL",name:"Dell Technologies",val:98.86,target:20,anchor:false},
-  {tk:"SNDK",name:"SanDisk Corp.",val:80.46,target:10,anchor:false},
-  {tk:"ABBV",name:"AbbVie Inc.",val:80.15,target:8,anchor:true},
-  {tk:"GOOGL",name:"Alphabet Inc.",val:34.11,target:0,anchor:false},
-  {tk:"NFLX",name:"Netflix, Inc.",val:6.44,target:0,anchor:false},
-  {tk:"LCID",name:"Lucid Group",val:0.55,target:0,anchor:false},
-  {tk:"PG",name:"Procter & Gamble",val:0,target:2,anchor:true}
+  {tk:"SPCX",name:"SpaceX",val:333.70,target:0,anchor:false},
+  {tk:"NVDA",name:"Nvidia Corp.",val:217.82,target:20,anchor:false},
+  {tk:"TSLA",name:"Tesla, Inc.",val:181.84,target:7,anchor:false},
+  {tk:"IBM",name:"Int'l Business Mach.",val:120.74,target:7,anchor:false},
+  {tk:"XOM",name:"Exxon Mobil",val:104.83,target:11,anchor:true},
+  {tk:"DELL",name:"Dell Technologies",val:95.01,target:12,anchor:false},
+  {tk:"SNDK",name:"SanDisk Corp.",val:88.63,target:5,anchor:false},
+  {tk:"ABBV",name:"AbbVie Inc.",val:83.19,target:10,anchor:true},
+  {tk:"GOOGL",name:"Alphabet Inc.",val:33.96,target:9,anchor:false},
+  {tk:"NFLX",name:"Netflix, Inc.",val:6.36,target:0,anchor:false},
+  {tk:"LCID",name:"Lucid Group",val:0.47,target:0,anchor:false},
+  {tk:"PG",name:"Procter & Gamble",val:0,target:14,anchor:true},
+  {tk:"RIO",name:"Rio Tinto",val:0,target:5,anchor:true},
+  {tk:"GOLD",name:"Gold (Physical)",val:295.50,target:0,anchor:false},
+  {tk:"SILV",name:"Silver (Physical)",val:295.50,target:0,anchor:false}
 ];
 var GOAL=5000;
 
