@@ -124,24 +124,24 @@ const QUARTERLY_CHECKS=[
   "Any macro risks? (rate hikes, oil price swings, tech regulation)",
 ];
 const DEFAULT_HOLDINGS=[
-  {ticker:"NVDA",name:"Nvidia",        value:217.82,basePct:0.20,target:20,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick."},
-  {ticker:"TSLA",name:"Tesla",         value:181.84,basePct:0.13,target:7,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside."},
-  {ticker:"IBM", name:"IBM",           value:120.74,basePct:0.10,target:7,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend."},
-  {ticker:"XOM", name:"ExxonMobil",    value:104.83,basePct:0.15,target:11, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth."},
-  {ticker:"SPCX",name:"SpaceX",value:333.70,basePct:0,target:0,color:"#1a1a2e",anchor:false,satellite:true,tip:"🛰️ SATELLITE / HIGH-RISK — 2 shares bought at $135 (IPO). Kept OUT of your 65/35 plan. EXIT PLAN: hold both by default · sell 1 share if it hits $600 (banks more than your whole stake, the other rides free) · reassess in ~1 year once lock-ups & hype settle. No panic selling."},
-  {ticker:"DELL",name:"Dell",          value:95.01, basePct:0.15,target:12,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth."},
-  {ticker:"SNDK",name:"SanDisk",       value:88.63, basePct:0.06,target:5,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play."},
-  {ticker:"ABBV",name:"AbbVie",        value:83.19, basePct:0.14,target:10, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof."},
-  {ticker:"GOOGL",name:"Alphabet",     value:33.96, basePct:0.10,target:9, color:"#ea4335",anchor:false,tip:"Search/cloud/AI giant — quality compounder, up nicely."},
+  {ticker:"NVDA",name:"Nvidia",        value:223.66,basePct:0.20,target:20,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick."},
+  {ticker:"TSLA",name:"Tesla",         value:179.18,basePct:0.13,target:7,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside."},
+  {ticker:"IBM", name:"IBM",           value:110.47,basePct:0.10,target:7,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend."},
+  {ticker:"XOM", name:"ExxonMobil",    value:98.27,basePct:0.15,target:11, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth."},
+  {ticker:"SPCX",name:"SpaceX",value:370.00,basePct:0,target:0,color:"#1a1a2e",anchor:false,satellite:true,tip:"🛰️ SATELLITE / HIGH-RISK — 2 shares bought at $135 (IPO). Kept OUT of your 65/35 plan. EXIT PLAN: hold both by default · sell 1 share if it hits $600 (banks more than your whole stake, the other rides free) · reassess in ~1 year once lock-ups & hype settle. No panic selling."},
+  {ticker:"DELL",name:"Dell",          value:98.35, basePct:0.15,target:12,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth."},
+  {ticker:"SNDK",name:"SanDisk",       value:97.79, basePct:0.06,target:5,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play."},
+  {ticker:"ABBV",name:"AbbVie",        value:79.08, basePct:0.14,target:10, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof."},
+  {ticker:"GOOGL",name:"Alphabet",     value:34.75, basePct:0.10,target:9, color:"#ea4335",anchor:false,tip:"Search/cloud/AI giant — quality compounder, up nicely."},
   {ticker:"RIO", name:"Rio Tinto",     value:0,     basePct:0.10,target:5, color:"#d97706",anchor:true, tip:"THESIS: backdoor AI-infrastructure play — copper wires every data center & lithium feeds electrification. The 'picks & shovels' of the AI era, in finite real assets. Copper is the engine; iron ore (most of revenue) is the ballast; lithium is the long-wait option. ~3.8% dividend pays you to hold. Conviction, not just diversification."},
-  {ticker:"NFLX",name:"Netflix",       value:6.36,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating."},
-  {ticker:"LCID",name:"Lucid",         value:0.47,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down ~80% — consider selling. Loss offsets capital gains tax."},
+  {ticker:"NFLX",name:"Netflix",       value:6.12,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating."},
+  {ticker:"LCID",name:"Lucid",         value:0.49,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down ~80% — consider selling. Loss offsets capital gains tax."},
   {ticker:"PG",  name:"Procter & Gamble",value:0,   basePct:0.14,target:14, color:"#2563eb",anchor:true, tip:"Recession-proof anchor — people buy P&G staples in any economy. 2.9% dividend, 70 straight years of raises."},
-  {ticker:"GOLD",name:"Gold (Physical)",  value:295.50,basePct:0,target:0,color:"#d4af37",anchor:false,satellite:true,tip:"🥇 PHYSICAL METALS — $150/mo DCA. Hedge against inflation, currency risk & geopolitical uncertainty. Uncorrelated with stocks. Buy & hold long-term, don't trade it."},
-  {ticker:"SILV",name:"Silver (Physical)", value:295.50,basePct:0,target:0,color:"#c0c0c0",anchor:false,satellite:true,tip:"🪙 PHYSICAL METALS — $150/mo DCA. Industrial demand (solar, EVs, AI electronics) + monetary hedge. More volatile than gold but higher upside. Buy & hold."},
+  {ticker:"GOLD",name:"Gold (Physical)",  value:296.00,basePct:0,target:0,color:"#d4af37",anchor:false,satellite:true,tip:"🥇 PHYSICAL METALS — $150/mo DCA. Hedge against inflation, currency risk & geopolitical uncertainty. Uncorrelated with stocks. Buy & hold long-term, don't trade it."},
+  {ticker:"SILV",name:"Silver (Physical)", value:296.00,basePct:0,target:0,color:"#c0c0c0",anchor:false,satellite:true,tip:"🪙 PHYSICAL METALS — $150/mo DCA. Industrial demand (solar, EVs, AI electronics) + monetary hedge. More volatile than gold but higher upside. Buy & hold."},
 ];
 let S={
-  holdings:JSON.parse(localStorage.getItem("pt_h7")||"null")||DEFAULT_HOLDINGS,
+  holdings:JSON.parse(localStorage.getItem("pt_h9")||"null")||DEFAULT_HOLDINGS,
   history: JSON.parse(localStorage.getItem("pt_his")||"[]"),
   dark:    localStorage.getItem("pt_dk")!=="false",
   mode:    localStorage.getItem("pt_mode")||"rotation",
@@ -159,7 +159,7 @@ let S={
   qChecks:{}, goalSub:"track", projRate:300,
 };
 function save(){
-  localStorage.setItem("pt_h7",JSON.stringify(S.holdings));
+  localStorage.setItem("pt_h9",JSON.stringify(S.holdings));
   localStorage.setItem("pt_his",JSON.stringify(S.history));
   localStorage.setItem("pt_dk",S.dark);
   localStorage.setItem("pt_mode",S.mode);

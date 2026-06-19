@@ -7,29 +7,29 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;min-height:100vh;padding-bottom:90px;overflow-x:hidden;transition:background 0.5s,color 0.4s;}
+body{font-family:'Iowan Old Style','Palatino Linotype','Georgia',serif;min-height:100vh;padding-bottom:90px;overflow-x:hidden;transition:background 0.5s,color 0.4s;-webkit-font-smoothing:antialiased;}
 
-/* THEMES */
-body{--bg:#f8faff;--surf:#fff;--surf2:#f1f5ff;--text:#0a0f1e;--text2:#475569;--text3:#94a3b8;--border:#e2e8f8;--acc:#4f46e5;--sc:#a3e635;}
-.t-tsla{--bg:#fff5f5;--surf:#fff;--surf2:#fef2f2;--sc:#f87171;}
-.t-dell{--bg:#eff6ff;--surf:#fff;--surf2:#eef2ff;--sc:#60a5fa;}
-.t-ibm{--bg:#f5f3ff;--surf:#fff;--surf2:#ede9fe;--sc:#818cf8;}
-.t-sndk{--bg:#fff7ed;--surf:#fff;--surf2:#ffedd5;--sc:#fb923c;}
-.t-abbv{--bg:#f0fdf9;--surf:#fff;--surf2:#ecfdf5;--sc:#34d399;}
-.t-xom{--bg:#fffbeb;--surf:#fff;--surf2:#fef9c3;--sc:#fbbf24;}
-.t-pg{--bg:#eff6ff;--surf:#fff;--surf2:#dbeafe;--sc:#2563eb;}
-.t-nflx{--bg:#fff5f5;--surf:#fff;--surf2:#fef2f2;--sc:#ef4444;}
-.t-lcid{--bg:#faf5ff;--surf:#fff;--surf2:#f3e8ff;--sc:#c084fc;}
+/* THEMES — warm newspaper dark to match the app; per-stock accent kept via --sc */
+body{--bg:#0f0c0a;--surf:#171210;--surf2:#1d1712;--text:#ece3d2;--text2:#a89d8a;--text3:#8a7e6c;--border:#2a2018;--acc:#e0532f;--sc:#a3e635;--vermillion:#e0532f;--gold:#d9a943;--green:#5cb381;}
+.t-tsla{--sc:#f87171;}
+.t-dell{--sc:#60a5fa;}
+.t-ibm{--sc:#818cf8;}
+.t-sndk{--sc:#fb923c;}
+.t-abbv{--sc:#34d399;}
+.t-xom{--sc:#fbbf24;}
+.t-pg{--sc:#2563eb;}
+.t-nflx{--sc:#ef4444;}
+.t-lcid{--sc:#c084fc;}
 
 body{background:var(--bg);color:var(--text);}
 
-/* BG MESH */
+/* BG — soft static warm wash to match app (no swirling mesh) */
 .bg-mesh{position:fixed;inset:0;z-index:-1;pointer-events:none;}
-.bg-mesh::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 15% 15%,var(--sc,#a3e635)12,transparent 60%),radial-gradient(ellipse 50% 40% at 85% 85%,var(--sc,#a3e635)08,transparent 60%);opacity:0.18;transition:background 0.5s;}
-.bg-mesh::after{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--sc,#a3e635)08 1px,transparent 1px),linear-gradient(90deg,var(--sc,#a3e635)08 1px,transparent 1px);background-size:36px 36px;opacity:0.25;}
+.bg-mesh::before{content:'';position:absolute;inset:0;background:radial-gradient(120% 80% at 80% -10%, rgba(224,83,47,0.10), transparent 55%),radial-gradient(90% 60% at -10% 110%, var(--sc) 0a, transparent 55%);opacity:0.5;transition:background 0.5s;}
+.bg-mesh::after{content:'';position:absolute;inset:0;background:radial-gradient(60% 40% at 50% 0%, rgba(217,169,67,0.05), transparent 60%);}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;}
+nav{position:sticky;top:0;z-index:50;background:rgba(15,12,10,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:10px;}
 .nav-back{font-size:12px;color:var(--text2);cursor:pointer;padding:6px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surf);transition:all 0.2s;white-space:nowrap;}
 .nav-back:hover{border-color:var(--sc);color:var(--sc);}
 .nav-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;flex:1;text-align:center;color:var(--text);}
@@ -48,7 +48,7 @@ nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-
 
 /* HERO */
 .hero-wrap{padding:16px 16px 0;max-width:820px;margin:0 auto;}
-.hero-card{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:22px;padding:18px;margin-bottom:12px;display:flex;align-items:center;gap:14px;}
+.hero-card{background:var(--surf);border:1px solid var(--border);border-radius:22px;padding:18px;margin-bottom:12px;display:flex;align-items:center;gap:14px;}
 .hero-logo{width:64px;height:64px;border-radius:16px;overflow:hidden;flex-shrink:0;box-shadow:0 8px 24px var(--sc)33;border:1.5px solid var(--sc)33;}
 .hero-logo svg{width:100%;height:100%;}
 .hero-info{flex:1;}
@@ -72,7 +72,7 @@ nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-
 
 /* CARDS */
 .wrap{padding:0 16px;max-width:820px;margin:0 auto;}
-.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:18px;padding:15px;margin-bottom:12px;}
+.card{background:var(--surf);border:1px solid var(--border);border-radius:18px;padding:15px;margin-bottom:12px;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
 .full{grid-column:1/-1;}
 .clabel{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px;}
@@ -112,7 +112,7 @@ nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-
 .proj-tag{font-size:8px;font-family:'DM Mono',monospace;padding:1px 6px;border-radius:6px;margin-top:3px;display:inline-block;}
 
 /* CHART */
-.chart-card{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:18px;padding:15px;margin-bottom:12px;}
+.chart-card{background:var(--surf);border:1px solid var(--border);border-radius:18px;padding:15px;margin-bottom:12px;}
 .chart-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
 .chart-tabs{display:flex;gap:3px;}
 .chart-tab{font-family:'DM Mono',monospace;font-size:9px;padding:4px 11px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all 0.2s;}
@@ -124,8 +124,8 @@ nav{position:sticky;top:0;z-index:50;background:rgba(248,250,255,0.92);backdrop-
 @keyframes load{0%{width:0%;margin-left:0;}60%{width:60%;}100%{width:0%;margin-left:100%;}}
 
 /* BOTTOM */
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 14px;background:rgba(248,250,255,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;gap:8px;}
-.bb-btn{flex:1;padding:12px;border-radius:14px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all 0.2s;text-align:center;}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:10px 14px;background:rgba(15,12,10,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:flex;gap:8px;}
+.bb-btn{flex:1;padding:12px;border-radius:14px;font-size:12px;font-weight:500;cursor:pointer;font-family:'Iowan Old Style','Georgia',serif;border:none;transition:all 0.2s;text-align:center;}
 .bb-arr{padding:12px 14px;border-radius:14px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;border:1px solid var(--border);background:var(--surf);color:var(--text2);transition:all 0.2s;}
 .bb-arr:hover{border-color:var(--sc);color:var(--sc);}
 .bb-arr:disabled{opacity:0.25;cursor:default;}
@@ -245,6 +245,7 @@ var DATA = {
   NVDA:{name:"Nvidia Corporation",sector:"Tech",anchor:false,
     pos:{shares:"1.06",val:"$217.82",cost:"$111.28",gl:"+$106.54",pct:"+95.7%",mo:"$100",tgt:"20%"},
     analyst:{rating:"STRONG BUY",score:9.0,buy:55,hold:6,sell:1,tgt:"$298",tLow:"$200",tHigh:"$360",cur:205},
+    why:"Below target is real (AI rev +65%), but NVDA just borrowed $25B and faces China export risk. Conviction buy, but expect volatility.",
     metrics:{"P/E":"35.2x","Mkt Cap":"$3.2T","52W Hi":"$153","52W Lo":"$78","Rev Gr":"+78%","Margin":"55%"},
     div:{yield:"0.03%",annual:"$0.04",freq:"Quarterly",next:"Jun 2026"},
     eps:[{q:"Q1'26",e:0.88,a:0.96,b:true},{q:"Q4'25",e:0.75,a:0.81,b:true},{q:"Q3'25",e:0.64,a:0.74,b:true},{q:"Q2'25",e:0.53,a:0.60,b:true}],
@@ -254,6 +255,7 @@ var DATA = {
   TSLA:{name:"Tesla, Inc.",sector:"EV",anchor:false,
     pos:{shares:"0.4474",val:"$181.84",cost:"$75.00",gl:"+$106.84",pct:"+142.5%",mo:"$65",tgt:"7%"},
     analyst:{rating:"BUY",score:6.8,buy:23,hold:17,sell:7,tgt:"$420",tLow:"$285",tHigh:"$600",cur:405},
+    why:"Near target. Analysts wildly split ($25-$600). Priced on robotaxi/Optimus hope, not its car sales (which fell). High uncertainty.",
     metrics:{"P/E":"89.4x","Mkt Cap":"$1.0T","52W Hi":"$479","52W Lo":"$138","Rev Gr":"+8.1%","Margin":"7.3%"},
     div:{yield:"0%",annual:"N/A",freq:"None",next:"N/A"},
     eps:[{q:"Q1'26",e:0.42,a:0.27,b:false},{q:"Q4'25",e:0.76,a:0.73,b:false},{q:"Q3'25",e:0.58,a:0.72,b:true},{q:"Q2'25",e:0.43,a:0.52,b:true}],
@@ -263,6 +265,7 @@ var DATA = {
   DELL:{name:"Dell Technologies",sector:"Tech",anchor:false,
     pos:{shares:"0.2402",val:"$95.01",cost:"$100.00",gl:"-$4.99",pct:"-5.0%",mo:"$60",tgt:"12%"},
     analyst:{rating:"BUY",score:8.0,buy:14,hold:5,sell:1,tgt:"$443",tLow:"$300",tHigh:"$550",cur:420},
+    why:"AI-server demand strong, but stock is near its 52-week high and overbought (RSI ~78). 'Below target' yes — but watch for a pullback.",
     metrics:{"P/E":"18.6x","Mkt Cap":"$100B","52W Hi":"$179","52W Lo":"$79","Rev Gr":"+87.7%","Margin":"3.1%"},
     div:{yield:"1.8%",annual:"$2.08",freq:"Quarterly",next:"Jul 2026"},
     eps:[{q:"Q1'26",e:1.64,a:2.20,b:true},{q:"Q4'25",e:2.14,a:2.68,b:true},{q:"Q3'25",e:1.80,a:2.15,b:true},{q:"Q2'25",e:1.54,a:1.89,b:true}],
@@ -272,6 +275,7 @@ var DATA = {
   IBM:{name:"IBM Corporation",sector:"Tech",anchor:false,
     pos:{shares:"0.4435",val:"$120.74",cost:"$135.00",gl:"-$14.26",pct:"-10.6%",mo:"$40",tgt:"7%"},
     analyst:{rating:"BUY",score:7.0,buy:12,hold:7,sell:2,tgt:"$288",tLow:"$195",tHigh:"$390",cur:320},
+    why:"Steady dividend payer, low drama. One of the more reliable verdicts — when IBM reads cheap, it usually means it.",
     metrics:{"P/E":"22.1x","Mkt Cap":"$246B","52W Hi":"$284","52W Lo":"$168","Rev Gr":"+9.0%","Margin":"14.2%"},
     div:{yield:"2.5%",annual:"$6.76",freq:"Quarterly",next:"Jun 2026"},
     eps:[{q:"Q1'26",e:1.40,a:1.60,b:true},{q:"Q4'25",e:3.72,a:3.92,b:true},{q:"Q3'25",e:2.23,a:2.30,b:true},{q:"Q2'25",e:2.19,a:2.43,b:true}],
@@ -281,6 +285,7 @@ var DATA = {
   SNDK:{name:"SanDisk Corporation",sector:"Memory",anchor:false,
     pos:{shares:"0.0448",val:"$88.63",cost:"$80.00",gl:"+$8.63",pct:"+10.8%",mo:"$25",tgt:"5%"},
     analyst:{rating:"BUY",score:8.0,buy:18,hold:3,sell:1,tgt:"$1,659",tLow:"$1,000",tHigh:"$3,250",cur:1760},
+    why:"⚠️ Beta ~3.2 — swings 3x the market. When it reads 'expensive,' believe it; when cheap, don't chase. Position size matters more than the verdict here.",
     metrics:{"P/E":"42.8x","Mkt Cap":"$68B","52W Hi":"$1,842","52W Lo":"$36","Rev Gr":"+320%","Margin":"22.1%"},
     div:{yield:"0%",annual:"N/A",freq:"None",next:"N/A"},
     eps:[{q:"Q1'26",e:8.20,a:10.40,b:true},{q:"Q4'25",e:4.80,a:6.20,b:true},{q:"Q3'25",e:2.10,a:3.40,b:true},{q:"Q2'25",e:0.40,a:1.20,b:true}],
@@ -290,6 +295,7 @@ var DATA = {
   ABBV:{name:"AbbVie Inc.",sector:"Pharma",anchor:true,
     pos:{shares:"0.3653",val:"$83.19",cost:"$80.00",gl:"+$3.19",pct:"+4.0%",mo:"$60",tgt:"10%"},
     analyst:{rating:"BUY",score:8.2,buy:24,hold:8,sell:0,tgt:"$253",tLow:"$184",tHigh:"$328",cur:203},
+    why:"Defensive pharma, stable. Below-target here is one of the more trustworthy buy signals in your book.",
     metrics:{"P/E":"16.2x","Mkt Cap":"$350B","52W Hi":"$214","52W Lo":"$152","Rev Gr":"+12.2%","Margin":"18.4%"},
     div:{yield:"3.4%",annual:"$6.56",freq:"Quarterly",next:"May 2026"},
     eps:[{q:"Q1'26",e:2.97,a:3.22,b:true},{q:"Q4'25",e:5.62,a:5.93,b:true},{q:"Q3'25",e:2.89,a:2.95,b:true},{q:"Q2'25",e:2.65,a:2.77,b:true}],
@@ -299,6 +305,7 @@ var DATA = {
   XOM:{name:"ExxonMobil Corporation",sector:"Energy",anchor:true,
     pos:{shares:"0.7131",val:"$104.83",cost:"$110.00",gl:"-$5.17",pct:"-4.7%",mo:"$50",tgt:"11%"},
     analyst:{rating:"BUY",score:7.3,buy:11,hold:13,sell:1,tgt:"$165",tLow:"$130",tHigh:"$185",cur:150},
+    why:"⚠️ Cheap BECAUSE oil is falling on the Iran peace deal — energy earnings may dip. Value-trap risk. But the dividend is safe, so fine as a long-term anchor, not a quick gain.",
     metrics:{"P/E":"13.8x","Mkt Cap":"$480B","52W Hi":"$126","52W Lo":"$98","Rev Gr":"+2.1%","Margin":"8.9%"},
     div:{yield:"3.5%",annual:"$3.96",freq:"Quarterly",next:"Jun 2026"},
     eps:[{q:"Q1'26",e:1.70,a:1.76,b:true},{q:"Q4'25",e:1.78,a:1.67,b:false},{q:"Q3'25",e:1.89,a:1.92,b:true},{q:"Q2'25",e:2.02,a:2.14,b:true}],
@@ -317,6 +324,7 @@ var DATA = {
   NFLX:{name:"Netflix, Inc.",sector:"Streaming",anchor:false,
     pos:{shares:"0.0791",val:"$6.36",cost:"$4.91",gl:"+$1.45",pct:"+29.5%",mo:"$0",tgt:"0%"},
     analyst:{rating:"BUY",score:7.5,buy:22,hold:8,sell:2,tgt:"$115",tLow:"$80",tHigh:"$160",cur:84},
+    why:"Post-split pricing. Below target, but streaming competition is fierce — verify the subscriber-growth story still holds before trusting the green.",
     metrics:{"P/E":"52.4x","Mkt Cap":"$502B","52W Hi":"$1,310","52W Lo":"$542","Rev Gr":"+16.0%","Margin":"22.3%"},
     div:{yield:"0%",annual:"N/A",freq:"None",next:"N/A"},
     eps:[{q:"Q1'26",e:5.72,a:6.61,b:true},{q:"Q4'25",e:4.22,a:4.27,b:true},{q:"Q3'25",e:3.73,a:5.40,b:true},{q:"Q2'25",e:4.74,a:4.88,b:true}],
@@ -326,6 +334,7 @@ var DATA = {
   LCID:{name:"Lucid Group, Inc.",sector:"EV",anchor:false,
     pos:{shares:"0.0932",val:"$0.47",cost:"$2.76",gl:"-$2.29",pct:"-83.0%",mo:"$0",tgt:"0%"},
     analyst:{rating:"HOLD",score:4.5,buy:3,hold:8,sell:2,tgt:"$13.32",tLow:"$10.00",tHigh:"$30.00",cur:6},
+    why:"⚠️ Down ~80%. 'Below target' is misleading — this is a falling knife. Targets keep getting cut. Speculative, not a value play.",
     metrics:{"P/E":"N/A","Mkt Cap":"$6.4B","52W Hi":"$4.43","52W Lo":"$1.93","Rev Gr":"+68.8%","Margin":"-312%"},
     div:{yield:"0%",annual:"N/A",freq:"None",next:"N/A"},
     eps:[{q:"Q1'26",e:-0.20,a:-0.18,b:true},{q:"Q4'25",e:-0.22,a:-0.21,b:true},{q:"Q3'25",e:-0.28,a:-0.29,b:false},{q:"Q2'25",e:-0.30,a:-0.31,b:false}],
@@ -378,21 +387,26 @@ function renderTiming(curNum) {
   var upside = ((tgtNum - curNum) / curNum) * 100;
   var verdict, icon, vcol, bg, bd, reason;
   if (upside >= 12) {
-    verdict = "BUY ZONE"; icon = "🟢"; vcol = "#15803d"; bg = "#f0fdf4"; bd = "#86efac";
+    verdict = "BUY ZONE"; icon = "🟢"; vcol = "#5cb381"; bg = "rgba(92,179,129,0.12)"; bd = "rgba(92,179,129,0.4)";
     reason = "Trading about " + Math.abs(upside).toFixed(0) + "% below the average analyst target of " + tgtStr + " — room to run if the thesis holds.";
   } else if (upside >= -5) {
-    verdict = "FAIR VALUE"; icon = "🟡"; vcol = "#b45309"; bg = "#fffbeb"; bd = "#fcd34d";
+    verdict = "FAIR VALUE"; icon = "🟡"; vcol = "#d9a943"; bg = "rgba(217,169,67,0.12)"; bd = "rgba(217,169,67,0.4)";
     reason = "Sitting close to the analyst target of " + tgtStr + ". Reasonable to accumulate steadily, but limited near-term upside.";
   } else {
-    verdict = "EXPENSIVE"; icon = "🔴"; vcol = "#b91c1c"; bg = "#fef2f2"; bd = "#fca5a5";
+    verdict = "EXPENSIVE"; icon = "🔴"; vcol = "#e0532f"; bg = "rgba(224,83,47,0.12)"; bd = "rgba(224,83,47,0.4)";
     reason = "Trading about " + Math.abs(upside).toFixed(0) + "% above the analyst target of " + tgtStr + ". The market may be ahead of fundamentals — consider waiting.";
   }
   var sign = upside >= 0 ? "+" : "";
-  tEl.innerHTML = '<div class="timing" style="background:'+bg+';border-color:'+bd+';color:'+vcol+';">'
+  var whyTxt = (window._whyNote || "");
+  var whyBlock = whyTxt ? '<div class="timing-why" style="margin-top:9px;padding-top:9px;border-top:1px solid '+bd+';font-size:11px;line-height:1.5;color:var(--text2);"><b style="color:'+vcol+';">WHY:</b> '+whyTxt+'</div>' : '';
+  tEl.innerHTML = '<div class="timing" style="background:'+bg+';border-color:'+bd+';color:'+vcol+';display:block;">'
+    + '<div style="display:flex;align-items:center;gap:14px;">'
     + '<div class="timing-icon">'+icon+'</div>'
     + '<div style="flex:1;min-width:0;"><div class="timing-verdict">'+verdict+'</div>'
     + '<div class="timing-reason" style="color:var(--text2);">'+reason+'</div></div>'
     + '<div class="timing-upside"><div class="u-val">'+sign+upside.toFixed(0)+'%</div><div class="u-lbl">VS TARGET</div></div>'
+    + '</div>'
+    + whyBlock
     + '</div>';
 }
 
@@ -537,6 +551,7 @@ function render(t) {
   // Buy-timing banner (upside = analyst target vs current price)
   window._tgtNum = parseFloat(an.tgt.replace(/[$,]/g,""));
   window._tgtStr = an.tgt;
+  window._whyNote = d.why || an.why || "";
   renderTiming(an.cur);
 
   // Metrics
