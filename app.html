@@ -107,13 +107,13 @@ input{font-family:inherit;outline:none;}
 </a>
 <div id="root"></div>
 <script>
-const CORE=["NVDA","TSLA","DELL","IBM","SNDK","GOOGL","NFLX","LCID"];
+const CORE=["NVDA","MU","TSLA","DELL","IBM","SNDK","GOOGL","NFLX","LCID"];
 const ANCHORS=["ABBV","XOM","PG","RIO"];
-const PLAN=["NVDA","TSLA","DELL","IBM","SNDK","GOOGL","ABBV","XOM","PG","RIO"];
+const PLAN=["NVDA","MU","TSLA","DELL","IBM","SNDK","GOOGL","ABBV","XOM","PG","RIO"];
 const ALL_ACTIVE=[...PLAN];
 const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const BUDGETS=[200,300,400,500];
-const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,PG:2.9,NVDA:0.03,TSLA:0,DELL:1.8,SNDK:0,NFLX:0,LCID:0,JTEK:0.3,GOOGL:0.5,RIO:3.8};
+const DIVIDENDS={IBM:2.5,ABBV:3.4,XOM:3.5,PG:2.9,NVDA:0.03,TSLA:0,DELL:1.8,SNDK:0,NFLX:0,LCID:0,JTEK:0.3,GOOGL:0.5,RIO:3.8,MU:0.5};
 const GOALS=[{year:2026,amount:5000,emoji:"🎯"},{year:2027,amount:15000,emoji:"🚀"},{year:2028,amount:35000,emoji:"🌟"}];
 const QUARTERLY_CHECKS=[
   "Is AI infrastructure demand still growing? (impacts NVDA, DELL, SNDK)",
@@ -124,24 +124,25 @@ const QUARTERLY_CHECKS=[
   "Any macro risks? (rate hikes, oil price swings, tech regulation)",
 ];
 const DEFAULT_HOLDINGS=[
-  {ticker:"NVDA",name:"Nvidia",        value:223.66,basePct:0.20,target:20,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick."},
-  {ticker:"TSLA",name:"Tesla",         value:179.18,basePct:0.13,target:7,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside."},
-  {ticker:"IBM", name:"IBM",           value:110.47,basePct:0.10,target:7,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend."},
-  {ticker:"XOM", name:"ExxonMobil",    value:98.27,basePct:0.15,target:11, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth."},
-  {ticker:"SPCX",name:"SpaceX",value:370.00,basePct:0,target:0,color:"#1a1a2e",anchor:false,satellite:true,tip:"🛰️ SATELLITE / HIGH-RISK — 2 shares bought at $135 (IPO). Kept OUT of your 65/35 plan. EXIT PLAN: hold both by default · sell 1 share if it hits $600 (banks more than your whole stake, the other rides free) · reassess in ~1 year once lock-ups & hype settle. No panic selling."},
-  {ticker:"DELL",name:"Dell",          value:98.35, basePct:0.15,target:12,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth."},
-  {ticker:"SNDK",name:"SanDisk",       value:97.79, basePct:0.06,target:5,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play."},
-  {ticker:"ABBV",name:"AbbVie",        value:79.08, basePct:0.14,target:10, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof."},
-  {ticker:"GOOGL",name:"Alphabet",     value:34.75, basePct:0.10,target:9, color:"#ea4335",anchor:false,tip:"Search/cloud/AI giant — quality compounder, up nicely."},
+  {ticker:"NVDA",name:"Nvidia",        value:208.05,basePct:0.20,target:20,color:"#a3e635",anchor:false,tip:"AI chip leader — your highest conviction pick."},
+  {ticker:"MU",  name:"Micron",        value:499.46,basePct:0.10,target:8, color:"#0b7344",anchor:false,tip:"AI memory play — HBM (high-bandwidth memory) is critical for AI GPUs. Complements your NVDA bet: NVDA makes the chips, MU makes the memory they need. Cyclical (memory prices boom/bust) so size with care."},
+  {ticker:"TSLA",name:"Tesla",         value:168.09,basePct:0.13,target:7,color:"#f87171",anchor:false,tip:"EV & energy — volatile but high upside."},
+  {ticker:"IBM", name:"IBM",           value:114.67,basePct:0.10,target:7,color:"#818cf8",anchor:false,tip:"Stable tech — your ballast. Pays ~2.5% dividend."},
+  {ticker:"XOM", name:"ExxonMobil",    value:98.08,basePct:0.15,target:11, color:"#fbbf24",anchor:true, tip:"Energy anchor — 3.5% dividend, 40+ years of growth."},
+  {ticker:"SPCX",name:"SpaceX",value:306.82,basePct:0,target:0,color:"#1a1a2e",anchor:false,satellite:true,tip:"🛰️ SATELLITE / HIGH-RISK — 2 shares bought at $135 (IPO). Kept OUT of your 65/35 plan. EXIT PLAN: hold both by default · sell 1 share if it hits $600 (banks more than your whole stake, the other rides free) · reassess in ~1 year once lock-ups & hype settle. No panic selling."},
+  {ticker:"DELL",name:"Dell",          value:97.99, basePct:0.15,target:12,color:"#60a5fa",anchor:false,tip:"AI server infrastructure — explosive recent growth."},
+  {ticker:"SNDK",name:"SanDisk",       value:105.46, basePct:0.06,target:5,color:"#fb923c",anchor:false,tip:"NAND memory — high risk, high reward AI play."},
+  {ticker:"ABBV",name:"AbbVie",        value:88.82, basePct:0.14,target:10, color:"#34d399",anchor:true, tip:"Pharma anchor — 3.4% dividend, recession-proof."},
+  {ticker:"GOOGL",name:"Alphabet",     value:32.40, basePct:0.10,target:9, color:"#ea4335",anchor:false,tip:"Search/cloud/AI giant — quality compounder, up nicely."},
   {ticker:"RIO", name:"Rio Tinto",     value:0,     basePct:0.10,target:5, color:"#d97706",anchor:true, tip:"THESIS: backdoor AI-infrastructure play — copper wires every data center & lithium feeds electrification. The 'picks & shovels' of the AI era, in finite real assets. Copper is the engine; iron ore (most of revenue) is the ballast; lithium is the long-wait option. ~3.8% dividend pays you to hold. Conviction, not just diversification."},
-  {ticker:"NFLX",name:"Netflix",       value:6.12,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating."},
+  {ticker:"NFLX",name:"Netflix",       value:5.64,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating."},
   {ticker:"LCID",name:"Lucid",         value:0.49,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down ~80% — consider selling. Loss offsets capital gains tax."},
-  {ticker:"PG",  name:"Procter & Gamble",value:0,   basePct:0.14,target:14, color:"#2563eb",anchor:true, tip:"Recession-proof anchor — people buy P&G staples in any economy. 2.9% dividend, 70 straight years of raises."},
-  {ticker:"GOLD",name:"Gold (Physical)",  value:296.00,basePct:0,target:0,color:"#d4af37",anchor:false,satellite:true,tip:"🥇 PHYSICAL METALS — $150/mo DCA. Hedge against inflation, currency risk & geopolitical uncertainty. Uncorrelated with stocks. Buy & hold long-term, don't trade it."},
-  {ticker:"SILV",name:"Silver (Physical)", value:296.00,basePct:0,target:0,color:"#c0c0c0",anchor:false,satellite:true,tip:"🪙 PHYSICAL METALS — $150/mo DCA. Industrial demand (solar, EVs, AI electronics) + monetary hedge. More volatile than gold but higher upside. Buy & hold."},
+  {ticker:"PG",  name:"Procter & Gamble",value:164.84,   basePct:0.14,target:14, color:"#2563eb",anchor:true, tip:"Recession-proof anchor — people buy P&G staples in any economy. 2.9% dividend, 70 straight years of raises."},
+  {ticker:"GOLD",name:"Gold (Physical)",  value:670.00,basePct:0,target:0,color:"#d4af37",anchor:false,satellite:true,tip:"🥇 PHYSICAL METALS — $150/mo DCA. Hedge against inflation, currency risk & geopolitical uncertainty. Uncorrelated with stocks. Buy & hold long-term, don't trade it."},
+  {ticker:"SILV",name:"Silver (Physical)", value:371.00,basePct:0,target:0,color:"#c0c0c0",anchor:false,satellite:true,tip:"🪙 PHYSICAL METALS — $150/mo DCA. Industrial demand (solar, EVs, AI electronics) + monetary hedge. More volatile than gold but higher upside. Buy & hold."},
 ];
 let S={
-  holdings:JSON.parse(localStorage.getItem("pt_h9")||"null")||DEFAULT_HOLDINGS,
+  holdings:JSON.parse(localStorage.getItem("pt_h13")||"null")||DEFAULT_HOLDINGS,
   history: JSON.parse(localStorage.getItem("pt_his")||"[]"),
   dark:    localStorage.getItem("pt_dk")!=="false",
   mode:    localStorage.getItem("pt_mode")||"rotation",
@@ -159,7 +160,7 @@ let S={
   qChecks:{}, goalSub:"track", projRate:300,
 };
 function save(){
-  localStorage.setItem("pt_h9",JSON.stringify(S.holdings));
+  localStorage.setItem("pt_h13",JSON.stringify(S.holdings));
   localStorage.setItem("pt_his",JSON.stringify(S.history));
   localStorage.setItem("pt_dk",S.dark);
   localStorage.setItem("pt_mode",S.mode);
@@ -258,6 +259,16 @@ function render(){
   const techV=holdings.filter(h=>CORE.includes(h.ticker)).reduce((s,h)=>s+h.value,0);
   const anchV=holdings.filter(h=>ANCHORS.includes(h.ticker)).reduce((s,h)=>s+h.value,0);
   const metalsV=holdings.filter(h=>h.ticker==="GOLD"||h.ticker==="SILV").reduce((s,h)=>s+h.value,0);
+  const satV=holdings.filter(h=>h.satellite&&h.ticker!=="GOLD"&&h.ticker!=="SILV").reduce((s,h)=>s+h.value,0);
+  const energyV=holdings.filter(h=>h.ticker==="XOM"||h.ticker==="RIO").reduce((s,h)=>s+h.value,0);
+  // whole-portfolio risk view
+  const defensiveV=anchV+metalsV;            // anchors + metals = ballast
+  const growthV=techV+satV;                  // tech + satellite (SpaceX) = growth
+  const wholeTotal=defensiveV+growthV;
+  const defPct=wholeTotal>0?(defensiveV/wholeTotal*100).toFixed(0):0;
+  const growPct=wholeTotal>0?(growthV/wholeTotal*100).toFixed(0):0;
+  const hardAssetsV=metalsV+energyV;         // inflation-theme concentration
+  const hardPct=tv>0?(hardAssetsV/tv*100).toFixed(0):0;
   const invested=S.deposited>0?S.deposited:history.reduce((s,h)=>s+h.budget,0);
   const gl=tv-invested, glPct=invested>0?((gl/invested)*100).toFixed(1):0;
   const annDiv=annualDividends(holdings);
@@ -273,14 +284,15 @@ function render(){
   // ── #6 Insight nudge: read allocation, surface one useful observation ──
   const insight=(function(){
     const techN=parseFloat(techPct), anchN=parseFloat(anchPct);
+    const defN=parseFloat(defPct), hardN=parseFloat(hardPct);
     const emptyAnchors=ANCHORS.filter(t=>{const x=holdings.find(v=>v.ticker===t);return x&&x.value<=0;});
     const over=holdings.filter(h=>h.target>0&&h.value>0).map(h=>({tk:h.ticker,d:(h.value/tv*100)-h.target})).sort((a,b)=>b.d-a.d)[0];
-    // 🎯 35% diversification milestone — highest priority once reached
-    if(anchN>=35) return {txt:`🎯 Goal reached — anchors are ${anchN}% of your book (target was 35%). Time to stop the anchors-only tilt and go back to feeding the whole plan, or switch to Index mode which auto-balances. Keep adding to anchors and your NVDA/GOOGL core will start drifting underweight.`,tone:"green"};
-    if(emptyAnchors.length) return {txt:`Your ${emptyAnchors.join(" & ")} anchor${emptyAnchors.length>1?"s are":" is"} still unfunded — anchors are ${anchN}% now, aiming for 35%. Keep directing injections here.`,tone:"gold"};
-    if(anchN<35) return {txt:`Anchors are ${anchN}% of the book — keep funneling new money to XOM, ABBV, PG & RIO until you hit your 35% target. ${(35-anchN).toFixed(0)} points to go.`,tone:"gold"};
+    // whole-portfolio theme concentration is the real risk now
+    if(hardN>=38) return {txt:`Your whole-portfolio balance is healthy at ${growPct}/${defPct} growth/defensive. But metals + energy are ${hardN}% of everything — one macro theme. Aim the next anchor dollars at staples/pharma (PG, ABBV) to spread the defensive side.`,tone:"gold"};
+    if(emptyAnchors.length) return {txt:`Defensive base is solid at ${defPct}% (anchors + metals). Within stocks though, your ${emptyAnchors.join(" & ")} anchor${emptyAnchors.length>1?"s are":" is"} still unfunded — worth topping up.`,tone:"gold"};
+    if(anchN<35) return {txt:`Whole-portfolio you're well-balanced (${defPct}% defensive). Within the stock sleeve, anchors are ${anchN}% vs a 35% target — keep feeding XOM, ABBV, PG & RIO. ${(35-anchN).toFixed(0)} points to go.`,tone:"gold"};
     if(over&&over.d>8) return {txt:`${over.tk} is ~${over.d.toFixed(0)}% above its target weight — it's carrying a lot. Consider directing new money elsewhere.`,tone:"gold"};
-    return {txt:`Allocation looks balanced against your targets. Keep injecting on schedule.`,tone:"green"};
+    return {txt:`Balanced ${growPct}/${defPct} growth-to-defensive across everything you own. Keep injecting on schedule.`,tone:"green"};
   })();
 
   const overview=`
@@ -294,11 +306,12 @@ function render(){
     <div class="thread">${threadBar||`<div style="width:100%;background:var(--surf-line);"></div>`}</div>
     <div class="ov-rule"></div>
     <div class="ov-stats">
-      <div class="ov-stat"><div class="v">${techPct}%</div><div class="l">Tech</div></div>
-      <div class="ov-stat"><div class="v">${anchPct}%</div><div class="l">Anchors</div></div>
+      <div class="ov-stat"><div class="v" style="color:var(--vermillion);">${growPct}%</div><div class="l">Growth</div></div>
+      <div class="ov-stat"><div class="v" style="color:var(--green);">${defPct}%</div><div class="l">Defensive</div></div>
       <div class="ov-stat"><div class="v">${goalPct.toFixed(0)}%</div><div class="l">Goal</div></div>
       <div class="ov-stat"><div class="v" style="color:var(--gold);">${fmt0(metalsV)}</div><div class="l">Metals</div></div>
     </div>
+    <div style="text-align:center;font-size:9px;color:var(--muted);margin-top:8px;letter-spacing:0.5px;">whole-portfolio · tech ${tv>0?(techV/tv*100).toFixed(0):0}% · anchors ${tv>0?(anchV/tv*100).toFixed(0):0}% · metals ${tv>0?(metalsV/tv*100).toFixed(0):0}% · spacex ${tv>0?(satV/tv*100).toFixed(0):0}%</div>
     <div style="margin:16px 4px 0;padding:11px 13px;border-radius:10px;background:var(--surf);border:1px solid var(--surf-line);border-left:3px solid ${insight.tone==="gold"?"var(--gold)":"var(--green)"};font-size:12px;line-height:1.55;text-align:left;color:var(--ink);opacity:0.9;">
       <span style="font-family:'Courier New',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">Insight</span><br>${insight.txt}
     </div>
@@ -452,6 +465,32 @@ function render(){
   </div>`;
 
   const goalsMain=`
+    <div class="sec">Whole portfolio · true risk view</div>
+    <div class="card">
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px;">Your stock sleeve reads ${techPct}% tech — but that ignores metals. Across <b>everything</b> you own, the real growth-vs-defensive balance is:</div>
+      <div style="display:flex;height:34px;border-radius:9px;overflow:hidden;margin-bottom:10px;">
+        <div style="width:${growPct}%;background:var(--vermillion);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;">${growPct}%</div>
+        <div style="width:${defPct}%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;">${defPct}%</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:14px;">
+        <span>🚀 Growth (tech + SpaceX) ${fmt0(growthV)}</span>
+        <span>⚓ Defensive (anchors + metals) ${fmt0(defensiveV)}</span>
+      </div>
+      <div style="display:flex;gap:10px;text-align:center;border-top:1px solid var(--surf-line);padding-top:12px;">
+        <div style="flex:1;"><div style="font-size:14px;font-weight:600;color:var(--vermillion);">${tv>0?(techV/tv*100).toFixed(0):0}%</div><div style="font-size:8px;color:var(--muted);margin-top:2px;letter-spacing:1px;">TECH</div></div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:600;color:var(--green);">${tv>0?(anchV/tv*100).toFixed(0):0}%</div><div style="font-size:8px;color:var(--muted);margin-top:2px;letter-spacing:1px;">ANCHORS</div></div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:600;color:var(--gold);">${tv>0?(metalsV/tv*100).toFixed(0):0}%</div><div style="font-size:8px;color:var(--muted);margin-top:2px;letter-spacing:1px;">METALS</div></div>
+        <div style="flex:1;"><div style="font-size:14px;font-weight:600;color:var(--muted);">${tv>0?(satV/tv*100).toFixed(0):0}%</div><div style="font-size:8px;color:var(--muted);margin-top:2px;letter-spacing:1px;">SPACEX</div></div>
+      </div>
+      ${hardPct>=35?`<div style="margin-top:12px;padding:10px 12px;border-radius:9px;background:var(--surf);border-left:3px solid var(--gold);font-size:11px;line-height:1.5;">⚠️ <b>Theme watch:</b> metals + energy are ${hardPct}% of everything — all riding the same inflation/hard-asset story. Consider next anchors in staples/pharma (PG, ABBV) to diversify your <i>defensive</i> side away from that cluster.</div>`:""}
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--vermillion);">
+      <div class="card-q">📌 Next month's plan</div>
+      <div style="font-size:13px;line-height:1.65;">Keep the rhythm: <b>fund the anchors</b> (PG · XOM · ABBV · RIO) <b>and one tech name</b> each month. Those fractional shares quietly grow into whole real shares over time — that's how compounding works in your favour.</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5;">This month: ✓ PG funded, ✓ MU added. Next: top up an underweight anchor + your best-value tech (check the Invest tab's plan).</div>
+    </div>
+
     <div class="sec">Milestones</div>
     ${GOALS.map((g,i)=>{
       const pct=Math.min((tv/g.amount)*100,100);const done=tv>=g.amount;
