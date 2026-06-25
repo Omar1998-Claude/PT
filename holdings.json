@@ -1,103 +1,124 @@
 {
-  "_comment": "SINGLE SOURCE OF TRUTH. Edit values here once and all pages read from it.",
-  "updated": "2026-06-13",
+  "_comment": "SINGLE SOURCE OF TRUTH",
+  "updated": "2026-06-25",
   "goal": 5000,
   "holdings": [
     {
+      "ticker": "MU",
+      "name": "Micron",
+      "value": 499.46,
+      "target": 8,
+      "anchor": false,
+      "color": "#0b7344",
+      "cat": "tech"
+    },
+    {
       "ticker": "SPCX",
       "name": "SpaceX",
-      "value": 333.7,
+      "value": 306.82,
       "target": 0,
       "anchor": false,
-      "color": "#1a1a2e"
+      "color": "#1a1a2e",
+      "cat": "satellite"
     },
     {
       "ticker": "NVDA",
       "name": "Nvidia",
-      "value": 217.82,
+      "value": 208.05,
       "target": 20,
       "anchor": false,
-      "color": "#a3e635"
+      "color": "#a3e635",
+      "cat": "tech"
     },
     {
       "ticker": "TSLA",
       "name": "Tesla",
-      "value": 181.84,
+      "value": 168.09,
       "target": 7,
       "anchor": false,
-      "color": "#f87171"
-    },
-    {
-      "ticker": "IBM",
-      "name": "IBM",
-      "value": 120.74,
-      "target": 7,
-      "anchor": false,
-      "color": "#818cf8"
-    },
-    {
-      "ticker": "XOM",
-      "name": "ExxonMobil",
-      "value": 104.83,
-      "target": 11,
-      "anchor": true,
-      "color": "#fbbf24"
-    },
-    {
-      "ticker": "DELL",
-      "name": "Dell",
-      "value": 95.01,
-      "target": 12,
-      "anchor": false,
-      "color": "#60a5fa"
-    },
-    {
-      "ticker": "SNDK",
-      "name": "SanDisk",
-      "value": 88.63,
-      "target": 5,
-      "anchor": false,
-      "color": "#fb923c"
-    },
-    {
-      "ticker": "ABBV",
-      "name": "AbbVie",
-      "value": 83.19,
-      "target": 10,
-      "anchor": true,
-      "color": "#34d399"
-    },
-    {
-      "ticker": "GOOGL",
-      "name": "Alphabet",
-      "value": 33.96,
-      "target": 9,
-      "anchor": false,
-      "color": "#ea4335"
-    },
-    {
-      "ticker": "NFLX",
-      "name": "Netflix",
-      "value": 6.36,
-      "target": 0,
-      "anchor": false,
-      "color": "#e50914"
-    },
-    {
-      "ticker": "LCID",
-      "name": "Lucid",
-      "value": 0.47,
-      "target": 0,
-      "anchor": false,
-      "color": "#c084fc"
+      "color": "#f87171",
+      "cat": "tech"
     },
     {
       "ticker": "PG",
       "name": "Procter & Gamble",
-      "value": 0,
+      "value": 164.84,
       "target": 14,
       "anchor": true,
-      "color": "#2563eb"
+      "color": "#2563eb",
+      "cat": "anchor"
+    },
+    {
+      "ticker": "IBM",
+      "name": "IBM",
+      "value": 114.67,
+      "target": 7,
+      "anchor": false,
+      "color": "#818cf8",
+      "cat": "tech"
+    },
+    {
+      "ticker": "SNDK",
+      "name": "SanDisk",
+      "value": 105.46,
+      "target": 5,
+      "anchor": false,
+      "color": "#fb923c",
+      "cat": "tech"
+    },
+    {
+      "ticker": "XOM",
+      "name": "ExxonMobil",
+      "value": 98.08,
+      "target": 11,
+      "anchor": true,
+      "color": "#fbbf24",
+      "cat": "anchor"
+    },
+    {
+      "ticker": "DELL",
+      "name": "Dell",
+      "value": 97.99,
+      "target": 12,
+      "anchor": false,
+      "color": "#60a5fa",
+      "cat": "tech"
+    },
+    {
+      "ticker": "ABBV",
+      "name": "AbbVie",
+      "value": 88.82,
+      "target": 10,
+      "anchor": true,
+      "color": "#34d399",
+      "cat": "anchor"
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "value": 32.4,
+      "target": 9,
+      "anchor": false,
+      "color": "#ea4335",
+      "cat": "tech"
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix",
+      "value": 5.64,
+      "target": 0,
+      "anchor": false,
+      "color": "#e50914",
+      "cat": "tech"
+    },
+    {
+      "ticker": "LCID",
+      "name": "Lucid",
+      "value": 0.49,
+      "target": 0,
+      "anchor": false,
+      "color": "#c084fc",
+      "cat": "tech"
     },
     {
       "ticker": "RIO",
@@ -105,23 +126,26 @@
       "value": 0,
       "target": 5,
       "anchor": true,
-      "color": "#d97706"
+      "color": "#d97706",
+      "cat": "anchor"
     },
     {
       "ticker": "GOLD",
       "name": "Gold (Physical)",
-      "value": 295.5,
+      "value": 670.0,
       "target": 0,
       "anchor": false,
-      "color": "#d4af37"
+      "color": "#d4af37",
+      "cat": "metals"
     },
     {
       "ticker": "SILV",
       "name": "Silver (Physical)",
-      "value": 295.5,
+      "value": 371.0,
       "target": 0,
       "anchor": false,
-      "color": "#c0c0c0"
+      "color": "#c0c0c0",
+      "cat": "metals"
     }
   ]
 }

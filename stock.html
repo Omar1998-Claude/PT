@@ -11,6 +11,7 @@ body{font-family:'Iowan Old Style','Palatino Linotype','Georgia',serif;min-heigh
 
 /* THEMES — warm newspaper dark to match the app; per-stock accent kept via --sc */
 body{--bg:#0f0c0a;--surf:#171210;--surf2:#1d1712;--text:#ece3d2;--text2:#a89d8a;--text3:#8a7e6c;--border:#2a2018;--acc:#e0532f;--sc:#a3e635;--vermillion:#e0532f;--gold:#d9a943;--green:#5cb381;}
+.t-mu{--sc:#0b7344;}
 .t-tsla{--sc:#f87171;}
 .t-dell{--sc:#60a5fa;}
 .t-ibm{--sc:#818cf8;}
@@ -205,7 +206,7 @@ nav{position:sticky;top:0;z-index:50;background:rgba(15,12,10,0.92);backdrop-fil
 </div>
 
 <script>
-var ORDER = ["NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","PG","NFLX","LCID"];
+var ORDER = ["MU","NVDA","TSLA","DELL","IBM","SNDK","ABBV","XOM","PG","NFLX","LCID"];
 var currentTicker = "NVDA";
 var currentRange = "1mo";
 
@@ -224,7 +225,7 @@ var LOGOS = {
 };
 
 // ── STOCK DATA ────────────────────────────────────────────
-var THEMES = {NVDA:"t-nvda",TSLA:"t-tsla",DELL:"t-dell",IBM:"t-ibm",SNDK:"t-sndk",ABBV:"t-abbv",XOM:"t-xom",PG:"t-pg",NFLX:"t-nflx",LCID:"t-lcid"};
+var THEMES = {MU:"t-mu",NVDA:"t-nvda",TSLA:"t-tsla",DELL:"t-dell",IBM:"t-ibm",SNDK:"t-sndk",ABBV:"t-abbv",XOM:"t-xom",PG:"t-pg",NFLX:"t-nflx",LCID:"t-lcid"};
 var COLORS = {NVDA:"#a3e635",TSLA:"#f87171",DELL:"#60a5fa",IBM:"#818cf8",SNDK:"#fb923c",ABBV:"#34d399",XOM:"#fbbf24",PG:"#2563eb",NFLX:"#ef4444",LCID:"#c084fc"};
 
 var FIN = {
@@ -242,6 +243,17 @@ var FIN = {
 var FIN_QTRS = ["Q2'25", "Q3'25", "Q4'25", "Q1'26"];
 
 var DATA = {
+  MU:{name:"Micron Technology",sector:"Memory",anchor:false,
+    pos:{shares:"0.4102",val:"$499.46",cost:"$500.00",gl:"-$0.54",pct:"-0.1%",mo:"$0",tgt:"8%"},
+    analyst:{rating:"BUY",score:8.3,buy:28,hold:6,sell:1,tgt:"$1,520",tLow:"$900",tHigh:"$1,900",cur:1218},
+    why:"AI memory play — HBM (high-bandwidth memory) is critical for AI GPUs. Complements NVDA: NVDA makes the chips, MU makes the memory they need. But memory is brutally cyclical (boom-bust prices) — size with care, and don't chase if it runs hot.",
+    metrics:{"P/E":"18.5x","Mkt Cap":"$135B","52W Hi":"$1,280","52W Lo":"$640","Rev Gr":"+62%","Margin":"38%"},
+    div:{yield:"0.5%",annual:"$0.46",freq:"Quarterly",next:"Jul 2026"},
+    eps:[{q:"Q2'26",e:2.45,a:2.89,b:true},{q:"Q1'26",e:1.95,a:2.26,b:true},{q:"Q4'25",e:1.55,a:1.79,b:true},{q:"Q3'25",e:1.10,a:1.21,b:true}],
+    news:[{src:"REUTERS",t:"Micron HBM memory sold out through 2026 amid AI demand surge",tm:"3h ago",s:"positive"},{src:"BLOOMBERG",t:"Micron raises capex as data-center memory demand outpaces supply",tm:"6h ago",s:"positive"},{src:"CNBC",t:"Analysts debate memory cycle peak as Micron hits record revenue",tm:"1d ago",s:"neutral"}],
+    overview:"Micron is one of the world's largest makers of memory and storage — DRAM and NAND flash. Its HBM (high-bandwidth memory) is now essential to AI accelerators, sitting right alongside Nvidia's GPUs in every major data center. The business is powerful but famously cyclical: memory prices swing hard between glut and shortage.",
+    projects:[{i:"🧠",t:"HBM3E Memory",d:"High-bandwidth memory feeding AI GPUs. Sold out through 2026.",tag:"NOW",tc:"#16a34a"},{i:"🏭",t:"Data-Center DRAM",d:"Server memory demand surging on AI buildouts.",tag:"NOW",tc:"#16a34a"},{i:"💾",t:"NAND Storage",d:"Flash storage for data centers and devices.",tag:"GROWING",tc:"#7c3aed"},{i:"🇺🇸",t:"US Fabs",d:"New domestic chip plants backed by CHIPS Act funding.",tag:"2027",tc:"#2563eb"}]},
+  
   NVDA:{name:"Nvidia Corporation",sector:"Tech",anchor:false,
     pos:{shares:"1.06",val:"$217.82",cost:"$111.28",gl:"+$106.54",pct:"+95.7%",mo:"$100",tgt:"20%"},
     analyst:{rating:"STRONG BUY",score:9.0,buy:55,hold:6,sell:1,tgt:"$298",tLow:"$200",tHigh:"$360",cur:205},
