@@ -138,11 +138,11 @@ const DEFAULT_HOLDINGS=[
   {ticker:"NFLX",name:"Netflix",       value:5.64,  basePct:0,   target:0, color:"#e50914",anchor:false,tip:"Small position — consider adding or consolidating."},
   {ticker:"LCID",name:"Lucid",         value:0.49,  basePct:0,   target:0, color:"#c084fc",anchor:false,tip:"Down ~80% — consider selling. Loss offsets capital gains tax."},
   {ticker:"PG",  name:"Procter & Gamble",value:164.84,   basePct:0.14,target:14, color:"#2563eb",anchor:true, tip:"Recession-proof anchor — people buy P&G staples in any economy. 2.9% dividend, 70 straight years of raises."},
-  {ticker:"GOLD",name:"Gold (Physical)",  value:670.00,basePct:0,target:0,color:"#d4af37",anchor:false,satellite:true,tip:"🥇 PHYSICAL METALS — $150/mo DCA. Hedge against inflation, currency risk & geopolitical uncertainty. Uncorrelated with stocks. Buy & hold long-term, don't trade it."},
-  {ticker:"SILV",name:"Silver (Physical)", value:371.00,basePct:0,target:0,color:"#c0c0c0",anchor:false,satellite:true,tip:"🪙 PHYSICAL METALS — $150/mo DCA. Industrial demand (solar, EVs, AI electronics) + monetary hedge. More volatile than gold but higher upside. Buy & hold."},
+  {ticker:"GOLD",name:"Gold (Physical)",  value:830.00,basePct:0,target:0,color:"#d4af37",anchor:false,satellite:true,tip:"🥇 PHYSICAL METALS — $150/mo DCA. Hedge against inflation, currency risk & geopolitical uncertainty. Uncorrelated with stocks. Buy & hold long-term, don't trade it."},
+  {ticker:"SILV",name:"Silver (Physical)", value:451.00,basePct:0,target:0,color:"#c0c0c0",anchor:false,satellite:true,tip:"🪙 PHYSICAL METALS — $150/mo DCA. Industrial demand (solar, EVs, AI electronics) + monetary hedge. More volatile than gold but higher upside. Buy & hold."},
 ];
 let S={
-  holdings:JSON.parse(localStorage.getItem("pt_h13")||"null")||DEFAULT_HOLDINGS,
+  holdings:JSON.parse(localStorage.getItem("pt_h14")||"null")||DEFAULT_HOLDINGS,
   history: JSON.parse(localStorage.getItem("pt_his")||"[]"),
   dark:    localStorage.getItem("pt_dk")!=="false",
   mode:    localStorage.getItem("pt_mode")||"rotation",
@@ -160,7 +160,7 @@ let S={
   qChecks:{}, goalSub:"track", projRate:300,
 };
 function save(){
-  localStorage.setItem("pt_h13",JSON.stringify(S.holdings));
+  localStorage.setItem("pt_h14",JSON.stringify(S.holdings));
   localStorage.setItem("pt_his",JSON.stringify(S.history));
   localStorage.setItem("pt_dk",S.dark);
   localStorage.setItem("pt_mode",S.mode);

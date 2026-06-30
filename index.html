@@ -186,7 +186,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;back
     <!-- RIGHT -->
     <div class="col rise r3">
       <div class="kicker">— The Ledger Today —</div>
-      <div class="bignum">$<span id="big">2,931</span><span class="c">81</span></div>
+      <div class="bignum">$<span id="big">3,171</span><span class="c">81</span></div>
       <div class="report-row" style="margin-top:14px;"><span>Unrealised Gain</span><span class="up">+$453.35</span></div>
       <div class="report-row"><span>Active Holdings</span><span id="activeHoldings">15 held</span></div>
       <div class="report-row"><span>Next Injection</span><span>Jun 25</span></div>
@@ -344,7 +344,7 @@ setTimeout(goLive, 400);
 (function(){var d=new Date();var m=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];document.getElementById("dateL").textContent=d.getDate()+" "+m[d.getMonth()]+" "+d.getFullYear();})();
 
 function countTo(el,t,dur){var s=null;function step(ts){if(!s)s=ts;var p=Math.min((ts-s)/dur,1);var e=1-Math.pow(1-p,3);el.textContent=Math.round(t*e).toLocaleString("en-US");if(p<1)requestAnimationFrame(step);else el.textContent=t.toLocaleString("en-US");}requestAnimationFrame(step);}
-var BIGTARGET=2931;
+var BIGTARGET=3171;
 (function(){
   var xhr=new XMLHttpRequest();
   xhr.open("GET","holdings.json?v="+Date.now(),true);xhr.timeout=5000;

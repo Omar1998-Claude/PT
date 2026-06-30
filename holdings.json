@@ -132,7 +132,7 @@
     {
       "ticker": "GOLD",
       "name": "Gold (Physical)",
-      "value": 670.0,
+      "value": 830.0,
       "target": 0,
       "anchor": false,
       "color": "#d4af37",
@@ -141,7 +141,7 @@
     {
       "ticker": "SILV",
       "name": "Silver (Physical)",
-      "value": 371.0,
+      "value": 451.0,
       "target": 0,
       "anchor": false,
       "color": "#c0c0c0",
